@@ -1,0 +1,886 @@
+2025-02-23 08:48:42 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 08:48:42 [Information] Now listening on: "https://localhost:7166" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:48:42 [Information] Now listening on: "http://localhost:5298" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:48:42 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:48:42 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:48:42 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:50:16 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 08:50:16 [Information] Now listening on: "https://localhost:7166" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:50:16 [Information] Now listening on: "http://localhost:5298" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:50:16 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:50:16 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:50:16 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:52:13 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 08:52:14 [Information] Now listening on: "https://localhost:6001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:52:14 [Information] Now listening on: "http://localhost:7001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:52:14 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:52:14 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 08:52:14 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:17 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 09:45:18 [Information] Now listening on: "https://localhost:6001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:18 [Information] Now listening on: "http://localhost:7001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:18 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:18 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:18 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 09:45:42 [Error] Failed executing DbCommand ("75"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "c8224e106156e37e", TraceId: "10cc3716ffdf1c31338e003bdef76c3b", ParentId: "0000000000000000", ConnectionId: "0HNAJMGDU7IKG", RequestId: "0HNAJMGDU7IKG:00000007", RequestPath: "/api/v1/bookings/pagingation", ActionId: "634d7e6f-ba5e-4c49-a885-6d0f4fd89dbb", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 09:45:42 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:a1427052-0859-457a-b83b-b91baa69245e
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "c8224e106156e37e", TraceId: "10cc3716ffdf1c31338e003bdef76c3b", ParentId: "0000000000000000", ConnectionId: "0HNAJMGDU7IKG", RequestId: "0HNAJMGDU7IKG:00000007", RequestPath: "/api/v1/bookings/pagingation", ActionId: "634d7e6f-ba5e-4c49-a885-6d0f4fd89dbb", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:a1427052-0859-457a-b83b-b91baa69245e
+Error Number:208,State:1,Class:16
+2025-02-23 09:45:43 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "c8224e106156e37e", TraceId: "10cc3716ffdf1c31338e003bdef76c3b", ParentId: "0000000000000000", ConnectionId: "0HNAJMGDU7IKG", RequestId: "0HNAJMGDU7IKG:00000007", RequestPath: "/api/v1/bookings/pagingation", ActionId: "634d7e6f-ba5e-4c49-a885-6d0f4fd89dbb", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:a1427052-0859-457a-b83b-b91baa69245e
+Error Number:208,State:1,Class:16
+2025-02-23 09:45:43 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "c8224e106156e37e", TraceId: "10cc3716ffdf1c31338e003bdef76c3b", ParentId: "0000000000000000", ConnectionId: "0HNAJMGDU7IKG", RequestId: "0HNAJMGDU7IKG:00000007", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:a1427052-0859-457a-b83b-b91baa69245e
+Error Number:208,State:1,Class:16
+2025-02-23 11:42:29 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 11:42:30 [Information] Now listening on: "https://localhost:6001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 11:42:30 [Information] Now listening on: "http://localhost:7001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 11:42:30 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 11:42:30 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 11:42:30 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 13:47:50 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 13:47:51 [Information] Now listening on: "https://localhost:6001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 13:47:51 [Information] Now listening on: "http://localhost:7001" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 13:47:51 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 13:47:51 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 13:47:51 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:45:46 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 15:45:46 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:45:46 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:45:46 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:45:46 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:45:46 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:46:19 [Error] Failed executing DbCommand ("11"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "3378f3df3aac3cb8", TraceId: "41b2ab7df222d6c64cade0e60e675b9a", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000011", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 15:46:19 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "3378f3df3aac3cb8", TraceId: "41b2ab7df222d6c64cade0e60e675b9a", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000011", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:46:20 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "3378f3df3aac3cb8", TraceId: "41b2ab7df222d6c64cade0e60e675b9a", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000011", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:46:20 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "3378f3df3aac3cb8", TraceId: "41b2ab7df222d6c64cade0e60e675b9a", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000011", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:47:33 [Error] Failed executing DbCommand ("7"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "9aa9e608e1b6a157", TraceId: "24cbc35459d8f1717c851cbb781ce7a3", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000013", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 15:47:33 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "9aa9e608e1b6a157", TraceId: "24cbc35459d8f1717c851cbb781ce7a3", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000013", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:47:34 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "9aa9e608e1b6a157", TraceId: "24cbc35459d8f1717c851cbb781ce7a3", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000013", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:47:34 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "9aa9e608e1b6a157", TraceId: "24cbc35459d8f1717c851cbb781ce7a3", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGLU", RequestId: "0HNAJSPRKRGLU:00000013", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:48:04 [Error] Failed executing DbCommand ("115"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "2691ba892673dd02", TraceId: "c02de97b202e2feaf9e0425270b7971d", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGM5", RequestId: "0HNAJSPRKRGM5:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 15:48:04 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "2691ba892673dd02", TraceId: "c02de97b202e2feaf9e0425270b7971d", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGM5", RequestId: "0HNAJSPRKRGM5:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:48:04 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "2691ba892673dd02", TraceId: "c02de97b202e2feaf9e0425270b7971d", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGM5", RequestId: "0HNAJSPRKRGM5:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "4dffed01-7b01-47bc-adf2-1d47ecb7c0b3", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:48:04 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "2691ba892673dd02", TraceId: "c02de97b202e2feaf9e0425270b7971d", ParentId: "0000000000000000", ConnectionId: "0HNAJSPRKRGM5", RequestId: "0HNAJSPRKRGM5:00000001", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:82f969a8-95e6-4855-8fef-97d8dbbebec6
+Error Number:208,State:1,Class:16
+2025-02-23 15:56:59 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 15:57:00 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:57:00 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:57:00 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:57:00 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:57:00 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 15:57:22 [Error] Failed executing DbCommand ("35"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "6fb6820838e83c63", TraceId: "a324bf13e0dd3c19ab771e00ba64366f", ParentId: "0000000000000000", ConnectionId: "0HNAJT04FO3GQ", RequestId: "0HNAJT04FO3GQ:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "beadfb39-2d75-4d90-b501-3c1b0bd5d343", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 15:57:22 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:26744c35-aa71-4b38-be6c-822367b00235
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "6fb6820838e83c63", TraceId: "a324bf13e0dd3c19ab771e00ba64366f", ParentId: "0000000000000000", ConnectionId: "0HNAJT04FO3GQ", RequestId: "0HNAJT04FO3GQ:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "beadfb39-2d75-4d90-b501-3c1b0bd5d343", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:26744c35-aa71-4b38-be6c-822367b00235
+Error Number:208,State:1,Class:16
+2025-02-23 15:57:23 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "6fb6820838e83c63", TraceId: "a324bf13e0dd3c19ab771e00ba64366f", ParentId: "0000000000000000", ConnectionId: "0HNAJT04FO3GQ", RequestId: "0HNAJT04FO3GQ:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "beadfb39-2d75-4d90-b501-3c1b0bd5d343", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:26744c35-aa71-4b38-be6c-822367b00235
+Error Number:208,State:1,Class:16
+2025-02-23 15:57:23 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "6fb6820838e83c63", TraceId: "a324bf13e0dd3c19ab771e00ba64366f", ParentId: "0000000000000000", ConnectionId: "0HNAJT04FO3GQ", RequestId: "0HNAJT04FO3GQ:00000001", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:26744c35-aa71-4b38-be6c-822367b00235
+Error Number:208,State:1,Class:16
+2025-02-23 16:29:48 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 16:29:48 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:29:48 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:29:48 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:29:48 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:29:48 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:46:57 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 16:46:58 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:46:58 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:46:58 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:46:58 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:46:58 [Information] Content root path: "/Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 16:47:16 [Error] Failed executing DbCommand ("19"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "b85fdea84b51093c", TraceId: "c3c1640011df3f25430e472cf77129d5", ParentId: "97b51870a8c60c3b", ConnectionId: "0HNAJTS1QM3Q9", RequestId: "0HNAJTS1QM3Q9:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 16:47:16 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "b85fdea84b51093c", TraceId: "c3c1640011df3f25430e472cf77129d5", ParentId: "97b51870a8c60c3b", ConnectionId: "0HNAJTS1QM3Q9", RequestId: "0HNAJTS1QM3Q9:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 16:47:17 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "b85fdea84b51093c", TraceId: "c3c1640011df3f25430e472cf77129d5", ParentId: "97b51870a8c60c3b", ConnectionId: "0HNAJTS1QM3Q9", RequestId: "0HNAJTS1QM3Q9:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 16:47:17 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "b85fdea84b51093c", TraceId: "c3c1640011df3f25430e472cf77129d5", ParentId: "97b51870a8c60c3b", ConnectionId: "0HNAJTS1QM3Q9", RequestId: "0HNAJTS1QM3Q9:00000001", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 16:49:26 [Error] Failed executing DbCommand ("52"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "de98c8aefdeb1896", TraceId: "28bdb248f37569cbd4ccd7396d72075e", ParentId: "0361a973fcc7d1ef", ConnectionId: "0HNAJTS1QM3QA", RequestId: "0HNAJTS1QM3QA:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 16:49:26 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "de98c8aefdeb1896", TraceId: "28bdb248f37569cbd4ccd7396d72075e", ParentId: "0361a973fcc7d1ef", ConnectionId: "0HNAJTS1QM3QA", RequestId: "0HNAJTS1QM3QA:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 16:49:26 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "de98c8aefdeb1896", TraceId: "28bdb248f37569cbd4ccd7396d72075e", ParentId: "0361a973fcc7d1ef", ConnectionId: "0HNAJTS1QM3QA", RequestId: "0HNAJTS1QM3QA:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 16:49:26 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "de98c8aefdeb1896", TraceId: "28bdb248f37569cbd4ccd7396d72075e", ParentId: "0361a973fcc7d1ef", ConnectionId: "0HNAJTS1QM3QA", RequestId: "0HNAJTS1QM3QA:00000001", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:ed8b51d6-12ef-4245-84f3-9ca67750a4bf
+Error Number:208,State:1,Class:16
+2025-02-23 17:02:36 [Error] Failed executing DbCommand ("26"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT COUNT(*)
+FROM [Booking] AS [b]" LogProperties={ EventId: { Id: 20102, Name: "Microsoft.EntityFrameworkCore.Database.Command.CommandError" }, SourceContext: "Microsoft.EntityFrameworkCore.Database.Command", SpanId: "95ca6076f3fc468d", TraceId: "d2f311da8b1ccdec51889de14a3f9195", ParentId: "6354af5d3136a91f", ConnectionId: "0HNAJTS1QM3QB", RequestId: "0HNAJTS1QM3QB:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+2025-02-23 17:02:36 [Error] An exception occurred while iterating over the results of a query for context type '"Booking.Infrastructure.Persistence.DbContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:32b458f2-8e03-49a4-a2eb-4d2df5bf70ca
+Error Number:208,State:1,Class:16" LogProperties={ EventId: { Id: 10100, Name: "Microsoft.EntityFrameworkCore.Query.QueryIterationFailed" }, SourceContext: "Microsoft.EntityFrameworkCore.Query", SpanId: "95ca6076f3fc468d", TraceId: "d2f311da8b1ccdec51889de14a3f9195", ParentId: "6354af5d3136a91f", ConnectionId: "0HNAJTS1QM3QB", RequestId: "0HNAJTS1QM3QB:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:32b458f2-8e03-49a4-a2eb-4d2df5bf70ca
+Error Number:208,State:1,Class:16
+2025-02-23 17:02:36 [Error] ["UnhandledExceptionBehaviour"] Request: Unhandled Exception for Request "GetBookingsWithPaginationQuery" GetBookingsWithPaginationQuery { PageNumber: 1, PageSize: 10, SearchText: null, IsActive: null } LogProperties={ SourceContext: "Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQuery", SpanId: "95ca6076f3fc468d", TraceId: "d2f311da8b1ccdec51889de14a3f9195", ParentId: "6354af5d3136a91f", ConnectionId: "0HNAJTS1QM3QB", RequestId: "0HNAJTS1QM3QB:00000001", RequestPath: "/api/v1/bookings/pagingation", ActionId: "7da13d04-0da0-47e4-84ec-6664c4d1d013", ActionName: "Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync (Booking.Api)" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+ClientConnectionId:32b458f2-8e03-49a4-a2eb-4d2df5bf70ca
+Error Number:208,State:1,Class:16
+2025-02-23 17:02:36 [Error] An unhandled exception has occurred while executing the request. LogProperties={ EventId: { Id: 1, Name: "UnhandledException" }, SourceContext: "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware", SpanId: "95ca6076f3fc468d", TraceId: "d2f311da8b1ccdec51889de14a3f9195", ParentId: "6354af5d3136a91f", ConnectionId: "0HNAJTS1QM3QB", RequestId: "0HNAJTS1QM3QB:00000001", RequestPath: "/api/v1/bookings/pagingation" }
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid object name 'Booking'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BuildingBlocks.Core.Response.PaginatedList`1.CreateAsync(IQueryable`1 source, Int32 pageNumber, Int32 pageSize) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Core/Response/PaginatedList.cs:line 26
+   at Booking.Application.Features.Bookings.Queries.GetBookingsWithPagination.GetBookingsWithPaginationQueryHandler.Handle(GetBookingsWithPaginationQuery request, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Application/Features/Bookings/Queries/GetBookingsWithPagination/GetBookingsWithPaginationQuery.cs:line 42
+   at BuildingBlocks.Common.Mediator.Behaviours.PerformanceBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/PerformanceBehaviour.cs:line 27
+   at BuildingBlocks.Common.Mediator.Behaviours.ValidationBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/ValidationBehaviour.cs:line 35
+   at BuildingBlocks.Common.Mediator.Behaviours.UnhandledExceptionBehaviour`2.Handle(TRequest request, RequestHandlerDelegate`1 next, CancellationToken cancellationToken) in /Users/canhlv/NAS/API/NAS-Booking-API/BuildingBlocks/Common/Mediator/Behaviours/UnhandledExceptionBehaviour.cs:line 21
+   at Booking.Api.Controllers.V1.BookingsController.GetWithPaginationAsync(GetBookingsWithPaginationQuery query) in /Users/canhlv/NAS/API/NAS-Booking-API/Booking.Api/Controllers/V1/BookingsController.cs:line 19
+   at lambda_method338(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ExceptionContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.SwaggerUiIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.RedirectToIndexMiddleware.Invoke(HttpContext context)
+   at NSwag.AspNetCore.Middlewares.OpenApiDocumentMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+ClientConnectionId:32b458f2-8e03-49a4-a2eb-4d2df5bf70ca
+Error Number:208,State:1,Class:16
+2025-02-23 21:12:05 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 21:12:06 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:12:06 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:12:06 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:12:06 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:12:06 [Information] Content root path: "/Users/canhlv/NAS/BackEndAPI/nas-catalog-api/Catalog.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:19:34 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 21:19:34 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:19:34 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:19:34 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:19:34 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:19:34 [Information] Content root path: "/Users/canhlv/NAS/BackEndAPI/nas-catalog-api/Catalog.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:21:09 [Warning] No instantiatable types implementing `IEntityTypeConfiguration` were found while while scanning assembly '"Catalog.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"'. LogProperties={ EventId: { Id: 10632, Name: "Microsoft.EntityFrameworkCore.Model.NoEntityTypeConfigurationsWarning" }, SourceContext: "Microsoft.EntityFrameworkCore.Model" }
+2025-02-23 21:21:10 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 21:21:10 [Information] Now listening on: "https://localhost:6002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:21:10 [Information] Now listening on: "http://localhost:7002" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:21:11 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:21:11 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:21:11 [Information] Content root path: "/Users/canhlv/NAS/BackEndAPI/nas-catalog-api/Catalog.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:22:55 [Warning] No instantiatable types implementing `IEntityTypeConfiguration` were found while while scanning assembly '"Catalog.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"'. LogProperties={ EventId: { Id: 10632, Name: "Microsoft.EntityFrameworkCore.Model.NoEntityTypeConfigurationsWarning" }, SourceContext: "Microsoft.EntityFrameworkCore.Model" }
+2025-02-23 21:22:56 [Information] Bus started: amazonsqs://ap-southeast-1/dev LogProperties={ SourceContext: "MassTransit" }
+2025-02-23 21:22:57 [Information] Now listening on: "https://localhost:6004" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:22:57 [Information] Now listening on: "http://localhost:7004" LogProperties={ EventId: { Id: 14, Name: "ListeningOnAddress" }, SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:22:57 [Information] Application started. Press Ctrl+C to shut down. LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:22:57 [Information] Hosting environment: "Development" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
+2025-02-23 21:22:57 [Information] Content root path: "/Users/canhlv/NAS/BackEndAPI/nas-catalog-api/Catalog.Api" LogProperties={ SourceContext: "Microsoft.Hosting.Lifetime" }
