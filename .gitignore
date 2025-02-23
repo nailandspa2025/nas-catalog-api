@@ -1,5 +1,4 @@
 bin/
 obj/
 buil/
-logs/
-Catalog.Api\logs/
+**/logs/
