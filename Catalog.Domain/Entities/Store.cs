@@ -1,0 +1,48 @@
+﻿using BuildingBlocks.Persistence.Abstractions.Entities;
+using BuildingBlocks.Persistence.Entities.Common;
+
+namespace Catalog.Domain.Entities;
+
+public class Store: BaseAuditableEntity<long> , ISoftDelete
+{
+    public string StoreName { get; set; } = null!;
+
+    public string? Avatar { get; set; }
+
+    public string? AddressStore { get; set; }
+
+    public int RatingStar { get; set; }
+
+    public decimal Lat { get; set; }
+
+    public decimal Lng { get; set; }
+
+    public string?  Hotline { get; set; }
+
+    public TimeSpan OpenTime { get; set; }
+
+    public TimeSpan CloseTime { get; set; }
+
+    public string? GoogleReviewLink { get; set; }
+
+    public string OwnerId { get; set; } = null!;
+
+    public string? DeletedBy { get; set; }
+
+    public DateTime? Deleted { get; set; }
+
+    public bool IsDeleted { get; set; }
+
+    public long ProductId { get; set; }
+
+    public virtual List<StoreImageGallery> ImageGallerys { get; private set; } = new List<StoreImageGallery>();
+
+    public virtual List<Product> Products { get; set; } = new List<Product>();
+
+    public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
+    {
+        this.ImageGallerys.Clear();
+        this.ImageGallerys = storeImageGalleries;
+    }
+}
+

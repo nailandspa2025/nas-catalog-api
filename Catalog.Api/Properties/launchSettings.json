@@ -32,7 +32,8 @@
     "Catalog.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:17394;http://localhost:45332",
+      "launchUrl": "api",
+      "applicationUrl": "https://localhost:6004;http://localhost:7004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -15,15 +15,15 @@ public static class ConfigureServices
     {
         if (configuration.Is("UseInMemoryDatabase"))
         {
-            services.AddCustomDbContext<DbContext>(configuration, EfCoreDatabaseProvider.InMemory);
+            services.AddCustomDbContext<CatalogDbContext>(configuration, EfCoreDatabaseProvider.InMemory);
         }
         else
         {
-            services.AddCustomDbContext<DbContext>(configuration, EfCoreDatabaseProvider.SqlServer);
+            services.AddCustomDbContext<CatalogDbContext>(configuration, EfCoreDatabaseProvider.SqlServer);
         }
 
-        services.AddScoped<IDbContext>(provider => provider.GetRequiredService<DbContext>());
-        services.AddScoped<DbContextInitialiser>();
+        services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
+        services.AddScoped<CatalogDbContextInitialiser>();
 
         services.AddTransient<IDateTime, DateTimeService>();
 

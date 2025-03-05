@@ -11,7 +11,7 @@ public static class InitialiserExtensions
     {
         using var scope = app.Services.CreateScope();
 
-        var initialiser = scope.ServiceProvider.GetRequiredService<DbContextInitialiser>();
+        var initialiser = scope.ServiceProvider.GetRequiredService<CatalogDbContextInitialiser>();
 
         await initialiser.InitialiseAsync();
 
@@ -20,12 +20,12 @@ public static class InitialiserExtensions
 }
 
 
-public class DbContextInitialiser
+public class CatalogDbContextInitialiser
 {
-    private readonly ILogger<DbContextInitialiser> _logger;
-    private readonly DbContext _context;
+    private readonly ILogger<CatalogDbContextInitialiser> _logger;
+    private readonly CatalogDbContext _context;
 
-    public DbContextInitialiser(ILogger<DbContextInitialiser> logger, DbContext context)
+    public CatalogDbContextInitialiser(ILogger<CatalogDbContextInitialiser> logger, CatalogDbContext context)
     {
         _logger = logger;
         _context = context;

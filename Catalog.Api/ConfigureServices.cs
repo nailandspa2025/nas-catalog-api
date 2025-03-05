@@ -19,7 +19,7 @@ public static class ConfigureServices
         }, nameof(Catalog));
 
         services.AddHealthChecks()
-            .AddDbContextCheck<DbContext>();
+            .AddDbContextCheck<CatalogDbContext>();
 
         services.AddControllers();
         services.AddCloudinaryProvider(configuration);

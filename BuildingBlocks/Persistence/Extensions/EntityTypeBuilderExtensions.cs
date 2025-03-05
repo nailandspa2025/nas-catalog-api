@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.MultiTenancy.Abstractions;
-using BuildingBlocks.Persistence.Abstractions.Auditing;
+﻿using BuildingBlocks.Persistence.Abstractions.Auditing;
 using BuildingBlocks.Persistence.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +10,6 @@ namespace BuildingBlocks.Persistence.Extensions
         {
             b.TryConfigureSoftDelete();
             b.TryConfigureAudited();
-            b.TryConfigureMultiTenant();
         }
 
         public static void TryConfigureSoftDelete(this EntityTypeBuilder b)
@@ -59,21 +57,6 @@ namespace BuildingBlocks.Persistence.Extensions
             }
         }
 
-        public static void ConfigureMultiTenant<T>(this EntityTypeBuilder<T> b)
-            where T : class, IMultiTenant
-        {
-            b.TryConfigureMultiTenant();
-        }
-
-        public static void TryConfigureMultiTenant(this EntityTypeBuilder b)
-        {
-            if (b.Metadata.ClrType.IsAssignableTo(typeof(IMultiTenant)))
-            {
-                b.Property(nameof(IMultiTenant.TenantId))
-                    .IsRequired(false)
-                    .HasAnnotation("Relational:ColumnName", nameof(IMultiTenant.TenantId));
-            }
-        }
     }
 }
 

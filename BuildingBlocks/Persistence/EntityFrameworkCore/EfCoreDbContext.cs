@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using BuildingBlocks.Authentication.Abstractions;
-using BuildingBlocks.MultiTenancy.Abstractions;
 using BuildingBlocks.Persistence.Abstractions.Entities;
 using BuildingBlocks.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +10,16 @@ namespace BuildingBlocks.Persistence.EntityFrameworkCore;
 
 public abstract class EfCoreDbContext<TDbContext> : DbContext, IEfCoreDbContext where TDbContext : DbContext
 {
-    private readonly ITenantResolver _tenantResolver;
+    
     private readonly ICurrentUser _currentUser;
 
     public EfCoreDbContext(
         DbContextOptions<TDbContext> options,
-        ICurrentUser currentUser,
-        ITenantResolver tenantResolver)
+        ICurrentUser currentUser
+        )
         : base(options)
     {
-        _tenantResolver = tenantResolver;
+       
         _currentUser = currentUser;
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -63,23 +62,13 @@ public abstract class EfCoreDbContext<TDbContext> : DbContext, IEfCoreDbContext 
             expression = e => !EF.Property<bool>(e, nameof(ISoftDelete.IsDeleted));
         }
 
-        if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
-        {
-            var tenant = _tenantResolver.GetCurrentTenantConfiguration();
-            Expression<Func<TEntity, bool>> multiTenantFilter = e => EF.Property<Guid>(e, nameof(IMultiTenant.TenantId)) == tenant.Id;
-            expression = expression == null ? multiTenantFilter : CombineExpressions(expression, multiTenantFilter);
-        }
-
+        
         return expression;
     }
 
     protected virtual bool ShouldFilterEntity<TEntity>(IMutableEntityType entityType) where TEntity : class
     {
-        if (typeof(IMultiTenant).IsAssignableFrom(typeof(TEntity)))
-        {
-            return true;
-        }
-
+        
         if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
         {
             return true;

@@ -1,0 +1,52 @@
+﻿using System;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BuildingBlocks.Common.Extensions;
+using BuildingBlocks.Common.Mappings;
+using BuildingBlocks.Core.Response;
+using Catalog.Application.Common.Interfaces;
+using Catalog.Application.Features.Produts.Models;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace Catalog.Application.Features.Produts.Queries.GetProductsWithPagination;
+
+public record GetProductsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<ProductDto>>>
+{
+    public int PageNumber { get; set; } = 1;
+
+    public int PageSize { get; set; } = 10;
+
+    public string? SearchText { get; set; }
+    
+}
+
+public class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProductsWithPaginationQuery, ApiResponse<PaginatedList<ProductDto>>>
+{
+    private readonly ICatalogDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetProductsWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
+    public async Task<ApiResponse<PaginatedList<ProductDto>>> Handle(GetProductsWithPaginationQuery request, CancellationToken cancellationToken)
+    {
+        var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
+
+        var query = _context.Product.AsNoTracking();
+        if (!paramSearchText.IsNullOrEmpty())
+        {
+            query = query.Where(s => paramSearchText.Contains(s.ProductName));
+        }
+
+        var paginationResult = await query
+            .OrderBy(x => x.Created)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .PaginatedListAsync(request.PageNumber, request.PageSize);
+
+        return ApiResponse<PaginatedList<ProductDto>>.Success(paginationResult);
+    }
+}
+

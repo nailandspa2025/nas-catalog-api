@@ -17,11 +17,11 @@ public class ApiController : ControllerBase
         return User.Identity.Name ?? "system";
     }
 
-    //protected string GetLoggedInUserId()
-    //{
-    //    if (User.Identity == null || User.Identity.Name == null)
-    //        throw new ArgumentNullException();
+    protected string GetLoggedInUserId()
+    {
+        if (User.Identity == null || User.Identity.Name == null)
+            throw new ArgumentNullException();
 
-    //    return User.FindFirstValue(ClaimTypes.NameIdentifier);
-    //}
+        return User.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 }

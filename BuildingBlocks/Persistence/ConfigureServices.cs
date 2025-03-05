@@ -1,10 +1,9 @@
 ﻿using BuildingBlocks.Persistence.EntityFrameworkCore;
+using BuildingBlocks.Persistence.Interceptors;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BuildingBlocks.MultiTenancy;
-using BuildingBlocks.Persistence.Interceptors;
-using Microsoft.EntityFrameworkCore;
 
 namespace BuildingBlocks.Persistence;
 
@@ -14,8 +13,6 @@ public static class ConfigureServices
         IConfiguration configuration,
         EfCoreDatabaseProvider efCoreDatabaseProvider) where TDbContext : EfCoreDbContext<TDbContext>
     {
-        services.AddCustomMultiTenancy(configuration);
-
         services.AddScoped<ISaveChangesInterceptor, AuditableEntitySaveChangesInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
@@ -29,12 +26,6 @@ public static class ConfigureServices
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                         builder => builder.MigrationsAssembly(typeof(TDbContext).Assembly.FullName));
                     break;
-
-                //case EfCoreDatabaseProvider.MySql:
-                //    options.UseMySql(configuration.GetConnectionString("DefaultConnection"),
-                //        ServerVersion.AutoDetect(configuration.GetConnectionString("DefaultConnection")),
-                //        builder => builder.MigrationsAssembly(typeof(TDbContext).Assembly.FullName));
-                //    break;
 
                 case EfCoreDatabaseProvider.PostgreSql:
                     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
