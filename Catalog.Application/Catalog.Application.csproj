@@ -18,6 +18,9 @@
     <None Remove="Features\" />
     <None Remove="Features\Stores\Commands\UpdateStore\" />
     <None Remove="Features\Stores\Commands\DeleteStore\" />
+    <None Remove="Features\Stores\Queries\" />
+    <None Remove="Features\Stores\Queries\GetStore\" />
+    <None Remove="Features\Stores\Queries\GetStoresWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -25,6 +28,9 @@
     <Folder Include="Features\" />
     <Folder Include="Features\Stores\Commands\UpdateStore\" />
     <Folder Include="Features\Stores\Commands\DeleteStore\" />
+    <Folder Include="Features\Stores\Queries\" />
+    <Folder Include="Features\Stores\Queries\GetStore\" />
+    <Folder Include="Features\Stores\Queries\GetStoresWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

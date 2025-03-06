@@ -1,13 +1,10 @@
 using BuildingBlocks.Core.Response;
-using Catalog.Application.Features.Produts.Commands.CreateProduct;
-using Catalog.Application.Features.Produts.Commands.UpdateProduct;
-using Catalog.Application.Features.Produts.Models;
-using Catalog.Application.Features.Produts.Queries.GetProduct;
-using Catalog.Application.Features.Produts.Queries.GetProductsWithPagination;
 using Catalog.Application.Features.Stores.Commands.CreateStore;
 using Catalog.Application.Features.Stores.Commands.DeleteStore;
 using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Application.Features.Stores.Models;
+using Catalog.Application.Features.Stores.Queries.GetStore;
+using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1
@@ -16,17 +13,17 @@ namespace Catalog.Api.Controllers.V1
     public class StoresController : ApiControllerBase
     {
         [HttpGet("pagingation")]
-        [ProducesResponseType(typeof(ApiResponse<PaginatedList<ProductDto>>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<PaginatedList<ProductDto>>>> GetWithPaginationAsync([FromQuery] GetProductsWithPaginationQuery query)
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetWithPaginationAsync([FromQuery] GetStoresWithPaginationQuery query)
         {
             return await Mediator.Send(query);
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiResponse<ProductDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<ProductDto>>> GetByIdAsync(long id)
+        [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<StoreDto>>> GetByIdAsync(long id)
         {
-            return await Mediator.Send(new GetProductByIdQuery { Id = id });
+            return await Mediator.Send(new GetStoreByIdQuery { Id = id });
         }
 
         [HttpPost]
