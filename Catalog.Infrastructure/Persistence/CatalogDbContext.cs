@@ -10,10 +10,16 @@ namespace Catalog.Infrastructure.Persistence;
 public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbContext
 {
     public CatalogDbContext(
+<<<<<<< HEAD
         DbContextOptions<CatalogDbContext> options,
         ICurrentUser currentUser
         )
         : base(options, currentUser)
+=======
+        DbContextOptions<CatalogDbContext> options
+        )
+        : base(options)
+>>>>>>> 3399663 (product)
     {
     }
 

@@ -37,6 +37,9 @@ public class UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public string OwnerId { get; init; } = null!;
 
     public List<string> Images { get; init; } = new List<string>();
+
+    public List<long> PrductIds { get; init; } = new List<long>();
+
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -61,7 +64,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         {
             throw new NotFoundException(nameof(Store), request.Id);
         }
-
+        var produtList = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken:cancellationToken);
         entity.StoreName = request.StoreName;
         entity.AddressStore = request.AddressStore;
         entity.RatingStar = request.RatingStar;
@@ -87,6 +90,9 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
             }).ToList();
             entity.SetImageGallerys(storeImages);
         }
+        entity.SetProducts(produtList);
+
+        await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
     }
 }

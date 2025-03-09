@@ -33,16 +33,20 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public bool IsDeleted { get; set; }
 
-    public long ProductId { get; set; }
-
     public virtual List<StoreImageGallery> ImageGallerys { get; private set; } = new List<StoreImageGallery>();
 
-    public virtual List<Product> Products { get; set; } = new List<Product>();
+    public virtual List<Product> Products { get; private set; } = new List<Product>();
 
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();
         this.ImageGallerys = storeImageGalleries;
+    }
+
+    public void SetProducts(List<Product> products)
+    {
+        this.Products.Clear();
+        this.Products = products;
     }
 }
 

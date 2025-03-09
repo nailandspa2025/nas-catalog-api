@@ -17,7 +17,7 @@ public record CreateProductCommand: IRequest<ApiResponse<ProductDto>>
 
     public string? Description { get; init; }
 
-    public List<long> StoreIds { get; init; } = new List<long>();
+    public long ? StoreId { get; init; }
 }
 
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, ApiResponse<ProductDto>>
@@ -33,18 +33,15 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 
     public async Task<ApiResponse<ProductDto>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        var properties = await _context.Store
-            .Where(x => request.StoreIds.Contains(x.Id))
-            .ToListAsync(cancellationToken: cancellationToken);
-
         var entity = new Product
         {
             ProductName = request.ProductName,
             Price = request.Price,
             Description = request.Description,
-           
+            StoreId = request.StoreId,
+
         };
-        entity.SetStores(properties);
+
         _context.Product.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 

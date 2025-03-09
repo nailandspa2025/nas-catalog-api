@@ -1,5 +1,4 @@
-﻿using System;
-using BuildingBlocks.ApiClients.Clients.Users.Models;
+﻿using BuildingBlocks.ApiClients.Clients.Users.Models;
 using BuildingBlocks.Core.Response;
 
 namespace BuildingBlocks.ApiClients.Clients.Users;

@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
-using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Persistence.Abstractions.Entities;
 using BuildingBlocks.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +10,11 @@ namespace BuildingBlocks.Persistence.EntityFrameworkCore;
 public abstract class EfCoreDbContext<TDbContext> : DbContext, IEfCoreDbContext where TDbContext : DbContext
 {
     
-    private readonly ICurrentUser _currentUser;
-
     public EfCoreDbContext(
-        DbContextOptions<TDbContext> options,
-        ICurrentUser currentUser
+        DbContextOptions<TDbContext> options
         )
         : base(options)
     {
-       
-        _currentUser = currentUser;
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

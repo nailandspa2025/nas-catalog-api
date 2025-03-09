@@ -29,7 +29,6 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, A
     {
         var entity = await _context.Product
             .AsNoTracking()
-            .Include(x => x.Stores)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)

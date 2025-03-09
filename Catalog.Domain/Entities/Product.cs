@@ -12,19 +12,22 @@ public class Product : BaseAuditableEntity<long>, ISoftDelete
 
     public string? Description { get; set; }
 
-
     public string? DeletedBy { get ; set; }
 
     public DateTime? Deleted { get ; set ; }
 
     public bool IsDeleted { get ; set; }
 
-    public virtual List<Store> Stores { get; private set; } = new List<Store>();
+    public long? StoreId { get; set; }
 
-    public void SetStores(List<Store> stores)
-    {
-        this.Stores.Clear();
-        this.Stores = stores;
-    }
+    public virtual Store? Store { get; set; }
+
+    //public virtual List<Store> Stores { get; private set; } = new List<Store>();
+
+    //public void SetStores(List<Store> stores)
+    //{
+    //    this.Stores.Clear();
+    //    this.Stores = stores;
+    //}
 }
 

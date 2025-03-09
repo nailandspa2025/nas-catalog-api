@@ -19,7 +19,7 @@ public record UpdateProductCommand : IRequest<ApiResponse<ProductDto>>
 
     public string? Description { get; init; }
 
-    public List<long> StoreIds { get; init; } = new List<long>();
+    public long StoreId { get; init; } 
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ApiResponse<ProductDto>>
@@ -43,14 +43,14 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             throw new NotFoundException(nameof(Product), request.Id);
         }
 
-        var properties = await _context.Store
-            .Where(x => request.StoreIds.Contains(x.Id))
-            .ToListAsync(cancellationToken: cancellationToken);
+        //var properties = await _context.Store
+        //    .Where(x => request.StoreIds.Contains(x.Id))
+        //    .ToListAsync(cancellationToken: cancellationToken);
 
         entity.ProductName = request.ProductName;
         entity.Price = request.Price;
         entity.Description = request.Description;
-        entity.SetStores(properties);
+        entity.StoreId = request.StoreId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

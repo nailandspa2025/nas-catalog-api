@@ -5,6 +5,7 @@ using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Commands.CreateStore;
 
@@ -33,6 +34,8 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public string OwnerId { get; init; } = null!;
 
     public List<string> Images { get; init; } = new List<string>();
+
+    public List<long> PrductIds { get; init; } = new List<long>();
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -49,6 +52,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
     }
     public async Task<ApiResponse<StoreDto>> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {
+        var productList = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         var entity = new Store
         {
             StoreName = request.StoreName,
@@ -77,6 +81,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             }).ToList();
             entity.SetImageGallerys(storeImages);
         }
+        entity.SetProducts(productList);
 
         _context.Store.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

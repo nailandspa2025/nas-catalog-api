@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using System;
 using Catalog.Domain.Entities;
+=======
+﻿using Catalog.Domain.Entities;
+>>>>>>> 3399663 (product)
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,5 +27,13 @@ public class StoreConfiguration: IEntityTypeConfiguration<Store>
             .WithOne(x => x.Store)
             .OnDelete(DeleteBehavior.NoAction)
             .IsRequired(false);
+<<<<<<< HEAD
+=======
+
+        builder.HasMany(x => x.Products)
+            .WithOne(x => x.Store)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+>>>>>>> 3399663 (product)
     }
 }
