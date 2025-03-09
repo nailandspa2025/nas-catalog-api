@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
-=======
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
->>>>>>> 3399663 (product)
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -71,8 +68,6 @@ public class CatalogDbContextInitialiser
     }
 }
 
-<<<<<<< HEAD
-=======
 public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbContext>
 {
     public CatalogDbContext CreateDbContext(string[] args)
@@ -101,4 +96,3 @@ public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbCont
     }
 }
 
->>>>>>> 3399663 (product)

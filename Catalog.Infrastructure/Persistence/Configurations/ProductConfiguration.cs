@@ -11,12 +11,5 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.ProductName)
             .HasMaxLength(250)
             .IsRequired();
-<<<<<<< HEAD
-
-        builder.HasMany(x => x.Stores)
-            .WithMany(x => x.Products);
-=======
->>>>>>> 3399663 (product)
     }
 }
-
