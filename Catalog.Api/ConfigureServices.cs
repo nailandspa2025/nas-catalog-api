@@ -10,7 +10,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDefaultAPIServices();
+        services.AddDefaultAPIServices(configuration);
 
         services.AddDatabaseDeveloperPageExceptionFilter();
         services.AddCustomSwagger(new Version[]

@@ -1,8 +1,11 @@
 ﻿using BuildingBlocks.Common.API.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Api.Controllers;
 
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public abstract class ApiControllerBase: ApiController
 {
     private ISender? _mediator;

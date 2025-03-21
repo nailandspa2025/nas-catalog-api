@@ -19,7 +19,7 @@ public record UpdateProductCommand : IRequest<ApiResponse<ProductDto>>
 
     public string? Description { get; init; }
 
-    public long StoreId { get; init; } 
+    public long? StoreId { get; init; } 
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ApiResponse<ProductDto>>
@@ -42,7 +42,6 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         {
             throw new NotFoundException(nameof(Product), request.Id);
         }
-
         //var properties = await _context.Store
         //    .Where(x => request.StoreIds.Contains(x.Id))
         //    .ToListAsync(cancellationToken: cancellationToken);

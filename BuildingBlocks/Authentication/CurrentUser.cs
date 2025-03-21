@@ -19,7 +19,7 @@ public class CurrentUser : ICurrentUser
     {
         get
         {
-            return _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Name) ?? "system";
+            return _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.Email) ?? "system";
         }
     }
 

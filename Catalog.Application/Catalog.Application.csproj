@@ -21,6 +21,10 @@
     <None Remove="Features\Stores\Queries\" />
     <None Remove="Features\Stores\Queries\GetStore\" />
     <None Remove="Features\Stores\Queries\GetStoresWithPagination\" />
+    <None Remove="Features\Uploads\" />
+    <None Remove="Features\Uploads\Commands\" />
+    <None Remove="Features\Uploads\Commands\CreateUpload\" />
+    <None Remove="Features\Uploads\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -31,6 +35,10 @@
     <Folder Include="Features\Stores\Queries\" />
     <Folder Include="Features\Stores\Queries\GetStore\" />
     <Folder Include="Features\Stores\Queries\GetStoresWithPagination\" />
+    <Folder Include="Features\Uploads\" />
+    <Folder Include="Features\Uploads\Commands\" />
+    <Folder Include="Features\Uploads\Commands\CreateUpload\" />
+    <Folder Include="Features\Uploads\Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

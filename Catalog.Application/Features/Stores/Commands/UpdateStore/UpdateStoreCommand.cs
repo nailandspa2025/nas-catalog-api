@@ -6,6 +6,7 @@ using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Commands.UpdateStore;
@@ -16,7 +17,7 @@ public class UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public string StoreName { get; init; } = null!;
 
-    public string? Avatar { get; init; }
+    public IFormFile ? Avatar { get; init; }
 
     public string? AddressStore { get; init; }
 
@@ -36,7 +37,7 @@ public class UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public string OwnerId { get; init; } = null!;
 
-    public List<string> Images { get; init; } = new List<string>();
+    public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 
     public List<long> PrductIds { get; init; } = new List<long>();
 
@@ -76,7 +77,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.GoogleReviewLink = request.GoogleReviewLink;
         entity.OwnerId = request.OwnerId;
 
-        if (!string.IsNullOrEmpty(request.Avatar))
+        if (request.Avatar != null && request.Avatar.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Avatar, cancellationToken);
             entity.Avatar = imageUrl;

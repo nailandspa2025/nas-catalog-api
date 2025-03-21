@@ -12,14 +12,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ZymLabs.NSwag.FluentValidation;
+using Microsoft.Extensions.Configuration;
 
 namespace BuildingBlocks.Common.Extensions;
 
 public static class CommonExtensions
 {
-    public static IServiceCollection AddDefaultAPIServices(this IServiceCollection services)
+    public static IServiceCollection AddDefaultAPIServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCustomAuthentication();
+        services.AddCustomAuthentication(configuration);
         services.AddCustomVersioning();
 
         services.AddVersionedApiExplorer(options =>

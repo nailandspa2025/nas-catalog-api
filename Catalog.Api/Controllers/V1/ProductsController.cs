@@ -28,7 +28,7 @@ namespace Catalog.Api.Controllers.V1
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<ProductDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<ProductDto>>> CreateAsync(CreateProductCommand commnd)
+        public async Task<ActionResult<ApiResponse<ProductDto>>> CreateAsync([FromForm] CreateProductCommand commnd)
         {
             return await Mediator.Send(commnd);
         }
@@ -36,7 +36,7 @@ namespace Catalog.Api.Controllers.V1
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(ApiResponse<ProductDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ApiResponse<ProductDto>>> UpdateAsync(long id, UpdateProductCommand command)
+        public async Task<ActionResult<ApiResponse<ProductDto>>> UpdateAsync(long id, [FromForm] UpdateProductCommand command)
         {
             if (id != command.Id)
             {
