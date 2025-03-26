@@ -16,9 +16,9 @@ namespace Catalog.Application.Features.Stores.Models
 
         public int RatingStar { get; set; }
 
-        public decimal Lat { get; set; }
+        public double Lat { get; set; }
 
-        public decimal Lng { get; set; }
+        public double Lng { get; set; }
 
         public string? Hotline { get; set; }
 
@@ -34,13 +34,16 @@ namespace Catalog.Application.Features.Stores.Models
 
         public List<string> ProductsNames { get; set; } = new List<string>();
 
+        public List<string> ImageUrls { get; set; } = new List<string>();
+
         private class Mapping : Profile
         {
             public Mapping()
             {
                 CreateMap<Store, StoreDto>()
                    .ForMember(dest => dest.ProductIds, opt => opt.MapFrom(src => src.Products.Select(p => p.Id).ToList()))
-                   .ForMember(dest => dest.ProductsNames, opt => opt.MapFrom(src => src.Products.Select(p => p.ProductName).ToList()));
+                   .ForMember(dest => dest.ProductsNames, opt => opt.MapFrom(src => src.Products.Select(p => p.ProductName).ToList()))
+                   .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ImageGallerys.Select(i => i.Url).ToList())); ;
             }
         }
     }

@@ -29,6 +29,7 @@ public class GetStoreByIdQueryHandler : IRequestHandler<GetStoreByIdQuery, ApiRe
     {
         var entity = await _contexxt.Store
             .AsNoTracking()
+            .Include(x => x.ImageGallerys)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if(entity == null)
         {

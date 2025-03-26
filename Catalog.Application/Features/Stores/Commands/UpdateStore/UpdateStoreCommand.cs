@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Commands.UpdateStore;
 
-public class UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
+public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 {
     public long Id { get; set; }
 
@@ -23,9 +23,9 @@ public class UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public int RatingStar { get; init; }
 
-    public decimal Lat { get; init; }
+    public double Lat { get; init; }
 
-    public decimal Lng { get; init; }
+    public double Lng { get; init; }
 
     public string? Hotline { get; init; }
 

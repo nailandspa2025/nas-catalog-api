@@ -90,7 +90,7 @@ public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbCont
             throw new Exception($"ConnectionString not found in appsettings.{environment}.json");
         }
         var optionsBuilder = new DbContextOptionsBuilder<CatalogDbContext>();
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseNpgsql(connectionString);
 
         return new CatalogDbContext(optionsBuilder.Options);
     }

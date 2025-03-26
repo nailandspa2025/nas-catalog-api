@@ -13,9 +13,9 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public int RatingStar { get; set; }
 
-    public decimal Lat { get; set; }
+    public double Lat { get; set; }
 
-    public decimal Lng { get; set; }
+    public double Lng { get; set; }
 
     public string?  Hotline { get; set; }
 

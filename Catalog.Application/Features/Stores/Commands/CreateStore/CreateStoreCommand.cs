@@ -20,9 +20,9 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public int RatingStar { get; init; }
 
-    public decimal Lat { get; init; }
+    public double Lat { get; init; }
 
-    public decimal Lng { get; init; }
+    public double Lng { get; init; }
 
     public string? Hotline { get; init; }
 

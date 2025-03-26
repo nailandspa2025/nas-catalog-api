@@ -19,7 +19,7 @@ public static class ConfigureServices
         }
         else
         {
-            services.AddCustomDbContext<CatalogDbContext>(configuration, EfCoreDatabaseProvider.SqlServer);
+            services.AddCustomDbContext<CatalogDbContext>(configuration, EfCoreDatabaseProvider.PostgreSql);
         }
 
         services.AddScoped<ICatalogDbContext>(provider => provider.GetRequiredService<CatalogDbContext>());
