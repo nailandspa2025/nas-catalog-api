@@ -42,6 +42,7 @@ public class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProducts
         }
 
         var paginationResult = await query
+            .Where(x => !x.IsDeleted)
             .OrderBy(x => x.Created)
             .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);

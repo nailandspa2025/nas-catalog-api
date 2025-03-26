@@ -44,6 +44,7 @@ public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWith
         }
 
         var paginationResult = await query
+            .Where(x => !x.IsDeleted)
             .OrderBy(x => x.Created)
             .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
