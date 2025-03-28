@@ -50,4 +50,6 @@ RUN dotnet publish -c Release -o /app/publish --no-restore
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_HTTP_PORTS=6002
+ENV ASPNETCORE_URLS=http://+:6002
 ENTRYPOINT ["dotnet", "Catalog.Api.dll"]
