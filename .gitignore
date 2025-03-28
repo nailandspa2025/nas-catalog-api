@@ -1,8 +1,7 @@
 bin/
 obj/
 buil/
-**/logs/
+**\logs/
 .vs**
 **Debug
-log**
 .vs/
