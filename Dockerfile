@@ -27,7 +27,7 @@ COPY BuildingBlocks/Persistence.Abstractions/*.csproj BuildingBlocks/Persistence
 RUN dotnet restore --force --no-cache
 
 # Kiểm tra xem project.assets.json có tồn tại không
-RUN ls -l /src/Identity.Api/obj/ || echo "project.assets.json NOT FOUND"
+RUN ls -l /src/Catalog.Api/obj/ || echo "project.assets.json NOT FOUND"
 
 # Copy toàn bộ source code
 COPY . .
