@@ -39,7 +39,7 @@ RUN find . -type d -name "bin" -exec rm -rf {} + && find . -type d -name "obj" -
 RUN dotnet restore
 
 # Build Application
-WORKDIR /src/Identity.Api
+WORKDIR /src/Catalog.Api
 RUN dotnet build -c Release -o /app/build --no-restore
 
 # Publish Application
