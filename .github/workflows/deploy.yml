@@ -57,9 +57,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # 🔐 Đăng nhập Docker Registry
             docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
             docker pull docker.io/${{ secrets.REGISTRY_USERNAME }}/nas-reposetory:${{ github.sha }}
-            docker stop nas-order-api || true
-            docker rm nas-order-api || true
-            docker run -d --restart=always --name nas-order-api -p 6004:6004 docker.io/${{ secrets.REGISTRY_USERNAME }}/nas-reposetory:${{ github.sha }}
+            docker stop nas-catalog-api || true
+            docker rm nas-catalog-api || true
+            docker run -d --restart=always --name nas-catalog-api -p 6004:6004 docker.io/${{ secrets.REGISTRY_USERNAME }}/nas-reposetory:${{ github.sha }}
