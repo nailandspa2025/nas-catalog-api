@@ -4,7 +4,6 @@ using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
-using Catalog.Application.Features.Produts.Models;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using MediatR;
