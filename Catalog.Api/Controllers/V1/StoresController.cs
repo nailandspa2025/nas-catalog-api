@@ -4,6 +4,7 @@ using Catalog.Application.Features.Stores.Commands.DeleteStore;
 using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
+using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +64,13 @@ namespace Catalog.Api.Controllers.V1
                 return BadRequest();
             }
             return await Mediator.Send(command);
+        }
+
+        [HttpGet("ids")]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<StoreDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<IEnumerable<StoreDto>>>> GetByIdsAsync(string ids)
+        {
+            return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
         }
     }
 }
