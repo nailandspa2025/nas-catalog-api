@@ -25,6 +25,7 @@
     <None Remove="Features\Uploads\Commands\" />
     <None Remove="Features\Uploads\Commands\CreateUpload\" />
     <None Remove="Features\Uploads\Models\" />
+    <None Remove="Features\Stores\Queries\GetStores\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -39,6 +40,7 @@
     <Folder Include="Features\Uploads\Commands\" />
     <Folder Include="Features\Uploads\Commands\CreateUpload\" />
     <Folder Include="Features\Uploads\Models\" />
+    <Folder Include="Features\Stores\Queries\GetStores\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
