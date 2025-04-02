@@ -52,5 +52,17 @@ namespace Catalog.Api.Controllers.V1
         {
             return await Mediator.Send(new DeleteStoreCommand(id));
         }
+
+        [HttpPut("update-favorite/{id}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ApiResponse>> UpdateFavoriteAsync(int id, [FromForm] UpdateStoreFavoriteCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+            return await Mediator.Send(command);
+        }
     }
 }

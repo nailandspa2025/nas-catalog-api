@@ -27,6 +27,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public string OwnerId { get; set; } = null!;
 
+    public bool IsFavorite { get; set; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }

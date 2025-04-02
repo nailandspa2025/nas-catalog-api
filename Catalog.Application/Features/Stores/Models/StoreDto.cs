@@ -36,6 +36,8 @@ namespace Catalog.Application.Features.Stores.Models
 
         public List<string> ImageUrls { get; set; } = new List<string>();
 
+        public bool IsFavorite { get; set; }
+
         private class Mapping : Profile
         {
             public Mapping()
