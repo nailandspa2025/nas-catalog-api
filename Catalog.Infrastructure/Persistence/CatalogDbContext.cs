@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Persistence.EntityFrameworkCore;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Domain.Entities;
@@ -22,7 +21,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<StoreImageGallery> StoreImageGallery => Set<StoreImageGallery>();
 
-    
+    public DbSet<Banner> Banner => Set<Banner>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
