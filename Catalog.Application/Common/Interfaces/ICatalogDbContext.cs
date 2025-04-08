@@ -12,5 +12,6 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<Store> Store { get; }
 
     DbSet<StoreImageGallery> StoreImageGallery { get; }
+    DbSet<Banner> Banner { get; }
 }
 

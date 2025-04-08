@@ -59,6 +59,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
     public async Task<ApiResponse<StoreDto>> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.Store
+           .Include(x => x.ImageGallerys)
+           .Include(x => x.Products)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if(entity == null)

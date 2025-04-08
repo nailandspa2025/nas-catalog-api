@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250407163533_TableBanner")]
+    partial class TableBanner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +45,10 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -55,8 +62,7 @@ namespace Catalog.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Link")
-                        .HasMaxLength(350)
-                        .HasColumnType("character varying(350)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("ShowFrom")
                         .HasColumnType("timestamp with time zone");
@@ -65,33 +71,11 @@ namespace Catalog.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Banner");
-                });
-
-            modelBuilder.Entity("Catalog.Domain.Entities.BannermageGaller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BannerId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Url")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BannerId");
-
-                    b.ToTable("BannermageGaller");
+                    b.ToTable("Banner");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Product", b =>
@@ -240,16 +224,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.ToTable("StoreImageGallery");
                 });
 
-            modelBuilder.Entity("Catalog.Domain.Entities.BannermageGaller", b =>
-                {
-                    b.HasOne("Catalog.Domain.Entities.Banner", "Banner")
-                        .WithMany("ImageGallerys")
-                        .HasForeignKey("BannerId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Banner");
-                });
-
             modelBuilder.Entity("Catalog.Domain.Entities.Product", b =>
                 {
                     b.HasOne("Catalog.Domain.Entities.Store", "Store")
@@ -268,11 +242,6 @@ namespace Catalog.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("Catalog.Domain.Entities.Banner", b =>
-                {
-                    b.Navigation("ImageGallerys");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Store", b =>

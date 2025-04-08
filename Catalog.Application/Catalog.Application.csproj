@@ -26,6 +26,15 @@
     <None Remove="Features\Uploads\Commands\CreateUpload\" />
     <None Remove="Features\Uploads\Models\" />
     <None Remove="Features\Stores\Queries\GetStores\" />
+    <None Remove="Features\Banners\" />
+    <None Remove="Features\Banners\Commands\" />
+    <None Remove="Features\Banners\Models\" />
+    <None Remove="Features\Banners\Queries\" />
+    <None Remove="Features\Banners\Commands\CreateBanner\" />
+    <None Remove="Features\Banners\Commands\UpdateBanner\" />
+    <None Remove="Features\Banners\Commands\DeleteBanner\" />
+    <None Remove="Features\Banners\Queries\GetBanner\" />
+    <None Remove="Features\Banners\Queries\GetBannersWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -41,6 +50,15 @@
     <Folder Include="Features\Uploads\Commands\CreateUpload\" />
     <Folder Include="Features\Uploads\Models\" />
     <Folder Include="Features\Stores\Queries\GetStores\" />
+    <Folder Include="Features\Banners\" />
+    <Folder Include="Features\Banners\Commands\" />
+    <Folder Include="Features\Banners\Models\" />
+    <Folder Include="Features\Banners\Queries\" />
+    <Folder Include="Features\Banners\Commands\CreateBanner\" />
+    <Folder Include="Features\Banners\Commands\UpdateBanner\" />
+    <Folder Include="Features\Banners\Commands\DeleteBanner\" />
+    <Folder Include="Features\Banners\Queries\GetBanner\" />
+    <Folder Include="Features\Banners\Queries\GetBannersWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
