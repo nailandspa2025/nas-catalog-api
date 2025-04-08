@@ -50,6 +50,11 @@ public class S3StorageService : IStorageService
         return ApiResponse.Success();
     }
 
+    public Task<ApiResponse> DeleteFileAsync(List<string> fileNames, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     public string GetFileUrl(string fileName)
     {
         return string.Concat(_publicEndpoint, fileName);

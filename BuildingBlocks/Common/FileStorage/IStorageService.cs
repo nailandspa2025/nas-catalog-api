@@ -20,5 +20,7 @@ public interface IStorageService
     Task<List<string>> SaveFilesAsync(List<IFormFile> files, CancellationToken cancellationToken = default);
 
     Task<ApiResponse> DeleteFileAsync(string fileName, CancellationToken cancellationToken = default);
+
+    Task<ApiResponse> DeleteFileAsync(List<string> fileNames, CancellationToken cancellationToken = default);
 }
 

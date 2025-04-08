@@ -83,6 +83,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.GoogleReviewLink = request.GoogleReviewLink;
         entity.OwnerId = request.OwnerId;
 
+
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Avatar, cancellationToken);
@@ -95,6 +96,12 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
             if (!string.IsNullOrEmpty(entity.Avatar))
                 await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
             entity.Avatar = null;
+        }
+
+        var oldImageUrls = entity.ImageGallerys.Select(g => g.Url).Where(url => !request.LinkUrls.Contains(url)).ToList();
+        if (oldImageUrls.Any())
+        {
+            await _storageService.DeleteFileAsync(oldImageUrls, cancellationToken);
         }
         var updatedImageUrls = new List<string>();
         {
