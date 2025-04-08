@@ -60,10 +60,16 @@ public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, A
         entity.IsActive = request.IsActive;
         entity.ShowFrom = request.ShowFrom;
         entity.ShowTo = request.ShowTo;
+
+        var oldImageUrls = entity.ImageGallerys.Select(g => g.Url).Where(url => !request.LinkUrls.Contains(url)).ToList();
+        if (oldImageUrls.Any())
+        {
+            await _storageService.DeleteFileAsync(oldImageUrls, cancellationToken);
+        }
         if (request.Images.Any())
         {
             var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
-            
+
             updatedImageUrls.AddRange(imageUrls);
         }
         if (request.LinkUrls != null && request.LinkUrls.Any())
@@ -76,6 +82,7 @@ public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, A
             Url = url
             }).ToList()
         );
+
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<BannerDto>.Success(_mapper.Map<BannerDto>(entity));
     }
