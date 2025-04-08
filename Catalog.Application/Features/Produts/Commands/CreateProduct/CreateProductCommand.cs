@@ -5,7 +5,6 @@ using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Produts.Models;
 using Catalog.Domain.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Produts.Commands.CreateProduct;
 

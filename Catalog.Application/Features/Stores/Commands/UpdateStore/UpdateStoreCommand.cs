@@ -43,7 +43,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public List<string> LinkUrls { get; init; } = new List<string>();
 
-    public string ? AvatarUrl { get; set; }
+    public bool IsAvatar { get; set; }
 
 }
 
@@ -86,14 +86,14 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Avatar, cancellationToken);
-            //if (!string.IsNullOrEmpty(entity.Avatar))
-            //    await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
+            if (!string.IsNullOrEmpty(entity.Avatar))
+                await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
             entity.Avatar = imageUrl;
         }
-        else if (string.IsNullOrWhiteSpace(request.AvatarUrl))
+        else if (request.IsAvatar)
         {
-            //if (!string.IsNullOrEmpty(entity.Avatar))
-            //    await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
+            if (!string.IsNullOrEmpty(entity.Avatar))
+                await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
             entity.Avatar = null;
         }
         var updatedImageUrls = new List<string>();
