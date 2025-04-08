@@ -33,7 +33,17 @@ public class CloudinaryStorageService : IStorageService
         };
 
         var destroyResult = await _cloudinary.DestroyAsync(deletionParams);
-        return destroyResult.Result == "ok" ? ApiResponse.Success() : ApiResponse.Error(destroyResult.Error.Message);
+
+        if (destroyResult.Result == "ok")
+        {
+            return ApiResponse.Success();
+        }
+
+        var errorMessage = destroyResult.Error != null
+            ? destroyResult.Error.Message
+            : "Unknown error occurred while deleting the file.";
+
+        return ApiResponse.Error(errorMessage);
     }
 
     public string GetFileUrl(string fileName)
