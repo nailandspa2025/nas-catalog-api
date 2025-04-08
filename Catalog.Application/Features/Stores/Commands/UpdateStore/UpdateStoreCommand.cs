@@ -41,6 +41,10 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public List<long> PrductIds { get; init; } = new List<long>();
 
+    public List<string> LinkUrls { get; init; } = new List<string>();
+
+    public string ? AvatarUrl { get; set; }
+
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -82,17 +86,32 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Avatar, cancellationToken);
+            //if (!string.IsNullOrEmpty(entity.Avatar))
+            //    await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
             entity.Avatar = imageUrl;
         }
-        if (request.Images.Any())
+        else if (string.IsNullOrWhiteSpace(request.AvatarUrl))
+        {
+            //if (!string.IsNullOrEmpty(entity.Avatar))
+            //    await _storageService.DeleteFileAsync(entity.Avatar, cancellationToken);
+            entity.Avatar = null;
+        }
+        var updatedImageUrls = new List<string>();
         {
             var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
-            var storeImages = imageUrls.Select(p => new StoreImageGallery
-            {
-                Url = p
-            }).ToList();
-            entity.SetImageGallerys(storeImages);
+            updatedImageUrls.AddRange(imageUrls);
         }
+        if (request.LinkUrls != null && request.LinkUrls.Any())
+        {
+            updatedImageUrls.AddRange(request.LinkUrls);
+        }
+        entity.SetImageGallerys(
+        updatedImageUrls.Select(url => new StoreImageGallery
+        {
+            Url = url
+            }).ToList()
+        );
+
         entity.SetProducts(produtList);
 
         await _context.SaveChangesAsync(cancellationToken);

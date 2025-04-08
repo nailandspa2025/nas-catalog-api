@@ -26,6 +26,9 @@ public record UpdateBannerCommand: IRequest<ApiResponse<BannerDto>>
     public DateTime? ShowTo { get; init; }
 
     public List<IFormFile> Images { get; init; } = new List<IFormFile>();
+
+    public List<string> LinkUrls { get; init; } = new List<string>();
+
 }
 
 public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, ApiResponse<BannerDto>>
@@ -43,6 +46,7 @@ public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, A
 
     public async Task<ApiResponse<BannerDto>> Handle(UpdateBannerCommand request, CancellationToken cancellationToken)
     {
+        var updatedImageUrls = new List<string>();
         var entity = await _context.Banner
            .Include(x => x.ImageGallerys)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
@@ -59,12 +63,19 @@ public class UpdateBannerCommandHandler : IRequestHandler<UpdateBannerCommand, A
         if (request.Images.Any())
         {
             var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
-            var images = imageUrls.Select(p => new BannermageGaller
-            {
-                Url = p
-            }).ToList();
-            entity.SetImageGallerys(images);
+            
+            updatedImageUrls.AddRange(imageUrls);
         }
+        if (request.LinkUrls != null && request.LinkUrls.Any())
+        {
+            updatedImageUrls.AddRange(request.LinkUrls);
+        }
+        entity.SetImageGallerys(
+        updatedImageUrls.Select(url => new BannermageGaller
+        {
+            Url = url
+            }).ToList()
+        );
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<BannerDto>.Success(_mapper.Map<BannerDto>(entity));
     }
