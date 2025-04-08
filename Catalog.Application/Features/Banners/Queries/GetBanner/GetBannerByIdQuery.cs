@@ -29,6 +29,7 @@ public class GetBannerByIdQueryHandler : IRequestHandler<GetBannerByIdQuery, Api
     {
         var entity = await _context.Banner
             .AsNoTracking()
+            .Include(x => x.ImageGallerys)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)

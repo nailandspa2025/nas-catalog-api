@@ -17,6 +17,8 @@ public class BannerConfiguration : IEntityTypeConfiguration<Banner>
         builder.HasMany(x => x.ImageGallerys)
             .WithOne(x => x.Banner)
             .OnDelete(DeleteBehavior.NoAction)
+            .HasForeignKey(bg => bg.BannerId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
     }
 }

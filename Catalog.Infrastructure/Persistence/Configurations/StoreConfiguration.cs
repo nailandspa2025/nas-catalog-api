@@ -21,10 +21,14 @@ public class StoreConfiguration: IEntityTypeConfiguration<Store>
         builder.HasMany(x => x.ImageGallerys)
             .WithOne(x => x.Store)
             .OnDelete(DeleteBehavior.NoAction)
+            .HasForeignKey(bg => bg.StoreId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
 
         builder.HasMany(x => x.Products)
             .WithOne(x => x.Store)
+            .HasForeignKey(bg => bg.StoreId)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.NoAction);
     }
