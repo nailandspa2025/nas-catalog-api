@@ -3,6 +3,7 @@ using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Common.Swagger;
 using BuildingBlocks.EventBus;
+using BuildingBlocks.CommonAuthorization.CommonAuthorizationExtensions;
 
 namespace Catalog.Api;
 
@@ -24,6 +25,7 @@ public static class ConfigureServices
         services.AddControllers();
         services.AddCloudinaryProvider(configuration);
         services.AddEventServices(typeof(Program).Assembly, configuration);
+        services.AddCommonAuthorization();
 
         return services;
     }

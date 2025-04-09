@@ -32,5 +32,8 @@
     <ProjectReference Include="..\Catalog.Infrastructure\Catalog.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\BuildingBlocks\CommonAuthorization\CommonAuthorization.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
