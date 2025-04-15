@@ -32,11 +32,13 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public string? GoogleReviewLink { get; set; }
 
-    public string OwnerId { get; init; } = null!;
+    //public string OwnerId { get; init; } = null!;
 
     public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 
     public List<long> PrductIds { get; init; } = new List<long>();
+
+    public List<string> UserIds { get; init; } = new List<string>();
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -65,7 +67,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             OpenTime = request.OpenTime,
             CloseTime = request.CloseTime,
             GoogleReviewLink = request.GoogleReviewLink,
-            OwnerId = request.OwnerId
+            //OwnerId = request.OwnerId
 
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
@@ -83,7 +85,16 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             entity.SetImageGallerys(storeImages);
         }
         entity.SetProducts(productList);
+        if (request.UserIds != null && request.UserIds.Any())
+        {
+            var userStores = request.UserIds.Select(userId => new UserStore
+            {
+                UserId = userId,
+                StoreId = entity.Id
+            }).ToList();
 
+            _context.UserStore.AddRange(userStores);
+        }
         _context.Store.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 

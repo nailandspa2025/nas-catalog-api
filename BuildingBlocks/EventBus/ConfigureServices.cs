@@ -33,6 +33,7 @@ public static class ConfigureServices
                 // additionally include the queues
                 cfg.ConfigureEndpoints(context, new DefaultEndpointNameFormatter($"{configuration["AwsBusOptions:TargetEnvironment"]}-", false));
                 cfg.Message<UserLoggedOutEvent>(e => e.SetEntityName("identity-user-logged-out-topic"));
+                cfg.Message<UserToStoreEvent>(e => e.SetEntityName("user-to-store-topic"));
             });
 
             x.SetKebabCaseEndpointNameFormatter();

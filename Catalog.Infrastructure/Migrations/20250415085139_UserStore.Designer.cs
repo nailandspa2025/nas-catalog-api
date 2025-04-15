@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250415085139_UserStore")]
+    partial class UserStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,6 +205,10 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<TimeSpan>("OpenTime")
                         .HasColumnType("interval");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("RatingStar")
                         .HasColumnType("integer");
 
@@ -252,8 +259,6 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId");
-
                     b.ToTable("UserStore");
                 });
 
@@ -287,15 +292,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("Catalog.Domain.Entities.UserStore", b =>
-                {
-                    b.HasOne("Catalog.Domain.Entities.Store", null)
-                        .WithMany("UserStores")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Catalog.Domain.Entities.Banner", b =>
                 {
                     b.Navigation("ImageGallerys");
@@ -306,8 +302,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Navigation("ImageGallerys");
 
                     b.Navigation("Products");
-
-                    b.Navigation("UserStores");
                 });
 #pragma warning restore 612, 618
         }

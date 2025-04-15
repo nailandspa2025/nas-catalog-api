@@ -14,8 +14,8 @@ namespace Catalog.Application.Features.Stores.Commands.CreateStore
                .NotEmpty()
                .MaximumLength(500);
 
-            RuleFor(v => v.OwnerId)
-                .NotEmpty();
+            //RuleFor(v => v.OwnerId)
+            //    .NotEmpty();
 
             RuleFor(v => v.Lat)
                 .NotEmpty();

@@ -35,6 +35,12 @@
     <None Remove="Features\Banners\Commands\DeleteBanner\" />
     <None Remove="Features\Banners\Queries\GetBanner\" />
     <None Remove="Features\Banners\Queries\GetBannersWithPagination\" />
+    <None Remove="Features\UserStores\" />
+    <None Remove="Features\UserStores\Commands\" />
+    <None Remove="Features\UserStores\Models\" />
+    <None Remove="Features\UserStores\Queries\" />
+    <None Remove="Features\UserStores\Commands\SentUserToStore\" />
+    <None Remove="Features\UserStores\Queries\GetUserStore\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -59,6 +65,12 @@
     <Folder Include="Features\Banners\Commands\DeleteBanner\" />
     <Folder Include="Features\Banners\Queries\GetBanner\" />
     <Folder Include="Features\Banners\Queries\GetBannersWithPagination\" />
+    <Folder Include="Features\UserStores\" />
+    <Folder Include="Features\UserStores\Commands\" />
+    <Folder Include="Features\UserStores\Models\" />
+    <Folder Include="Features\UserStores\Queries\" />
+    <Folder Include="Features\UserStores\Commands\SentUserToStore\" />
+    <Folder Include="Features\UserStores\Queries\GetUserStore\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
