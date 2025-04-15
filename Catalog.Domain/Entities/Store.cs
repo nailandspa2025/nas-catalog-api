@@ -25,7 +25,7 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public string? GoogleReviewLink { get; set; }
 
-    public string OwnerId { get; set; } = null!;
+    //public string OwnerId { get; set; } = null!;
 
     public bool IsFavorite { get; set; }
 
@@ -38,6 +38,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public virtual List<StoreImageGallery> ImageGallerys { get; private set; } = new List<StoreImageGallery>();
 
     public virtual List<Product> Products { get; private set; } = new List<Product>();
+
+    public virtual List<UserStore> UserStores { get; set; } = new List<UserStore>();
 
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {

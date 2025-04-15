@@ -23,6 +23,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<Banner> Banner => Set<Banner>();
 
+    public DbSet<UserStore> UserStore => Set<UserStore>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

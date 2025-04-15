@@ -15,8 +15,8 @@ public class UpdateStoreCommandValidator: AbstractValidator<UpdateStoreCommand>
            .NotEmpty()
            .MaximumLength(500);
 
-        RuleFor(v => v.OwnerId)
-            .NotEmpty();
+        //RuleFor(v => v.OwnerId)
+        //    .NotEmpty();
 
         RuleFor(v => v.Lat)
             .NotEmpty();

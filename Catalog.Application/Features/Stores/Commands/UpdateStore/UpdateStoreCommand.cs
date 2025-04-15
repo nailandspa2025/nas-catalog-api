@@ -35,7 +35,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public string? GoogleReviewLink { get; set; }
 
-    public string OwnerId { get; init; } = null!;
+    //public string OwnerId { get; init; } = null!;
 
     public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 
@@ -45,6 +45,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public bool IsAvatar { get; set; }
 
+    public List<string> UserIds { get; init; } = new List<string>();
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -81,7 +82,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.OpenTime = request.OpenTime;
         entity.CloseTime = request.CloseTime;
         entity.GoogleReviewLink = request.GoogleReviewLink;
-        entity.OwnerId = request.OwnerId;
+        //entity.OwnerId = request.OwnerId;
 
 
         if (request.Avatar != null && request.Avatar.Length > 0)
@@ -120,7 +121,21 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         );
 
         entity.SetProducts(produtList);
+        var userStores = await _context.UserStore
+        .Where(us => us.StoreId == entity.Id)
+        .ToListAsync(cancellationToken);
 
+        _context.UserStore.RemoveRange(userStores);
+        if (request.UserIds != null && request.UserIds.Any())
+        {
+            var newUserStores = request.UserIds.Select(userId => new UserStore
+            {
+                UserId = userId,
+                StoreId = entity.Id
+            }).ToList();
+
+            _context.UserStore.AddRange(newUserStores);
+        }
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
     }
