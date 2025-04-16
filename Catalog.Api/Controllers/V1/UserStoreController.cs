@@ -1,5 +1,4 @@
 using BuildingBlocks.Core.Response;
-using Catalog.Api.Controllers;
 using Catalog.Application.Features.UserStores.Models;
 using Catalog.Application.Features.UserStores.Queries.GetUserStore;
 using Microsoft.AspNetCore.Mvc;
