@@ -4,6 +4,7 @@ using Catalog.Application.Features.Stores.Commands.DeleteStore;
 using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
+using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,13 @@ namespace Catalog.Api.Controllers.V1
         [HttpGet("pagingation")]
         [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetWithPaginationAsync([FromQuery] GetStoresWithPaginationQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+
+        [HttpGet("merchant-pagingation")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetStoreForMerchantsWithPaginationAsync([FromQuery] GetStoreForMerchantsWithPaginationQuery query)
         {
             return await Mediator.Send(query);
         }

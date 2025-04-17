@@ -5,13 +5,13 @@ using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
-using Catalog.Application.Features.StoreMerchants.Models;
+using Catalog.Application.Features.Stores.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Application.Features.StoreMerchants.Queries.GetStoreMerchantsWithPagination;
+namespace Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
 
-public record GetStoreMerchantsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreMerchantDto>>>
+public record GetStoreForMerchantsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
 {
     public int PageNumber { get; set; } = 1;
 
@@ -20,7 +20,7 @@ public record GetStoreMerchantsWithPaginationQuery: IRequest<ApiResponse<Paginat
     public string? SearchText { get; set; }
 }
 
-public class GetStoreMerchantsWithPaginationQueryHandler : IRequestHandler<GetStoreMerchantsWithPaginationQuery, ApiResponse<PaginatedList<StoreMerchantDto>>>
+public class GetStoreMerchantsWithPaginationQueryHandler : IRequestHandler<GetStoreForMerchantsWithPaginationQuery, ApiResponse<PaginatedList<StoreDto>>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ public class GetStoreMerchantsWithPaginationQueryHandler : IRequestHandler<GetSt
         _currentUser = currentUser;
     }
 
-    public async Task<ApiResponse<PaginatedList<StoreMerchantDto>>> Handle(GetStoreMerchantsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoreForMerchantsWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
         var query = _context.Store
@@ -47,12 +47,12 @@ public class GetStoreMerchantsWithPaginationQueryHandler : IRequestHandler<GetSt
         }
 
         var paginationResult = await query
-            
+
             .OrderBy(x => x.Created)
-            .ProjectTo<StoreMerchantDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-        return ApiResponse<PaginatedList<StoreMerchantDto>>.Success(paginationResult);
+        return ApiResponse<PaginatedList<StoreDto>>.Success(paginationResult);
 
     }
 }

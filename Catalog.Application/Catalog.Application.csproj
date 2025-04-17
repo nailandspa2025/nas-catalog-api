@@ -41,10 +41,7 @@
     <None Remove="Features\UserStores\Queries\" />
     <None Remove="Features\UserStores\Commands\SentUserToStore\" />
     <None Remove="Features\UserStores\Queries\GetUserStore\" />
-    <None Remove="Features\StoreMerchants\" />
-    <None Remove="Features\StoreMerchants\Models\" />
-    <None Remove="Features\StoreMerchants\Queries\" />
-    <None Remove="Features\StoreMerchants\Queries\GetStoreMerchantsWithPagination\" />
+    <None Remove="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -75,10 +72,7 @@
     <Folder Include="Features\UserStores\Queries\" />
     <Folder Include="Features\UserStores\Commands\SentUserToStore\" />
     <Folder Include="Features\UserStores\Queries\GetUserStore\" />
-    <Folder Include="Features\StoreMerchants\" />
-    <Folder Include="Features\StoreMerchants\Models\" />
-    <Folder Include="Features\StoreMerchants\Queries\" />
-    <Folder Include="Features\StoreMerchants\Queries\GetStoreMerchantsWithPagination\" />
+    <Folder Include="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
