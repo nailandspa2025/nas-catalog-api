@@ -42,6 +42,7 @@
     <None Remove="Features\UserStores\Commands\SentUserToStore\" />
     <None Remove="Features\UserStores\Queries\GetUserStore\" />
     <None Remove="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
+    <None Remove="Features\Produts\Queries\GetProducts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -73,6 +74,8 @@
     <Folder Include="Features\UserStores\Commands\SentUserToStore\" />
     <Folder Include="Features\UserStores\Queries\GetUserStore\" />
     <Folder Include="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
+    <Folder Include="Features\Stores\Queries\GetStores\" />
+    <Folder Include="Features\Produts\Queries\GetProducts\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

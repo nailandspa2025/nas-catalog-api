@@ -1,9 +1,11 @@
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Features.Produts.Models;
 using Catalog.Application.Features.Produts.Queries.GetProduct;
+using Catalog.Application.Features.Produts.Queries.GetProducts;
 using Catalog.Application.Features.Produts.Queries.GetProductsWithPagination;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
+using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +20,12 @@ public class DropdownListController : ApiControllerBase
     {
         return await Mediator.Send(query);
     }
+    [HttpGet("store-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<StoreDto>>>> GetStoreByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
+    }
 
     [HttpGet("store/{id}")]
     [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
@@ -31,6 +39,13 @@ public class DropdownListController : ApiControllerBase
     public async Task<ActionResult<ApiResponse<PaginatedList<ProductDto>>>> GetProductsAsync([FromQuery] GetProductsWithPaginationQuery query)
     {
         return await Mediator.Send(query);
+    }
+
+    [HttpGet("product-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<ProductDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetProductByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetProductByIdsQuery { Ids = ids });
     }
 
     [HttpGet("product/{id}")]
