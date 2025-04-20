@@ -133,8 +133,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
                 UserId = userId,
                 StoreId = entity.Id
             }).ToList();
-
-            _context.UserStore.AddRange(newUserStores);
+            entity.SetStores(newUserStores);
         }
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));

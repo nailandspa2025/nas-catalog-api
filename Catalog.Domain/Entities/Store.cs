@@ -52,5 +52,11 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
         this.Products.Clear();
         this.Products = products;
     }
+
+    public void SetStores (List<UserStore> userStores)
+    {
+        this.UserStores.Clear();
+        this.UserStores = userStores;
+    }
 }
 

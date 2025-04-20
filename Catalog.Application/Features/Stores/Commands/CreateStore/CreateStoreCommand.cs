@@ -92,8 +92,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 UserId = userId,
                 StoreId = entity.Id
             }).ToList();
-
-            _context.UserStore.AddRange(userStores);
+            entity.SetStores(userStores);
         }
         _context.Store.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
