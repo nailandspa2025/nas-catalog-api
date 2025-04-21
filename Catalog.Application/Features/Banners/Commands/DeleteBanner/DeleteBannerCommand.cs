@@ -19,7 +19,7 @@ public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand, A
 
     public async Task<ApiResponse> Handle(DeleteBannerCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.Store
+        var entity = await _context.Banner
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (entity == null)
@@ -27,7 +27,7 @@ public class DeleteBannerCommandHandler : IRequestHandler<DeleteBannerCommand, A
             throw new NotFoundException(nameof(Product), request.Id);
         }
 
-        _context.Store.Remove(entity);
+        _context.Banner.Remove(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
 
