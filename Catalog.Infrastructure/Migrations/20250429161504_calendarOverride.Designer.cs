@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250429161504_calendarOverride")]
+    partial class calendarOverride
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,9 +197,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<int>("CalendarId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CalendarTypeId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -209,9 +209,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -219,16 +216,6 @@ namespace Catalog.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<long>("StoreId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TechnicianId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("WorkDate")
@@ -243,10 +230,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CalendarId");
-
-                    b.HasIndex("CalendarTypeId");
-
-                    b.HasIndex("StoreId");
 
                     b.ToTable("CalendarOverride");
                 });
@@ -488,27 +471,11 @@ namespace Catalog.Infrastructure.Migrations
             modelBuilder.Entity("Catalog.Domain.Entities.CalendarOverride", b =>
                 {
                     b.HasOne("Catalog.Domain.Entities.Calendar", "Calendar")
-                        .WithMany("CalendarOverrides")
+                        .WithMany("CalendarOverride")
                         .HasForeignKey("CalendarId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Catalog.Domain.Entities.CalendarType", "CalendarType")
-                        .WithMany("CalendarOverrides")
-                        .HasForeignKey("CalendarTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Catalog.Domain.Entities.Store", "Store")
-                        .WithMany("CalendarOverrides")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Calendar");
-
-                    b.Navigation("CalendarType");
-
-                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Product", b =>
@@ -547,20 +514,16 @@ namespace Catalog.Infrastructure.Migrations
 
             modelBuilder.Entity("Catalog.Domain.Entities.Calendar", b =>
                 {
-                    b.Navigation("CalendarOverrides");
+                    b.Navigation("CalendarOverride");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.CalendarType", b =>
                 {
-                    b.Navigation("CalendarOverrides");
-
                     b.Navigation("Calendars");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Store", b =>
                 {
-                    b.Navigation("CalendarOverrides");
-
                     b.Navigation("Calendars");
 
                     b.Navigation("ImageGallerys");

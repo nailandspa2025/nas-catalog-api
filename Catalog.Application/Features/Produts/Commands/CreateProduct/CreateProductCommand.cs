@@ -24,7 +24,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
     
-    public CreateProductCommandHandler (ICatalogDbContext context, IMapper mapper, IStorageService storageService)
+    public CreateProductCommandHandler (ICatalogDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;

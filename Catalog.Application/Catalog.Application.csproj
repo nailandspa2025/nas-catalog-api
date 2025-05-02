@@ -43,6 +43,26 @@
     <None Remove="Features\UserStores\Queries\GetUserStore\" />
     <None Remove="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
     <None Remove="Features\Produts\Queries\GetProducts\" />
+    <None Remove="Features\Calendars\" />
+    <None Remove="Features\CalendarTypes\" />
+    <None Remove="Features\CalendarTypes\Commands\" />
+    <None Remove="Features\CalendarTypes\Models\" />
+    <None Remove="Features\CalendarTypes\Queries\" />
+    <None Remove="Features\Calendars\Commands\" />
+    <None Remove="Features\Calendars\Models\" />
+    <None Remove="Features\Calendars\Queries\" />
+    <None Remove="Features\CalendarTypes\Commands\CreateCalendarType\" />
+    <None Remove="Features\CalendarTypes\Commands\UpdateCalendarType\" />
+    <None Remove="Features\CalendarTypes\Commands\DeleteCalendarType\" />
+    <None Remove="Features\Calendars\Commands\CreateCalendar\" />
+    <None Remove="Features\CalendarTypes\Queries\GetCalendarType\" />
+    <None Remove="Features\CalendarTypes\Queries\GetCalendarTypes\" />
+    <None Remove="Features\CalendarTypes\Queries\GetCalendarTypesWithPagination\" />
+    <None Remove="Features\Calendars\Commands\UpdateCaledar\" />
+    <None Remove="Features\Calendars\Commands\DeleteCalendar\" />
+    <None Remove="Features\Calendars\Queries\GetCalendar\" />
+    <None Remove="Features\Calendars\Queries\GetCalendars\" />
+    <None Remove="Features\Calendars\Queries\GetCalendarsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -76,6 +96,26 @@
     <Folder Include="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
     <Folder Include="Features\Stores\Queries\GetStores\" />
     <Folder Include="Features\Produts\Queries\GetProducts\" />
+    <Folder Include="Features\Calendars\" />
+    <Folder Include="Features\CalendarTypes\" />
+    <Folder Include="Features\CalendarTypes\Commands\" />
+    <Folder Include="Features\CalendarTypes\Models\" />
+    <Folder Include="Features\CalendarTypes\Queries\" />
+    <Folder Include="Features\Calendars\Commands\" />
+    <Folder Include="Features\Calendars\Models\" />
+    <Folder Include="Features\Calendars\Queries\" />
+    <Folder Include="Features\CalendarTypes\Commands\CreateCalendarType\" />
+    <Folder Include="Features\CalendarTypes\Commands\UpdateCalendarType\" />
+    <Folder Include="Features\CalendarTypes\Commands\DeleteCalendarType\" />
+    <Folder Include="Features\Calendars\Commands\CreateCalendar\" />
+    <Folder Include="Features\CalendarTypes\Queries\GetCalendarType\" />
+    <Folder Include="Features\CalendarTypes\Queries\GetCalendarTypes\" />
+    <Folder Include="Features\CalendarTypes\Queries\GetCalendarTypesWithPagination\" />
+    <Folder Include="Features\Calendars\Commands\UpdateCaledar\" />
+    <Folder Include="Features\Calendars\Commands\DeleteCalendar\" />
+    <Folder Include="Features\Calendars\Queries\GetCalendar\" />
+    <Folder Include="Features\Calendars\Queries\GetCalendars\" />
+    <Folder Include="Features\Calendars\Queries\GetCalendarsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

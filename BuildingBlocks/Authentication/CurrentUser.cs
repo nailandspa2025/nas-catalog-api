@@ -30,22 +30,6 @@ public class CurrentUser : ICurrentUser
             return _httpContextAccessor?.HttpContext?.User?.FindAll(JwtClaimTypes.Role)?.Select(x => x.Value)?.ToList() ?? Enumerable.Empty<string>();
         }
     }
-
-    public Guid TenantId
-    {
-        get
-        {
-            var teantId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("tenant_id") ?? null;
-
-            if (string.IsNullOrWhiteSpace(teantId))
-            {
-                return Guid.Empty;
-            }
-
-            return Guid.TryParse(teantId, out Guid guid) ? guid : throw new InvalidCastException("teantId can not be converted");
-        }
-    }
-
     public string? UserId
     {
         get

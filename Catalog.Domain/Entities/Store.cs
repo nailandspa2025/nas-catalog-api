@@ -41,6 +41,10 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public virtual List<UserStore> UserStores { get; set; } = new List<UserStore>();
 
+    public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
+
+    public ICollection<CalendarOverride> CalendarOverrides { get; set; } = new List<CalendarOverride>();
+
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

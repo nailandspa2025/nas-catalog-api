@@ -16,5 +16,11 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<Banner> Banner { get; }
 
     DbSet<UserStore> UserStore { get; }
+
+    DbSet<Calendar> Calendar { get; }
+
+    DbSet<CalendarType> CalendarType { get; }
+
+    DbSet<CalendarOverride> CalendarOverride { get; }
 }
 

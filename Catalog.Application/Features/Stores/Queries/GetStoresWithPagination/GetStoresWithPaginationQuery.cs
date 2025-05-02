@@ -9,46 +9,45 @@ using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Application.Features.Stores.Queries.GetStoresWithPagination
+namespace Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
+
+public class GetStoresWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
 {
-    public class GetStoresWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
-    {
-        public int PageNumber { get; set; } = 1;
+    public int PageNumber { get; set; } = 1;
 
-        public int PageSize { get; set; } = 10;
+    public int PageSize { get; set; } = 10;
 
-        public string? SearchText { get; set; }
-    }
+    public string? SearchText { get; set; }
 }
 
 public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWithPaginationQuery, ApiResponse<PaginatedList<StoreDto>>>
 {
-    private readonly ICatalogDbContext _context;
-    private readonly IMapper _mapper;
+private readonly ICatalogDbContext _context;
+private readonly IMapper _mapper;
 
-    public GetStoresWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper)
+public GetStoresWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper)
+{
+    _context = context;
+    _mapper = mapper;
+}
+
+public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoresWithPaginationQuery request, CancellationToken cancellationToken)
+{
+    var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
+
+    var query = _context.Store.AsNoTracking();
+    if (!paramSearchText.IsNullOrEmpty())
     {
-        _context = context;
-        _mapper = mapper;
+        query = query.Where(s => paramSearchText.Contains(s.StoreName));
     }
 
-    public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoresWithPaginationQuery request, CancellationToken cancellationToken)
-    {
-        var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
+    var paginationResult = await query
+        .Where(x => !x.IsDeleted)
+        .OrderBy(x => x.Created)
+        .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
+        .PaginatedListAsync(request.PageNumber, request.PageSize);
 
-        var query = _context.Store.AsNoTracking();
-        if (!paramSearchText.IsNullOrEmpty())
-        {
-            query = query.Where(s => paramSearchText.Contains(s.StoreName));
-        }
-
-        var paginationResult = await query
-            .Where(x => !x.IsDeleted)
-            .OrderBy(x => x.Created)
-            .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
-
-        return ApiResponse<PaginatedList<StoreDto>>.Success(paginationResult);
-        
-    }
+    return ApiResponse<PaginatedList<StoreDto>>.Success(paginationResult);
+    
+}
 }
