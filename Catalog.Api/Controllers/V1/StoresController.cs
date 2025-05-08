@@ -37,9 +37,9 @@ namespace Catalog.Api.Controllers.V1
 
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<StoreDto>>> CreateAsync([FromForm] CreateStoreCommand commnd)
+        public async Task<ActionResult<ApiResponse<StoreDto>>> CreateAsync([FromForm] CreateStoreCommand command)
         {
-            return await Mediator.Send(commnd);
+            return await Mediator.Send(command);
         }
 
         [HttpPut("{id}")]

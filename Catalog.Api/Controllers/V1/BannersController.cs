@@ -28,9 +28,9 @@ public class BannersController : ApiControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<BannerDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<BannerDto>>> CreateAsync([FromForm] CreateBannerCommand commnd)
+    public async Task<ActionResult<ApiResponse<BannerDto>>> CreateAsync([FromForm] CreateBannerCommand command)
     {
-        return await Mediator.Send(commnd);
+        return await Mediator.Send(command);
     }
 
     [HttpPut("{id}")]

@@ -3,6 +3,10 @@ using Catalog.Application.Features.CalendarTypes.Models;
 using Catalog.Application.Features.CalendarTypes.Queries.GetCalendarType;
 using Catalog.Application.Features.CalendarTypes.Queries.GetCalendarTypes;
 using Catalog.Application.Features.CalendarTypes.Queries.GetCalendarTypesWithPagination;
+using Catalog.Application.Features.Merchants.Models;
+using Catalog.Application.Features.Merchants.Queries.GetMerchant;
+using Catalog.Application.Features.Merchants.Queries.GetMerchants;
+using Catalog.Application.Features.Merchants.Queries.GetMerchantsWithPagination;
 using Catalog.Application.Features.Produts.Models;
 using Catalog.Application.Features.Produts.Queries.GetProduct;
 using Catalog.Application.Features.Produts.Queries.GetProducts;
@@ -86,5 +90,26 @@ public class DropdownListController : ApiControllerBase
     public async Task<ActionResult<ApiResponse<CalendarTypeDto>>> GetCalendarTypeByIdAsync(int id)
     {
         return await Mediator.Send(new GetCalendarTypeByIdQuery { Id = id });
+    }
+
+    [HttpGet("merchants")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<MerchantDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<PaginatedList<MerchantDto>>>> GetMerchantsAsync([FromQuery] GetMerchantsWithPaginationQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
+    [HttpGet("merchant-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<MerchantDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<MerchantDto>>>> GetMerchantByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetMerchantByIdsQuery { Ids = ids });
+    }
+
+    [HttpGet("merchant/{id}")]
+    [ProducesResponseType(typeof(ApiResponse<MerchantDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<MerchantDto>>> GetMerchantByIdAsync(int id)
+    {
+        return await Mediator.Send(new GetMerchantByIdQuery { Id = id });
     }
 }

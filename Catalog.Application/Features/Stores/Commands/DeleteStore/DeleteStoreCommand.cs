@@ -24,7 +24,7 @@ public class DeleteStoreCommandHandler : IRequestHandler<DeleteStoreCommand, Api
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Product), request.Id);
+            throw new NotFoundException(nameof(Store), request.Id);
         }
 
         _context.Store.Remove(entity);

@@ -25,8 +25,6 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public string? GoogleReviewLink { get; set; }
 
-    //public string OwnerId { get; set; } = null!;
-
     public bool IsFavorite { get; set; }
 
     public string? DeletedBy { get; set; }
@@ -35,15 +33,23 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public bool IsDeleted { get; set; }
 
-    public virtual List<StoreImageGallery> ImageGallerys { get; private set; } = new List<StoreImageGallery>();
+    public virtual ICollection<StoreImageGallery> ImageGallerys { get; private set; } = new List<StoreImageGallery>();
 
-    public virtual List<Product> Products { get; private set; } = new List<Product>();
+    public virtual ICollection<Product> Products { get; private set; } = new List<Product>();
 
-    public virtual List<UserStore> UserStores { get; set; } = new List<UserStore>();
+    public virtual ICollection<UserStore> UserStores { get; set; } = new List<UserStore>();
 
     public ICollection<Calendar> Calendars { get; set; } = new List<Calendar>();
 
     public ICollection<CalendarOverride> CalendarOverrides { get; set; } = new List<CalendarOverride>();
+
+    public int? MerchantId { get; set; }
+
+    public Merchant? Merchant { get; set; }
+
+    public int? BrandId { get; set; }
+
+    public Brand? Brand { get; set; }
 
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {

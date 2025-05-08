@@ -31,6 +31,12 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<CalendarOverride> CalendarOverride => Set<CalendarOverride>();
 
+    public DbSet<Merchant> Merchant => Set<Merchant>();
+
+    public DbSet<Brand> Brand => Set<Brand>();
+
+    public DbSet<ServicePackage> ServicePackage =>Set<ServicePackage>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

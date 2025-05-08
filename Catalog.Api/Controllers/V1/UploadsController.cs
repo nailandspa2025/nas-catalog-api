@@ -12,9 +12,9 @@ namespace Catalog.Api.Controllers.V1
         [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<UploadDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<UploadDto>>> CreateAsync([FromForm] CreateUploadCommand commnd)
+        public async Task<ActionResult<ApiResponse<UploadDto>>> CreateAsync([FromForm] CreateUploadCommand command)
         {
-            return await Mediator.Send(commnd);
+            return await Mediator.Send(command);
         }
     }
 }

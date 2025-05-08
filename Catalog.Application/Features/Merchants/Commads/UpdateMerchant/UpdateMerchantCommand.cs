@@ -1,0 +1,209 @@
+﻿using AutoMapper;
+using BuildingBlocks.Common.Exceptions;
+using BuildingBlocks.Common.FileStorage;
+using BuildingBlocks.Core.Response;
+using Catalog.Application.Common.Interfaces;
+using Catalog.Application.Features.Merchants.Models;
+using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+
+namespace Catalog.Application.Features.Merchants.Commads.UpdateMerchant;
+
+public record UpdateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
+{
+    public int Id { get; init; }
+
+    public string Name { get; init; } = null!;
+
+    public string? ShortName { get; init; }
+
+    public string? TaxCode { get; init; }
+
+    public string? ContractNumber { get; init; }
+
+    public DateTime? ContractDate { get; set; }
+
+    public TimeSpan StartTime { get; init; }
+
+    public TimeSpan EndTime { get; init; }
+
+    public MerchantType Type { get; init; }
+
+    public string? ZaloOA { get; init; }
+
+    public string? Fanpage { get; init; }
+
+    public string? Website { get; init; }
+
+    public string? Address { get; init; }
+
+    public string? Represent { get; init; }
+
+    public string? Email { get; init; }
+
+    public string? PhoneNumber { get; init; }
+
+    public IFormFile? Logo { get; init; }
+
+    public bool IsLogo { get; init; }
+
+    public int ServicePackageId { get; init; }
+
+    public bool IsActive { get; init; }
+
+    public List<IFormFile> Images { get; init; } = new List<IFormFile>();
+
+    public List<UpdateBrandModel>? Brands { get; init; } = new List<UpdateBrandModel>();
+
+    public List<string> LinkUrls { get; init; } = new List<string>();
+}
+
+public record UpdateBrandModel
+{
+    public int Id { get; init; }
+
+    public string Name { get; init; } = null!;
+
+    public string? Description { get; init; }
+
+    public IFormFile? Logo { get; init; }
+
+    public bool IsLogo { get; init; }
+}
+
+public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantCommand, ApiResponse<MerchantDto>>
+{
+    private readonly ICatalogDbContext _context;
+    private readonly IMapper _mapper;
+    private readonly IStorageService _storageService;
+
+    public UpdateMerchantCommandHandler(ICatalogDbContext context, IMapper mapper, IStorageService storageService)
+    {
+        _context = context;
+        _mapper = mapper;
+        _storageService = storageService;
+    }
+
+    public  async Task<ApiResponse<MerchantDto>> Handle(UpdateMerchantCommand request, CancellationToken cancellationToken)
+    {
+        var entity = await _context.Merchant
+           .Include(x => x.MerchantContractImages)
+           .Include(x => x.Brands)
+           .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(MerchantDto), request.Id);
+        }
+        entity.Name = request.Name;
+        entity.ShortName = request.ShortName;
+        entity.TaxCode = request.TaxCode;
+        entity.ContractNumber = request.ContractNumber;
+        entity.ContractDate = request.ContractDate;
+        entity.StartTime = request.StartTime;
+        entity.EndTime = request.EndTime;
+        entity.Type = request.Type;
+        entity.ZaloOA = request.ZaloOA;
+        entity.Fanpage = request.Fanpage;
+        entity.Website = request.Website;
+        entity.Address = request.Address;
+        entity.Represent = request.Represent;
+        entity.Email = request.Email;
+        entity.PhoneNumber = request.PhoneNumber;
+        entity.IsActive = request.IsActive;
+        entity.ServicePackageId = request.ServicePackageId;
+
+        if (request.Logo != null && request.Logo.Length > 0)
+        {
+            var imageUrl = await _storageService.SaveFileAsync(request.Logo, cancellationToken);
+            if (!string.IsNullOrEmpty(entity.Logo))
+                await _storageService.DeleteFileAsync(entity.Logo, cancellationToken);
+            entity.Logo = imageUrl;
+        }
+        else if (request.IsLogo)
+        {
+            if (!string.IsNullOrEmpty(entity.Logo))
+                await _storageService.DeleteFileAsync(entity.Logo, cancellationToken);
+            entity.Logo = null;
+        }
+        var oldImageUrls = entity.MerchantContractImages.Select(g => g.Url).Where(url => !request.LinkUrls.Contains(url)).ToList();
+        if (oldImageUrls.Any())
+        {
+            await _storageService.DeleteFileAsync(oldImageUrls, cancellationToken);
+        }
+        var updatedImageUrls = new List<string>();
+        {
+            var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
+            updatedImageUrls.AddRange(imageUrls);
+        }
+        if (request.LinkUrls != null && request.LinkUrls.Any())
+        {
+            updatedImageUrls.AddRange(request.LinkUrls);
+        }
+        entity.SetContractImages(
+        updatedImageUrls.Select(url => new MerchantContractImage
+        {
+            Url = url
+        }).ToList()
+        );
+        if (request.Brands != null && request.Brands.Any())
+        {
+            var brands = new List<Brand>();
+
+            foreach (var brandReq in request.Brands)
+            {
+                var brand = await HandleBrandAsync(brandReq, entity, cancellationToken);
+                brands.Add(brand);
+            }
+            entity.SetBrands(brands);
+        }
+        await _context.SaveChangesAsync(cancellationToken);
+        return ApiResponse<MerchantDto>.Success(_mapper.Map<MerchantDto>(entity));
+    }
+
+    private async Task<Brand> HandleBrandAsync(UpdateBrandModel brandReq, Merchant merchant, CancellationToken cancellationToken)
+    {
+        var existingBrand = merchant.Brands.FirstOrDefault(b => b.Id == brandReq.Id);
+        if (existingBrand != null)
+        {
+            existingBrand.Name = brandReq.Name;
+            existingBrand.Description = brandReq.Description;
+
+            if (brandReq.Logo != null && brandReq.Logo.Length > 0)
+            {
+                if (!string.IsNullOrEmpty(existingBrand.Logo))
+                    await _storageService.DeleteFileAsync(existingBrand.Logo, cancellationToken);
+
+                existingBrand.Logo = await _storageService.SaveFileAsync(brandReq.Logo, cancellationToken);
+            }
+            else if (brandReq.IsLogo)
+            {
+                if (!string.IsNullOrEmpty(existingBrand.Logo))
+                    await _storageService.DeleteFileAsync(existingBrand.Logo, cancellationToken);
+
+                existingBrand.Logo = null;
+            }
+
+            return existingBrand;
+        }
+        else
+        {
+            var newBrand = new Brand
+            {
+                Name = brandReq.Name,
+                Description = brandReq.Description,
+                Merchant = merchant
+            };
+
+            if (brandReq.Logo != null && brandReq.Logo.Length > 0)
+            {
+                newBrand.Logo = await _storageService.SaveFileAsync(brandReq.Logo, cancellationToken);
+            }
+
+            return newBrand;
+        }
+    }
+}

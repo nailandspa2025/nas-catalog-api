@@ -22,5 +22,11 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<CalendarType> CalendarType { get; }
 
     DbSet<CalendarOverride> CalendarOverride { get; }
+
+    DbSet<Merchant> Merchant { get; }
+
+    DbSet<Brand> Brand { get; }
+
+    DbSet<ServicePackage> ServicePackage { get; }
 }
 

@@ -31,5 +31,6 @@ public class StoreConfiguration: IEntityTypeConfiguration<Store>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.NoAction);
+
     }
 }

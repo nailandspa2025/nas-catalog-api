@@ -30,9 +30,9 @@ public class CalendarTypesController: ApiControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<CalendarTypeDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<CalendarTypeDto>>> CreateAsync([FromForm] CreateCalendarTypeCommand commnd)
+    public async Task<ActionResult<ApiResponse<CalendarTypeDto>>> CreateAsync([FromForm] CreateCalendarTypeCommand command)
     {
-        return await Mediator.Send(commnd);
+        return await Mediator.Send(command);
     }
 
     [HttpPut("{id}")]
