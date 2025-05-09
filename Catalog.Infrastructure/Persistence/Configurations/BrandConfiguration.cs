@@ -1,5 +1,4 @@
-﻿using System;
-using Catalog.Domain.Entities;
+﻿using Catalog.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,19 +12,10 @@ public class BrandConfiguration: IEntityTypeConfiguration<Brand>
              .HasMaxLength(50)
              .IsRequired();
 
-        builder.Property(x => x.Description)
-             .HasMaxLength(250)
-             .IsRequired();
-
         builder.Property(x => x.Logo)
              .HasMaxLength(250)
              .IsRequired();
 
-        builder.HasMany(x => x.Stores)
-            .WithOne(x => x.Brand)
-            .HasForeignKey(bg => bg.BrandId)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

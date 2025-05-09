@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250509134306_UpdateBrandStore")]
+    partial class UpdateBrandStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -662,6 +665,8 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.HasIndex("MerchantId");
 
                     b.ToTable("Store");
@@ -815,6 +820,10 @@ namespace Catalog.Infrastructure.Migrations
 
             modelBuilder.Entity("Catalog.Domain.Entities.Store", b =>
                 {
+                    b.HasOne("Catalog.Domain.Entities.Brand", null)
+                        .WithMany("Stores")
+                        .HasForeignKey("BrandId");
+
                     b.HasOne("Catalog.Domain.Entities.Merchant", "Merchant")
                         .WithMany("Stores")
                         .HasForeignKey("MerchantId")
@@ -845,6 +854,11 @@ namespace Catalog.Infrastructure.Migrations
             modelBuilder.Entity("Catalog.Domain.Entities.Banner", b =>
                 {
                     b.Navigation("ImageGallerys");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.Entities.Brand", b =>
+                {
+                    b.Navigation("Stores");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Calendar", b =>

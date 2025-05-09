@@ -49,8 +49,6 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public int? BrandId { get; set; }
 
-    public Brand? Brand { get; set; }
-
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

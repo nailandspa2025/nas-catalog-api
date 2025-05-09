@@ -49,7 +49,7 @@ public class MerchantDto: BaseAuditableDto
 
     public List<string> ImageUrls { get; set; } = new List<string>();
 
-    public virtual ICollection<Brand> Brands { get; set; } = new List<Brand>();
+    public  List<BrandDto> Brands { get; set; } = new List<BrandDto>();
 
     private class Mapping : Profile
     {
@@ -63,3 +63,19 @@ public class MerchantDto: BaseAuditableDto
     }
 }
 
+public class BrandDto
+{
+    public int Id { get; set; }
+
+    public string? Name { get; set; }
+
+    public string? Logo { get; set; }
+
+    private class Mapping: Profile
+    {
+        public Mapping()
+        {
+            CreateMap<Brand, BrandDto>();
+        }
+    }
+}

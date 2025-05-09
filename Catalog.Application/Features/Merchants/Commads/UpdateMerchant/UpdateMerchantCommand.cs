@@ -77,7 +77,7 @@ public record UpdateBrandModel
 
     public IFormFile? Logo { get; init; }
 
-    public bool IsLogo { get; init; }
+    public string? LogoLink { get; set; }
 }
 
 public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantCommand, ApiResponse<MerchantDto>>
@@ -166,61 +166,34 @@ public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantComman
             }).ToList();
             entity.SetWeekdayOffs(weekdayOffs);
         }
+        var brands = new List<Brand>();
         if (request.Brands != null && request.Brands.Any())
         {
-            var brands = new List<Brand>();
-
-            foreach (var brandReq in request.Brands)
+            
+            foreach (var brand in request.Brands)
             {
-                var brand = await HandleBrandAsync(brandReq, entity, cancellationToken);
-                brands.Add(brand);
+                string logoUrl = string.Empty;
+                if (brand.Logo != null && brand.Logo.Length > 0)
+                {
+                    if (!string.IsNullOrEmpty(brand.LogoLink))
+                        await _storageService.DeleteFileAsync(brand.LogoLink, cancellationToken);
+                    var imageUrl = await _storageService.SaveFileAsync(brand.Logo, cancellationToken);
+                    logoUrl = imageUrl;
+                }
+                else if (!string.IsNullOrWhiteSpace(brand.LogoLink))
+                {
+                    logoUrl = brand.LogoLink;
+                }
+                var newBrand = new Brand
+                {
+                    Name = brand.Name,
+                    Logo = logoUrl,
+                };
+                brands.Add(newBrand);
             }
-            entity.SetBrands(brands);
         }
+        entity.SetBrands(brands);
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<MerchantDto>.Success(_mapper.Map<MerchantDto>(entity));
-    }
-
-    private async Task<Brand> HandleBrandAsync(UpdateBrandModel brandReq, Merchant merchant, CancellationToken cancellationToken)
-    {
-        var existingBrand = merchant.Brands.FirstOrDefault(b => b.Id == brandReq.Id);
-        if (existingBrand != null)
-        {
-            existingBrand.Name = brandReq.Name;
-            existingBrand.Description = brandReq.Description;
-
-            if (brandReq.Logo != null && brandReq.Logo.Length > 0)
-            {
-                if (!string.IsNullOrEmpty(existingBrand.Logo))
-                    await _storageService.DeleteFileAsync(existingBrand.Logo, cancellationToken);
-
-                existingBrand.Logo = await _storageService.SaveFileAsync(brandReq.Logo, cancellationToken);
-            }
-            else if (brandReq.IsLogo)
-            {
-                if (!string.IsNullOrEmpty(existingBrand.Logo))
-                    await _storageService.DeleteFileAsync(existingBrand.Logo, cancellationToken);
-
-                existingBrand.Logo = null;
-            }
-
-            return existingBrand;
-        }
-        else
-        {
-            var newBrand = new Brand
-            {
-                Name = brandReq.Name,
-                Description = brandReq.Description,
-                Merchant = merchant
-            };
-
-            if (brandReq.Logo != null && brandReq.Logo.Length > 0)
-            {
-                newBrand.Logo = await _storageService.SaveFileAsync(brandReq.Logo, cancellationToken);
-            }
-
-            return newBrand;
-        }
     }
 }

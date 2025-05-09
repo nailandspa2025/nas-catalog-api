@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250509125812_UpdateBrand")]
+    partial class UpdateBrand
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,6 +110,15 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("Deleted")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -662,6 +674,8 @@ namespace Catalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrandId");
+
                     b.HasIndex("MerchantId");
 
                     b.ToTable("Store");
@@ -815,10 +829,17 @@ namespace Catalog.Infrastructure.Migrations
 
             modelBuilder.Entity("Catalog.Domain.Entities.Store", b =>
                 {
+                    b.HasOne("Catalog.Domain.Entities.Brand", "Brand")
+                        .WithMany("Stores")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Catalog.Domain.Entities.Merchant", "Merchant")
                         .WithMany("Stores")
                         .HasForeignKey("MerchantId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Brand");
 
                     b.Navigation("Merchant");
                 });
@@ -845,6 +866,11 @@ namespace Catalog.Infrastructure.Migrations
             modelBuilder.Entity("Catalog.Domain.Entities.Banner", b =>
                 {
                     b.Navigation("ImageGallerys");
+                });
+
+            modelBuilder.Entity("Catalog.Domain.Entities.Brand", b =>
+                {
+                    b.Navigation("Stores");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Calendar", b =>

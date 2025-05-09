@@ -135,7 +135,6 @@ public class CreateMerchantCommandHandler : IRequestHandler<CreateMerchantComman
                 var brand = new Brand
                 {
                     Name = brandRequest.Name,
-                    Description = brandRequest.Description,
                     Merchant = entity
                 };
                 if (brandRequest.Logo != null && brandRequest.Logo.Length > 0)
