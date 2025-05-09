@@ -68,7 +68,7 @@ public class GetMerchantsWithPaginationQueryHandler : IRequestHandler<GetMerchan
         }
         if (request.ServiePakages != null && request.ServiePakages.Any())
         {
-            query = query.Where(m => request.ServiePakages.Contains(m.ServicePackageId));
+            query = query.Where(m => request.ServiePakages.Contains(m.ServicePackageId.Value));
         }
         var paginationResult = await query
             .OrderBy(x => x.Created)

@@ -24,7 +24,7 @@ public record UpdateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
 
     public string? ContractNumber { get; init; }
 
-    public DateTime? ContractDate { get; set; }
+    public DateTime? ContractDate { get; init; }
 
     public TimeSpan StartTime { get; init; }
 
@@ -50,7 +50,7 @@ public record UpdateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
 
     public bool IsLogo { get; init; }
 
-    public int ServicePackageId { get; init; }
+    public int? ServicePackageId { get; init; } = null;
 
     public bool IsActive { get; init; }
 
@@ -59,6 +59,12 @@ public record UpdateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
     public List<UpdateBrandModel>? Brands { get; init; } = new List<UpdateBrandModel>();
 
     public List<string> LinkUrls { get; init; } = new List<string>();
+
+    public List<int> WeekdayOffs { get; set; } = new List<int>();
+
+    public DateTime? DeploymentDate { get; init; }
+
+    public string? ContactPhoneNumber { get; init; }
 }
 
 public record UpdateBrandModel
@@ -92,6 +98,7 @@ public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantComman
         var entity = await _context.Merchant
            .Include(x => x.MerchantContractImages)
            .Include(x => x.Brands)
+           .Include(x => x.MerchantWeekdayOffs)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
@@ -115,6 +122,8 @@ public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantComman
         entity.PhoneNumber = request.PhoneNumber;
         entity.IsActive = request.IsActive;
         entity.ServicePackageId = request.ServicePackageId;
+        entity.DeploymentDate = request.DeploymentDate;
+        entity.ContactPhoneNumber = request.ContactPhoneNumber;
 
         if (request.Logo != null && request.Logo.Length > 0)
         {
@@ -149,6 +158,14 @@ public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantComman
             Url = url
         }).ToList()
         );
+        if (request.WeekdayOffs.Any())
+        {
+            var weekdayOffs = request.WeekdayOffs.Select(p => new MerchantWeekdayOff
+            {
+                WeekdayOff = p
+            }).ToList();
+            entity.SetWeekdayOffs(weekdayOffs);
+        }
         if (request.Brands != null && request.Brands.Any())
         {
             var brands = new List<Brand>();

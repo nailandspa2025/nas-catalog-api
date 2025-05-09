@@ -16,13 +16,13 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
 
     public DateTime? ContractDate { get; set; }
 
-    public DateTime? DeploymentDate { get; init; }
+    public DateTime? DeploymentDate { get; set; }
 
     public TimeSpan StartTime { get; set; }
 
     public TimeSpan EndTime { get; set; }
 
-    public MerchantType Type { get; set; }
+    public MerchantType? Type { get; set; }
 
     public string? ZaloOA { get; set; }
 
@@ -44,7 +44,7 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
 
     public string? ContactPhoneNumber { get; set; }
 
-    public WeekdayOffMerchant WeekdayOff { get; set; }
+    public virtual ICollection<MerchantWeekdayOff> MerchantWeekdayOffs { get; set; } = new List<MerchantWeekdayOff>();
 
     public virtual ICollection<MerchantContractImage> MerchantContractImages { get; set; } = new List<MerchantContractImage>();
 
@@ -52,7 +52,7 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
 
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
 
-    public int ServicePackageId { get; set; }
+    public int? ServicePackageId { get; set; }
 
     public virtual ServicePackage? ServicePackage { get; set; }
 
@@ -61,7 +61,6 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
     public DateTime? Deleted { get; set; }
 
     public bool IsDeleted { get; set; }
-
 
     public void SetContractImages(List<MerchantContractImage> contractImages)
     {
@@ -73,6 +72,12 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
     {
         this.Brands.Clear();
         this.Brands = brands;
+    }
+
+    public void SetWeekdayOffs(List<MerchantWeekdayOff> weekdayOffs)
+    {
+        this.MerchantWeekdayOffs.Clear();
+        this.MerchantWeekdayOffs = weekdayOffs;
     }
 }
 

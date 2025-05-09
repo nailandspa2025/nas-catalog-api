@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250509044634_MerchantWeekdayOff")]
+    partial class MerchantWeekdayOff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,7 +428,7 @@ namespace Catalog.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("ServicePackageId")
+                    b.Property<int>("ServicePackageId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ShortName")
@@ -438,7 +441,7 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<string>("TaxCode")
                         .HasColumnType("text");
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("integer");
 
                     b.Property<string>("Website")
@@ -793,7 +796,9 @@ namespace Catalog.Infrastructure.Migrations
                 {
                     b.HasOne("Catalog.Domain.Entities.ServicePackage", "ServicePackage")
                         .WithOne("Merchant")
-                        .HasForeignKey("Catalog.Domain.Entities.Merchant", "ServicePackageId");
+                        .HasForeignKey("Catalog.Domain.Entities.Merchant", "ServicePackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ServicePackage");
                 });

@@ -20,13 +20,13 @@ public record CreateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
 
     public string? ContractNumber { get; init; }
 
-    public DateTime? ContractDate { get; set; }
+    public DateTime? ContractDate { get; init; }
 
     public TimeSpan StartTime { get; init; }
 
     public TimeSpan EndTime { get; init; }
 
-    public MerchantType Type { get; init; }
+    public MerchantType Type { get; init; } = MerchantType.None;
 
     public string? ZaloOA { get; init; }
 
@@ -44,13 +44,19 @@ public record CreateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
 
     public IFormFile? Logo { get; init; }
 
-    public int ServicePackageId { get; init; }
+    public int? ServicePackageId { get; init; } = null;
 
     public bool IsActive { get; init; }
+
+    public string? ContactPhoneNumber { get; init; }
+
+    public List<int> WeekdayOffs { get; init; } = new List<int>();
 
     public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 
     public List<CreateBrandModel>? Brands { get; init; } = new List<CreateBrandModel>();
+
+    public DateTime? DeploymentDate { get; init; }
 }
 
 public record CreateBrandModel
@@ -95,12 +101,22 @@ public class CreateMerchantCommandHandler : IRequestHandler<CreateMerchantComman
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
             ServicePackageId = request.ServicePackageId,
-            IsActive = request.IsActive
+            IsActive = request.IsActive,
+            ContactPhoneNumber = request.ContactPhoneNumber,
+            DeploymentDate = request.DeploymentDate
         };
         if (request.Logo != null && request.Logo.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Logo, cancellationToken);
             entity.Logo = imageUrl;
+        }
+        if (request.WeekdayOffs.Any())
+        {
+            var weekdayOffs = request.WeekdayOffs.Select(p => new MerchantWeekdayOff
+            {
+                WeekdayOff = p
+            }).ToList();
+            entity.SetWeekdayOffs(weekdayOffs);
         }
         if (request.Images.Any())
         {

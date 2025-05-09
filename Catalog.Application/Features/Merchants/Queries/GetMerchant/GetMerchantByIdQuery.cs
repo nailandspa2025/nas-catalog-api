@@ -30,10 +30,11 @@ public class GetMerchantByIdQueryHandler : IRequestHandler<GetMerchantByIdQuery,
             .AsNoTracking()
             .Include(x => x.MerchantContractImages)
             .Include(x => x.Brands)
+            .Include(x => x.MerchantWeekdayOffs)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Store), request.Id);
+            throw new NotFoundException(nameof(Merchant), request.Id);
         }
 
         return ApiResponse<MerchantDto>.Success(_mapper.Map<MerchantDto>(entity));

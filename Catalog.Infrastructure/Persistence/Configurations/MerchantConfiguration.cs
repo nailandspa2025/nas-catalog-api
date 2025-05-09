@@ -62,6 +62,8 @@ public class MerchantConfiguration: IEntityTypeConfiguration<Merchant>
 
         builder.HasOne(x => x.ServicePackage)
             .WithOne(x => x.Merchant)
-            .HasForeignKey<Merchant>(x => x.ServicePackageId);
+            .HasForeignKey<Merchant>(x => x.ServicePackageId)
+            .IsRequired(false);
+        ;
     }
 }
