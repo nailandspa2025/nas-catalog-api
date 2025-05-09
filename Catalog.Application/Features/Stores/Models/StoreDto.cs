@@ -40,6 +40,10 @@ namespace Catalog.Application.Features.Stores.Models
 
         public bool IsFavorite { get; set; }
 
+        public int? MerchantId { get; set; } 
+
+        public int? BrandId { get; set; }
+
         private class Mapping : Profile
         {
             public Mapping()

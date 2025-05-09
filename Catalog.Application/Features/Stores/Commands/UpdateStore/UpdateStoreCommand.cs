@@ -46,6 +46,10 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public bool IsAvatar { get; set; }
 
     public List<string> UserIds { get; init; } = new List<string>();
+
+    public int? MerchantId { get; init; } = null;
+
+    public int? BrandId { get; init; } = null;
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -82,8 +86,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.OpenTime = request.OpenTime;
         entity.CloseTime = request.CloseTime;
         entity.GoogleReviewLink = request.GoogleReviewLink;
-        //entity.OwnerId = request.OwnerId;
-
+        entity.MerchantId = request.MerchantId;
+        entity.BrandId = request.BrandId;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

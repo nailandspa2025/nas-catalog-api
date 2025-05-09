@@ -39,6 +39,10 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public List<long> PrductIds { get; init; } = new List<long>();
 
     public List<string> UserIds { get; init; } = new List<string>();
+
+    public int? MerchantId { get; init; } = null;
+
+    public int? BrandId { get; init; } = null;
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -67,7 +71,8 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             OpenTime = request.OpenTime,
             CloseTime = request.CloseTime,
             GoogleReviewLink = request.GoogleReviewLink,
-            //OwnerId = request.OwnerId
+            MerchantId = request.MerchantId,
+            BrandId = request.BrandId
 
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
