@@ -65,6 +65,7 @@ public class UpdateCalendarCommandHandler : IRequestHandler<UpdateCalendarComman
             entity.StoreId = request.StoreId;
             entity.TechnicianId = request.TechnicianId;
             entity.CalendarTypeId = request.CalendarTypeId;
+            entity.CalendarOverrides?.ToList().ForEach(x => x.IsDeleted = false);
         }
         else
         {

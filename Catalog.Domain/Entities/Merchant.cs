@@ -56,6 +56,8 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
 
     public virtual ServicePackage? ServicePackage { get; set; }
 
+    public virtual Reward ? Reward { get; set; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }

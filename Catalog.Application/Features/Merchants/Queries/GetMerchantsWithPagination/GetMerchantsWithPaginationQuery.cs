@@ -12,11 +12,11 @@ namespace Catalog.Application.Features.Merchants.Queries.GetMerchantsWithPaginat
 
 public record GetMerchantsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<MerchantDto>>>
 {
-    public int PageNumber { get; set; } = 1;
+    public int PageNumber { get; init; } = 1;
 
-    public int PageSize { get; set; } = 10;
+    public int PageSize { get; init; } = 10;
 
-    public string? SearchText { get; set; }
+    public string? SearchText { get; init; }
 
     public bool? IsActive { get; init; }
 

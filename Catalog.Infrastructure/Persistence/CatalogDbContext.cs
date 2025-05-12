@@ -37,6 +37,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<ServicePackage> ServicePackage =>Set<ServicePackage>();
 
+    public DbSet<Reward> Reward => Set<Reward>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

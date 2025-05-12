@@ -46,7 +46,7 @@ public class CreateCalendarCommandHandler : IRequestHandler<CreateCalendarComman
         {
             Title = request.Title,
             Description = request.Description,
-            WorkDate = request.WorkDate,
+            WorkDate = request.WorkDate.Date,
             WorkStartTime = request.WorkStartTime,
             WorkEndTime = request.WorkEndTime,
             StoreId = request.StoreId,

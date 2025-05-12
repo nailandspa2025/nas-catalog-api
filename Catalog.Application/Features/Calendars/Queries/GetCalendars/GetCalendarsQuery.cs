@@ -56,7 +56,6 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
             query = query.Where(c => c.TechnicianId == request.TechnicianId.Value);
         }
         var calendarList = await query.ToListAsync(cancellationToken);
-        // Mở rộng lịch theo kiểu lặp (recurrence)
         var calendars = calendarList
             .SelectMany(c => ExpandRecurrence(c, startDate, endDate))
             .Where(c => c.WorkDate >= startDate && c.WorkDate <= endDate)
@@ -102,10 +101,6 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
                 {
                     occurrences.Add(ToDto(calendar, workDateOverride: current));
                 }
-                //var dto = _mapper.Map<CalendarDto>(calendar);
-                //dto.Id = Guid.NewGuid();
-                //dto.WorkDate = current;
-                //occurrences.Add(dto);
             }
 
             current = calendar.Recurrence switch
@@ -133,6 +128,8 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
             dto.Description = overrideEntry.Description;
             dto.WorkStartTime = overrideEntry.WorkStartTime;
             dto.WorkEndTime = overrideEntry.WorkEndTime;
+            dto.TechnicianId = overrideEntry.TechnicianId;
+            dto.StoreId = overrideEntry.StoreId;
         }
         return dto;
     }

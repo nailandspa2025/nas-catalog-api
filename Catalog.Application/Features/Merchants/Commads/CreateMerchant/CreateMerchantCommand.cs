@@ -82,6 +82,7 @@ public class CreateMerchantCommandHandler : IRequestHandler<CreateMerchantComman
     }
 
     public async Task<ApiResponse<MerchantDto>> Handle(CreateMerchantCommand request, CancellationToken cancellationToken)
+
     {
         var entity = new Merchant
         {
@@ -144,8 +145,6 @@ public class CreateMerchantCommandHandler : IRequestHandler<CreateMerchantComman
                 }
                 brands.Add(brand);
             }
-
-            entity.SetBrands(brands);
         }
         _context.Merchant.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

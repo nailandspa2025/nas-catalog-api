@@ -28,5 +28,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<Brand> Brand { get; }
 
     DbSet<ServicePackage> ServicePackage { get; }
+
+    DbSet<Reward> Reward { get; }
 }
 

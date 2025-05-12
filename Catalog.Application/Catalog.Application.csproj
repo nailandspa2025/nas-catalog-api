@@ -77,6 +77,16 @@
     <None Remove="Features\Merchants\Queries\GetMerchant\" />
     <None Remove="Features\Merchants\Queries\GetMerchants\" />
     <None Remove="Features\Merchants\Queries\GetMerchantsWithPagination\" />
+    <None Remove="Features\Rewards\" />
+    <None Remove="Features\Rewards\Commands\" />
+    <None Remove="Features\Rewards\Models\" />
+    <None Remove="Features\Rewards\Queries\" />
+    <None Remove="Features\Rewards\Commands\UpdateReward\" />
+    <None Remove="Features\Rewards\Commands\DeleteReward\" />
+    <None Remove="Features\Rewards\Commands\CreateReward\" />
+    <None Remove="Features\Rewards\Queries\GetReward\" />
+    <None Remove="Features\Rewards\Queries\GetRewards\" />
+    <None Remove="Features\Rewards\Queries\GetRewardsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -144,6 +154,16 @@
     <Folder Include="Features\Merchants\Queries\GetMerchant\" />
     <Folder Include="Features\Merchants\Queries\GetMerchants\" />
     <Folder Include="Features\Merchants\Queries\GetMerchantsWithPagination\" />
+    <Folder Include="Features\Rewards\" />
+    <Folder Include="Features\Rewards\Commands\" />
+    <Folder Include="Features\Rewards\Models\" />
+    <Folder Include="Features\Rewards\Queries\" />
+    <Folder Include="Features\Rewards\Commands\UpdateReward\" />
+    <Folder Include="Features\Rewards\Commands\DeleteReward\" />
+    <Folder Include="Features\Rewards\Commands\CreateReward\" />
+    <Folder Include="Features\Rewards\Queries\GetReward\" />
+    <Folder Include="Features\Rewards\Queries\GetRewards\" />
+    <Folder Include="Features\Rewards\Queries\GetRewardsWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

@@ -13,11 +13,11 @@ namespace Catalog.Application.Features.Produts.Queries.GetProductsWithPagination
 
 public record GetProductsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<ProductDto>>>
 {
-    public int PageNumber { get; set; } = 1;
+    public int PageNumber { get; init; } = 1;
 
-    public int PageSize { get; set; } = 10;
+    public int PageSize { get; init; } = 10;
 
-    public string? SearchText { get; set; }
+    public string? SearchText { get; init; }
     
 }
 

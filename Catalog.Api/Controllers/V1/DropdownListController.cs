@@ -11,6 +11,10 @@ using Catalog.Application.Features.Produts.Models;
 using Catalog.Application.Features.Produts.Queries.GetProduct;
 using Catalog.Application.Features.Produts.Queries.GetProducts;
 using Catalog.Application.Features.Produts.Queries.GetProductsWithPagination;
+using Catalog.Application.Features.Rewards.Models;
+using Catalog.Application.Features.Rewards.Queries.GetReward;
+using Catalog.Application.Features.Rewards.Queries.GetRewards;
+using Catalog.Application.Features.Rewards.Queries.GetRewardsWithPagination;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
@@ -111,5 +115,26 @@ public class DropdownListController : ApiControllerBase
     public async Task<ActionResult<ApiResponse<MerchantDto>>> GetMerchantByIdAsync(int id)
     {
         return await Mediator.Send(new GetMerchantByIdQuery { Id = id });
+    }
+
+    [HttpGet("rewards")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<RewardDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<PaginatedList<RewardDto>>>> GetRewardsAsync([FromQuery] GetRewardsWithPaginationQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
+    [HttpGet("reward-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<RewardDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<RewardDto>>>> GetRewardByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetRewardByIdsQuery { Ids = ids });
+    }
+
+    [HttpGet("rewards/{id}")]
+    [ProducesResponseType(typeof(ApiResponse<RewardDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<RewardDto>>> GetRewardByIdAsync(int id)
+    {
+        return await Mediator.Send(new GetRewardByIdQuery { Id = id });
     }
 }
