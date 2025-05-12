@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
@@ -17,15 +16,15 @@ public record UpdateRewardCommand: IRequest<ApiResponse<RewardDto>>
 
     public string Name { get; init; } = null!;
 
-    public RewardType RewardType { get; init; }
+    public RewardType RewardType { get; init; } = RewardType.Booking;
 
-    public ConversionType ConversionType { get; init; }
+    public ConversionType ConversionType { get; init; } = ConversionType.ConvertToMoney;
 
-    public double Points { get; init; }
+    public double Point { get; init; }
 
     public decimal Cash { get; init; }
 
-    public RewardStatus Status { get; init; }
+    public RewardStatus Status { get; init; } = RewardStatus.Approved;
 
     public int MerchantId { get; init; }
 }
@@ -52,6 +51,12 @@ public class UpdateRewardCommandHandler : IRequestHandler<UpdateRewardCommand, A
         }
         entity.Name = request.Name;
         entity.RewardType = request.RewardType;
+        entity.Point = request.Point;
+        entity.Cash = request.Cash;
+        entity.MerchantId = request.MerchantId;
+        entity.Status = request.Status;
+
+        await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<RewardDto>.Success(_mapper.Map<RewardDto>(entity));
     }

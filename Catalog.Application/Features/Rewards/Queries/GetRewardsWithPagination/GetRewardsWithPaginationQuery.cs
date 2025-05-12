@@ -5,6 +5,7 @@ using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Rewards.Models;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,8 @@ public record GetRewardsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<
     public string? SearchText { get; init; }
 
     public int? MerchantId { get; init; }
+
+    public RewardStatus? Status { get; init; }
 }
 
 public class GetRewardsWithPaginationQueryHandler : IRequestHandler<GetRewardsWithPaginationQuery, ApiResponse<PaginatedList<RewardDto>>>
@@ -44,6 +47,10 @@ public class GetRewardsWithPaginationQueryHandler : IRequestHandler<GetRewardsWi
         if(request.MerchantId.HasValue)
         {
             query = query.Where(x => x.MerchantId == request.MerchantId.Value);
+        }
+        if (request.Status.HasValue)
+        {
+            query = query.Where(x => x.Status == request.Status.Value);
         }
         var paginationResult = await query
             .OrderBy(x => x.Created)

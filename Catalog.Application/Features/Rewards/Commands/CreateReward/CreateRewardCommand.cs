@@ -15,7 +15,7 @@ public record CreateRewardCommand: IRequest<ApiResponse<RewardDto>>
 
     public ConversionType ConversionType { get; init; }
 
-    public double Points { get; init; }
+    public double Point { get; init; }
 
     public decimal Cash { get; init; }
 
@@ -42,7 +42,7 @@ public class CreateRewardCommandHandler : IRequestHandler<CreateRewardCommand, A
             Name = request.Name,
             RewardType = request.RewardType,
             ConversionType = request.ConversionType,
-            Points = request.Points,
+            Point = request.Point,
             MerchantId = request.MerchantId,
             Status = request.Status
         };

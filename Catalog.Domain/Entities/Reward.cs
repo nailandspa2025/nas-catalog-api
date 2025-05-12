@@ -12,7 +12,7 @@ public class Reward: BaseAuditableEntity<int>, ISoftDelete
 
     public ConversionType? ConversionType { get; set; }
 
-    public double Points { get; set; }
+    public double Point { get; set; }
 
     public decimal Cash { get; set; }
 

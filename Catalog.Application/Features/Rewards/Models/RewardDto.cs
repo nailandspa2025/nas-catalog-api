@@ -7,13 +7,15 @@ namespace Catalog.Application.Features.Rewards.Models;
 
 public class RewardDto: BaseAuditableDto<int>
 {
+    public int Id { get; set; }
+
     public string Name { get; set; } = null!;
 
-    public RewardType RewardType { get; set; }
+    public RewardType? RewardType { get; set; }
 
-    public ConversionType ConversionType { get; set; }
+    public ConversionType? ConversionType { get; set; }
 
-    public double Points { get; set; }
+    public double Point { get; set; }
 
     public decimal Cash { get; set; }
 
