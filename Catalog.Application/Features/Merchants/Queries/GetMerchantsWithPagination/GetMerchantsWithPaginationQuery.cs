@@ -46,11 +46,12 @@ public class GetMerchantsWithPaginationQueryHandler : IRequestHandler<GetMerchan
         var query = _context.Merchant.Where(x => !x.IsDeleted).AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Name)
-            || paramSearchText.Contains(s.Email)
-            || paramSearchText.Contains(s.PhoneNumber)
-            || paramSearchText.Contains(s.TaxCode)
-            || paramSearchText.Contains(s.ContractNumber)
+            query = query.Where(s =>
+                s.Name.ToUpper().Contains(paramSearchText)
+                || s.PhoneNumber.ToUpper().Contains(paramSearchText)
+                || s.Email.ToUpper().Contains(paramSearchText)
+                || s.TaxCode.ToUpper().Contains(paramSearchText)
+                || s.ContractNumber.ToUpper().Contains(paramSearchText)
             );
         }
         if(request.IsActive.HasValue)
