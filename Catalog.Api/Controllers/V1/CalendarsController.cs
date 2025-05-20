@@ -3,6 +3,7 @@ using Catalog.Application.Features.Calendars.Commands.CreateCalendar;
 using Catalog.Application.Features.Calendars.Commands.DeleteCalendar;
 using Catalog.Application.Features.Calendars.Commands.UpdateCaledar;
 using Catalog.Application.Features.Calendars.Models;
+using Catalog.Application.Features.Calendars.Queries.GetCalendar;
 using Catalog.Application.Features.Calendars.Queries.GetCalendars;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +55,13 @@ public class CalendarsController: ApiControllerBase
             return BadRequest();
         }
         return await Mediator.Send(command);
+    }
+
+    [HttpGet("mobile/workingtime-technician")]
+    [ProducesResponseType(typeof(ApiResponse<WorkingTimeDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<WorkingTimeDto>>>> GetWorkingTimeForMobileAsync([FromQuery] GetWorkingTimeTechnicianByStoreIdQuery query)
+    {
+        return await Mediator.Send(query);
     }
 }
 
