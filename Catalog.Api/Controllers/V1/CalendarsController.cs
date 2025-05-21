@@ -59,7 +59,7 @@ public class CalendarsController: ApiControllerBase
 
     [HttpGet("mobile/workingtime-technician")]
     [ProducesResponseType(typeof(ApiResponse<WorkingTimeDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<IEnumerable<WorkingTimeDto>>>> GetWorkingTimeForMobileAsync([FromQuery] GetWorkingTimeTechnicianByStoreIdQuery query)
+    public async Task<ActionResult<ApiResponse<WorkingTimeDto>>> GetWorkingTimeForMobileAsync([FromQuery] GetWorkingTimeTechnicianByStoreIdQuery query)
     {
         return await Mediator.Send(query);
     }

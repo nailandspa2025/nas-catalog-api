@@ -15,6 +15,8 @@ public class WorkingTimeDto
 
     public TimeSpan WorkEndTime { get; set; }
 
+    public List<string> AvailableSlots { get; set; }
+
     private class Mapping : Profile
     {
         public Mapping ()

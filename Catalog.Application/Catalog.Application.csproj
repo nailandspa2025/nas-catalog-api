@@ -11,6 +11,7 @@
     <ProjectReference Include="..\BuildingBlocks\Authentication\Authentication.csproj" />
     <ProjectReference Include="..\BuildingBlocks\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\Catalog.Domain\Catalog.Domain.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\ApiClients\ApiClients.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Common\" />

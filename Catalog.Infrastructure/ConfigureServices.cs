@@ -6,6 +6,10 @@ using BuildingBlocks.Persistence;
 using BuildingBlocks.Persistence.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BuildingBlocks.ApiClients;
+using BuildingBlocks.ApiClients.Clients.Order;
+using BuildingBlocks.ApiClients.Extensions;
+using Refit;
 
 namespace Catalog.Infrastructure;
 
@@ -27,7 +31,13 @@ public static class ConfigureServices
 
         services.AddTransient<IDateTime, DateTimeService>();
 
+        services.AddScoped<AuthorizationMessageHandler>();
+        services.AddRefitClient<IOrderClient>()
+               .ConfigureHttpClient((sp, client) => client.BaseAddress = configuration
+                                                                       .GetSection("MicroserviceUri")
+                                                                       .GetValue<Uri>("OrderAddress"))
+                .AddHttpMessageHandler<AuthorizationMessageHandler>();
+
         return services;
     }
 }
-
