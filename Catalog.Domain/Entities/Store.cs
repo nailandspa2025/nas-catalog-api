@@ -49,6 +49,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public int? BrandId { get; set; }
 
+    public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
+
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

@@ -30,5 +30,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<ServicePackage> ServicePackage { get; }
 
     DbSet<Reward> Reward { get; }
+
+    DbSet<ReviewStore> ReviewStore { get; }
 }
 

@@ -39,6 +39,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<Reward> Reward => Set<Reward>();
 
+    public DbSet<ReviewStore> ReviewStore =>Set<ReviewStore>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
