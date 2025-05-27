@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ReviewStores.Models;
@@ -32,11 +33,13 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
 
-    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper)
+    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
     {
         _context = context;
         _mapper = mapper;
+        _currentUser = currentUser;
     }
 
     public async Task<ApiResponse<ReviewStoreDto>> Handle(CreateReviewStoreCommand request, CancellationToken cancellationToken)
@@ -51,7 +54,8 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
             ServiceId = request.ServiceId,
             ServiceRating = request.ServiceRating,
             Content = request.Content,
-            IsActive = request.IsActive
+            IsActive = request.IsActive,
+            AccountId = int.TryParse(_currentUser.UserId, out var id) ? id : 0,
         };
         _context.ReviewStore.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

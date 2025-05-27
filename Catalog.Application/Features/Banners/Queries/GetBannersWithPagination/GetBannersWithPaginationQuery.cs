@@ -38,7 +38,8 @@ public class GetBannersWithPaginationQueryHandler : IRequestHandler<GetBannersWi
         var query = _context.Banner.AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Title));
+            var lowerSearch = request.SearchText.ToLower();
+            query = query.Where(s => s.Title.ToLower().Contains(lowerSearch));
         }
         if (request.IsMobile)
         {

@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.ApiClients.Clients.Users.Models;
+﻿namespace BuildingBlocks.ApiClients.Clients.Identity.Models;
 
 public class UserDto
 {

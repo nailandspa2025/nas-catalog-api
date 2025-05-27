@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;

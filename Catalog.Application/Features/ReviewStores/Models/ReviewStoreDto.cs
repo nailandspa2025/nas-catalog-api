@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BuildingBlocks.ApiClients.Clients.Identity.Models;
 using BuildingBlocks.Persistence.Models;
 using Catalog.Domain.Entities;
 
@@ -25,6 +26,10 @@ public class ReviewStoreDto: BaseAuditableDto
     public string? Content { get; set; }
 
     public bool IsActive { get; set; }
+
+    public int  AccountId { get; set; }
+
+    public AppAccountDto?  AccountInfo { get; set; }
 
     private class Mapping : Profile
     {

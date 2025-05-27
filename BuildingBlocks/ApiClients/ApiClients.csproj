@@ -10,20 +10,20 @@
   <ItemGroup>
     <None Remove="Clients\" />
     <None Remove="Extensions\" />
-    <None Remove="Clients\Users\" />
     <None Remove="Clients\Users\Models\" />
     <None Remove="Clients\Order\" />
     <None Remove="Clients\Order\Booking\" />
     <None Remove="Clients\Order\Booking\Models\" />
+    <None Remove="Clients\Identity\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Clients\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Clients\Users\" />
     <Folder Include="Clients\Users\Models\" />
     <Folder Include="Clients\Order\" />
     <Folder Include="Clients\Order\Booking\" />
     <Folder Include="Clients\Order\Booking\Models\" />
+    <Folder Include="Clients\Identity\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

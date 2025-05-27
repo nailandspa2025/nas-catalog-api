@@ -30,5 +30,7 @@ public class ReviewStore : BaseAuditableEntity<int>, ISoftDelete
     public bool IsDeleted { get; set; }
 
     public Store Store { get; set; }
+
+    public int  AccountId { get; set; }
 }
 

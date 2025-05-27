@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BuildingBlocks.ApiClients.Clients.Identity;
+using BuildingBlocks.ApiClients.Clients.Identity.Models;
 using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
@@ -29,11 +31,13 @@ public class GetReviewStoresWithPaginationQueryHandler : IRequestHandler<GetRevi
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IIdentityClient _identityClient;
 
-    public GetReviewStoresWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper)
+    public GetReviewStoresWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper, IIdentityClient identityClient)
     {
         _context = context;
         _mapper = mapper;
+        _identityClient = identityClient;
     }
 
     public async Task<ApiResponse<PaginatedList<ReviewStoreDto>>> Handle(GetReviewStoresWithPaginationQuery request, CancellationToken cancellationToken)
@@ -43,7 +47,8 @@ public class GetReviewStoresWithPaginationQueryHandler : IRequestHandler<GetRevi
         var query = _context.ReviewStore.Where(s => !s.IsDeleted).AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Content));
+            var lowerSearch = request.SearchText.ToLower();
+            query = query.Where(s => s.Content.ToLower().Contains(lowerSearch));
         }
         if(request.StoreId.HasValue)
         {
@@ -61,7 +66,23 @@ public class GetReviewStoresWithPaginationQueryHandler : IRequestHandler<GetRevi
             .OrderBy(x => x.Created)
             .ProjectTo<ReviewStoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
-
+        try
+        {
+            var appAccountIds = paginationResult.Items.Select(s => s.AccountId).Distinct();
+            if (appAccountIds.Any())
+            {
+                var appAccounts = (await _identityClient.GetAppAccountByIdsAsync(string.Join(",", appAccountIds), cancellationToken))?.Data;
+                var appAccountDictionary = appAccounts?.ToDictionary(t => t.Id, t => t) ?? new Dictionary<int, AppAccountDto>();
+                foreach (var reviews in paginationResult.Items)
+                {
+                    if (appAccountDictionary.TryGetValue(reviews.AccountId, out var account))
+                    {
+                        reviews.AccountInfo = account;
+                    }
+                }
+            }
+        }
+        catch (Exception) { }
         return ApiResponse<PaginatedList<ReviewStoreDto>>.Success(paginationResult);
 
     }
