@@ -17,6 +17,9 @@ public class GetStoresWithPaginationQuery: IRequest<ApiResponse<PaginatedList<St
     public int PageSize { get; init; } = 10;
 
     public string? SearchText { get; init; }
+
+    public int ? Rating { get; init; }
+
 }
 
 public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWithPaginationQuery, ApiResponse<PaginatedList<StoreDto>>>
@@ -37,7 +40,12 @@ public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWith
         var query = _context.Store.AsNoTracking();
         if (!string.IsNullOrWhiteSpace(paramSearchText))
         {
-            query = query.Where(s => s.StoreName.ToUpper().Contains(paramSearchText) || s.AddressStore.ToUpper().Contains(paramSearchText));
+            query = query.Where(s => s.StoreName.ToUpper().Contains(paramSearchText)
+            || s.AddressStore.ToUpper().Contains(paramSearchText));
+        }
+        if(request.Rating.HasValue)
+        {
+            query = query.Where(s => s.RatingStar == request.Rating.Value);
         }
         var paginationResult = await query
             .Where(x => !x.IsDeleted)
