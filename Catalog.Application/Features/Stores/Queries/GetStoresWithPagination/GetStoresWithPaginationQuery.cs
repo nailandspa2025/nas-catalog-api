@@ -35,11 +35,10 @@ public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWith
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
 
         var query = _context.Store.AsNoTracking();
-        if (!paramSearchText.IsNullOrEmpty())
+        if (!string.IsNullOrWhiteSpace(paramSearchText))
         {
-            query = query.Where(s => paramSearchText.Contains(s.StoreName));
+            query = query.Where(s => s.StoreName.ToUpper().Contains(paramSearchText) || s.AddressStore.ToUpper().Contains(paramSearchText));
         }
-
         var paginationResult = await query
             .Where(x => !x.IsDeleted)
             .OrderBy(x => x.Created)
