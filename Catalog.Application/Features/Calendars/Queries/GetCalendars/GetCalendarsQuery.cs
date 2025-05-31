@@ -68,10 +68,14 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
     private List<CalendarDto> ExpandRecurrence(Calendar calendar, DateTime startDate, DateTime endDate)
     {
         var occurrences = new List<CalendarDto>();
-
+        //var overrides = calendar.CalendarOverrides?
+        //  .Where(o => !o.IsDeleted)
+        //  .ToDictionary(o => o.WorkDate.Date) ?? new Dictionary<DateTime, CalendarOverride>();
         var overrides = calendar.CalendarOverrides?
-          .Where(o => !o.IsDeleted)
-          .ToDictionary(o => o.WorkDate.Date) ?? new Dictionary<DateTime, CalendarOverride>();
+            .Where(o => !o.IsDeleted)
+            .GroupBy(o => o.WorkDate.Date)
+            .ToDictionary(g => g.Key, g => g.ToList())
+            ?? new Dictionary<DateTime, List<CalendarOverride>>();
 
         if (calendar.Recurrence == null || calendar.Recurrence == RecurrenceType.None)
         {
@@ -89,20 +93,24 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
         {
             if (current >= startDate)
             {
-                if (calendar.CalendarOverrides?.Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true)
+                var isDeleted = calendar.CalendarOverrides?
+                .Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true;
+                if (!isDeleted)
                 {
-                    // Skip this occurrence (marked as deleted)
-                }
-                else if (overrides.TryGetValue(current.Date, out var overrideEntry))
-                {
-                    occurrences.Add(ToDto(calendar, overrideEntry));
-                }
-                else
-                {
-                    occurrences.Add(ToDto(calendar, workDateOverride: current));
+                    if (overrides.TryGetValue(current.Date, out var overrideEntries))
+                    {
+                        // Nếu có nhiều override cùng ngày thì add tất cả
+                        foreach (var overrideEntry in overrideEntries)
+                        {
+                            occurrences.Add(ToDto(calendar, overrideEntry));
+                        }
+                    }
+                    else
+                    {
+                        occurrences.Add(ToDto(calendar, workDateOverride: current));
+                    }
                 }
             }
-
             current = calendar.Recurrence switch
             {
                 RecurrenceType.Daily => current.AddDays(interval),
