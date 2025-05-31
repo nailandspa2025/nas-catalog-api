@@ -93,8 +93,19 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
         {
             if (current >= startDate)
             {
-                var isDeleted = calendar.CalendarOverrides?
-                .Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true;
+                //if (calendar.CalendarOverrides?.Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true)
+                //{
+                //    // Skip this occurrence (marked as deleted)
+                //}
+                //else if (overrides.TryGetValue(current.Date, out var overrideEntry))
+                //{
+                //    occurrences.Add(ToDto(calendar, overrideEntry));
+                //}
+                //else
+                //{
+                //    occurrences.Add(ToDto(calendar, workDateOverride: current));
+                //}
+                var isDeleted = calendar.CalendarOverrides?.Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true;
                 if (!isDeleted)
                 {
                     if (overrides.TryGetValue(current.Date, out var overrideEntries))
@@ -111,6 +122,7 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
                     }
                 }
             }
+
             current = calendar.Recurrence switch
             {
                 RecurrenceType.Daily => current.AddDays(interval),
