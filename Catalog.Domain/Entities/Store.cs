@@ -19,6 +19,10 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public string?  Hotline { get; set; }
 
+    public string? Email { get; set; }
+
+    public string? Description { get; set; }
+
     public TimeSpan OpenTime { get; set; }
 
     public TimeSpan CloseTime { get; set; }

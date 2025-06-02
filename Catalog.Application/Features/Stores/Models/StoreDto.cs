@@ -14,6 +14,10 @@ namespace Catalog.Application.Features.Stores.Models
 
         public string? AddressStore { get; set; }
 
+        public string? Email { get; set; }
+
+        public string? Description { get; set; }
+
         public int RatingStar { get; set; }
 
         public double Lat { get; set; }

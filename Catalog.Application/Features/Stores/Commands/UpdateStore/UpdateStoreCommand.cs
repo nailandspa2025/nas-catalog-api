@@ -50,6 +50,10 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public int? MerchantId { get; init; } = null;
 
     public int? BrandId { get; init; } = null;
+
+    public string? Email { get; init; }
+
+    public string? Description { get; init; }
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -88,6 +92,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.GoogleReviewLink = request.GoogleReviewLink;
         entity.MerchantId = request.MerchantId;
         entity.BrandId = request.BrandId;
+        entity.Email = request.Email;
+        entity.Description = request.Description;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
