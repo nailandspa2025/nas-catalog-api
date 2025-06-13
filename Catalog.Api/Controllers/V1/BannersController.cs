@@ -5,6 +5,7 @@ using Catalog.Application.Features.Banners.Commands.UpdateBanner;
 using Catalog.Application.Features.Banners.Models;
 using Catalog.Application.Features.Banners.Queries.GetBanner;
 using Catalog.Application.Features.Banners.Queries.GetBannersWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -53,6 +54,7 @@ public class BannersController : ApiControllerBase
         return await Mediator.Send(new DeleteBannerCommand(id));
     }
 
+    [AllowAnonymous]
     [HttpGet("pagingation-mobile")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedList<BannerDto>>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<PaginatedList<BannerDto>>>> GetBannersMobileWithPaginationAsync([FromQuery] GetBannersWithPaginationQuery query)
