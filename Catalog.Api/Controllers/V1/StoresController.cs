@@ -7,6 +7,7 @@ using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1
@@ -21,6 +22,14 @@ namespace Catalog.Api.Controllers.V1
             return await Mediator.Send(query);
         }
 
+        [AllowAnonymous]
+        [HttpGet("mobile-pagingation")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetWithPaginationForMobileAsync([FromQuery] GetStoresWithPaginationQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+
         [HttpGet("merchant-pagingation")]
         [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetStoreForMerchantsWithPaginationAsync([FromQuery] GetStoreForMerchantsWithPaginationQuery query)
@@ -28,6 +37,7 @@ namespace Catalog.Api.Controllers.V1
             return await Mediator.Send(query);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<StoreDto>>> GetByIdAsync(long id)
