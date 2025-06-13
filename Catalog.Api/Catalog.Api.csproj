@@ -28,13 +28,11 @@
     <ProjectReference Include="..\BuildingBlocks\Authentication\Authentication.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\BuildingBlocks\CommonAuthorization\CommonAuthorization.csproj" />
     <ProjectReference Include="..\Catalog.Application\Catalog.Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
     <ProjectReference Include="..\Catalog.Infrastructure\Catalog.Infrastructure.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-    <ProjectReference Include="..\BuildingBlocks\CommonAuthorization\CommonAuthorization.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
