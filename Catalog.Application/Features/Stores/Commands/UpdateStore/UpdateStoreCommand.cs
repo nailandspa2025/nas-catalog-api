@@ -35,7 +35,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public string? GoogleReviewLink { get; set; }
 
-    //public string OwnerId { get; init; } = null!;
+    public string? DeepLink { get; set; }
 
     public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 
@@ -94,6 +94,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.BrandId = request.BrandId;
         entity.Email = request.Email;
         entity.Description = request.Description;
+        entity.DeepLink = request.DeepLink;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

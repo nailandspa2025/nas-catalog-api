@@ -31,6 +31,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public bool IsFavorite { get; set; }
 
+    public string ? DeepLink { get; set; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }

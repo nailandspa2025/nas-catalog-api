@@ -48,6 +48,7 @@ namespace Catalog.Application.Features.Stores.Models
 
         public int? BrandId { get; set; }
 
+        public string? DeepLink { get; set; }
         private class Mapping : Profile
         {
             public Mapping()
