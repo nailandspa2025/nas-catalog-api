@@ -40,11 +40,13 @@ public class UpdateServicePackageCommandHandler : IRequestHandler<UpdateServiceP
 
     public async Task<ApiResponse<ServicePackageDto>> Handle(UpdateServicePackageCommand request, CancellationToken cancellationToken)
     {
-        var entity = await _context.ServicePackage.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+        var entity = await _context.ServicePackage
+            .Include(x => x.Services)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Reward), request.Id);
+            throw new NotFoundException(nameof(ServicePackage), request.Id);
         }
         var serviceList = await _context.Service.Where(x => request.ServiceIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.Name = request.Name;
