@@ -41,6 +41,7 @@ public class GetRewardsWithPaginationQueryHandler : IRequestHandler<GetServicePa
         }
         
         var paginationResult = await query
+            .Include(x => x.Services)
             .OrderBy(x => x.Created)
             .ProjectTo<ServicePackageDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);

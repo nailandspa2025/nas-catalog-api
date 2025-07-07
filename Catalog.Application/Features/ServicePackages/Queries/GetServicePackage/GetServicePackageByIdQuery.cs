@@ -27,6 +27,7 @@ public class GetServicePackageByIdQueryHandler : IRequestHandler<GetServicePacka
     public async Task<ApiResponse<ServicePackageDto>> Handle(GetServicePackageByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _contexxt.ServicePackage
+            .Include(x =>x.Services)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if (entity == null)
