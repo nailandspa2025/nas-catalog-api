@@ -15,6 +15,10 @@ using Catalog.Application.Features.Rewards.Models;
 using Catalog.Application.Features.Rewards.Queries.GetReward;
 using Catalog.Application.Features.Rewards.Queries.GetRewards;
 using Catalog.Application.Features.Rewards.Queries.GetRewardsWithPagination;
+using Catalog.Application.Features.Services.Models;
+using Catalog.Application.Features.Services.Queries.GetService;
+using Catalog.Application.Features.Services.Queries.GetServices;
+using Catalog.Application.Features.Services.Queries.GetServicesWithPagination;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
@@ -136,5 +140,26 @@ public class DropdownListController : ApiControllerBase
     public async Task<ActionResult<ApiResponse<RewardDto>>> GetRewardByIdAsync(int id)
     {
         return await Mediator.Send(new GetRewardByIdQuery { Id = id });
+    }
+
+    [HttpGet("services")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<ServiceDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<PaginatedList<ServiceDto>>>> GetServicesAsync([FromQuery] GetServicesWithPaginationQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
+    [HttpGet("service-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<ServiceDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<ServiceDto>>>> GetServiceByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetServiceByIdsQuery { Ids = ids });
+    }
+
+    [HttpGet("service/{id}")]
+    [ProducesResponseType(typeof(ApiResponse<ServiceDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<ServiceDto>>> GetserviceByIdAsync(int id)
+    {
+        return await Mediator.Send(new GetServiceByIdQuery { Id = id });
     }
 }
