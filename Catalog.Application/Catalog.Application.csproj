@@ -69,9 +69,6 @@
     <None Remove="Features\Merchants\Commads\" />
     <None Remove="Features\Merchants\Models\" />
     <None Remove="Features\Merchants\Queries\" />
-    <None Remove="Features\ServicePackages\Commads\" />
-    <None Remove="Features\ServicePackages\Models\" />
-    <None Remove="Features\ServicePackages\Queries\" />
     <None Remove="Features\Merchants\Commads\CreateMerchant\" />
     <None Remove="Features\Merchants\Commads\UpdateMerchant\" />
     <None Remove="Features\Merchants\Commads\DeleteMerchant\" />
@@ -102,7 +99,6 @@
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
-    <Folder Include="Features\" />
     <Folder Include="Features\Stores\Commands\UpdateStore\" />
     <Folder Include="Features\Stores\Commands\DeleteStore\" />
     <Folder Include="Features\Stores\Queries\" />
@@ -152,13 +148,9 @@
     <Folder Include="Features\Calendars\Queries\GetCalendars\" />
     <Folder Include="Features\Calendars\Queries\GetCalendarsWithPagination\" />
     <Folder Include="Features\Merchants\" />
-    <Folder Include="Features\ServicePackages\" />
     <Folder Include="Features\Merchants\Commads\" />
     <Folder Include="Features\Merchants\Models\" />
     <Folder Include="Features\Merchants\Queries\" />
-    <Folder Include="Features\ServicePackages\Commads\" />
-    <Folder Include="Features\ServicePackages\Models\" />
-    <Folder Include="Features\ServicePackages\Queries\" />
     <Folder Include="Features\Merchants\Commads\CreateMerchant\" />
     <Folder Include="Features\Merchants\Commads\UpdateMerchant\" />
     <Folder Include="Features\Merchants\Commads\DeleteMerchant\" />

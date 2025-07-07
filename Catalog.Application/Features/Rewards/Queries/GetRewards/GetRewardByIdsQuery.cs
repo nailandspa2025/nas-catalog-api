@@ -27,7 +27,7 @@ public class GetRewardByIdsQueryHandler : IRequestHandler<GetRewardByIdsQuery, A
     {
         var ids = request.Ids.Split(",");
 
-        var rewards = await _context.Store
+        var rewards = await _context.Reward
             .AsNoTracking()
             .Where(x => ids.Contains(x.Id.ToString()))
             .ToListAsync(cancellationToken);

@@ -15,12 +15,13 @@ public class ServicePackage: BaseAuditableEntity<int>, ISoftDelete
 
     public int DurationDays { get; set; }
 
-    public Merchant? Merchant { get; set; }
-
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public virtual ICollection<Merchant> Merchants { get; set; } = new List<Merchant>();
+    public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
 }
 

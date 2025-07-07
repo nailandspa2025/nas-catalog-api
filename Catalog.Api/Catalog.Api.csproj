@@ -21,7 +21,6 @@
     <None Remove="Consumer\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\V1\" />
     <Folder Include="Consumer\" />
   </ItemGroup>
   <ItemGroup>

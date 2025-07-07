@@ -59,11 +59,5 @@ public class MerchantConfiguration: IEntityTypeConfiguration<Merchant>
             .HasForeignKey(bg => bg.MerchantId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
-
-        builder.HasOne(x => x.ServicePackage)
-            .WithOne(x => x.Merchant)
-            .HasForeignKey<Merchant>(x => x.ServicePackageId)
-            .IsRequired(false);
-        ;
     }
 }

@@ -1,0 +1,23 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Catalog.Infrastructure\\Catalog.Infrastructure.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Catalog.Api\\Catalog.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Catalog.Domain\\Catalog.Domain.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Catalog.Application\\Catalog.Application.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

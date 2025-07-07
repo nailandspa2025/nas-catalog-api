@@ -54,6 +54,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public Merchant? Merchant { get; set; }
 
     public int? BrandId { get; set; }
+    public int? ServicePackageId { get; set; }
+    public ServicePackage? ServicePackage { get; set; }
 
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
 
