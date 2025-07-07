@@ -22,6 +22,8 @@ public record UpdateServicePackageCommand : IRequest<ApiResponse<ServicePackageD
     public decimal Price { get; init; }
 
     public int DurationDays { get; init; }
+
+    public List<int> ServiceId { get; init; } = new List<int>();
 }
 
 
@@ -49,7 +51,8 @@ public class UpdateServicePackageCommandHandler : IRequestHandler<UpdateServiceP
         entity.Price = request.Price;
         entity.DurationDays = request.DurationDays;
         entity.IsActive = request.IsActive;
-
+        var serviceList = await _context.Service.Where(x => request.ServiceId.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
+        entity.SetServices(serviceList);
         await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<ServicePackageDto>.Success(_mapper.Map<ServicePackageDto>(entity));

@@ -23,5 +23,12 @@ public class ServicePackage: BaseAuditableEntity<int>, ISoftDelete
 
     public virtual ICollection<Merchant> Merchants { get; set; } = new List<Merchant>();
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
+    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
+
+    public void SetServices(List<Service> services)
+    {
+        this.Services.Clear();
+        this.Services = services;
+    }
 }
 

@@ -5,6 +5,7 @@ using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ServicePackages.Models;
 using Catalog.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.ServicePackages.Commands.CreateServicePackage;
 
@@ -19,6 +20,7 @@ public record CreateServicePackageCommand: IRequest<ApiResponse<ServicePackageDt
     public decimal Price { get; init; }
 
     public int DurationDays { get; init; }
+    public List<int> ServiceId { get; init; } = new List<int>();
 }
 
 public class CreateServicePackageCommandHandler : IRequestHandler<CreateServicePackageCommand, ApiResponse<ServicePackageDto>>
@@ -42,8 +44,9 @@ public class CreateServicePackageCommandHandler : IRequestHandler<CreateServiceP
             IsActive = request.IsActive,
             Price = request.Price,
             DurationDays = request.DurationDays,
-
         };
+        var serviceList = await _context.Service.Where(x => request.ServiceId.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
+        entity.SetServices(serviceList);
         _context.ServicePackage.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
