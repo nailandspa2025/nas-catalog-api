@@ -23,7 +23,7 @@ public record UpdateServicePackageCommand : IRequest<ApiResponse<ServicePackageD
 
     public int DurationDays { get; init; }
 
-    public List<int> ServiceId { get; init; } = new List<int>();
+    public List<int> ServiceIds { get; init; } = new List<int>();
 }
 
 
@@ -46,12 +46,12 @@ public class UpdateServicePackageCommandHandler : IRequestHandler<UpdateServiceP
         {
             throw new NotFoundException(nameof(Reward), request.Id);
         }
+        var serviceList = await _context.Service.Where(x => request.ServiceIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.Name = request.Name;
         entity.Description = request.Description;
         entity.Price = request.Price;
         entity.DurationDays = request.DurationDays;
         entity.IsActive = request.IsActive;
-        var serviceList = await _context.Service.Where(x => request.ServiceId.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.SetServices(serviceList);
         await _context.SaveChangesAsync(cancellationToken);
 

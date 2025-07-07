@@ -20,7 +20,7 @@ public record CreateServicePackageCommand: IRequest<ApiResponse<ServicePackageDt
     public decimal Price { get; init; }
 
     public int DurationDays { get; init; }
-    public List<int> ServiceId { get; init; } = new List<int>();
+    public List<int> ServiceIds { get; init; } = new List<int>();
 }
 
 public class CreateServicePackageCommandHandler : IRequestHandler<CreateServicePackageCommand, ApiResponse<ServicePackageDto>>
@@ -37,6 +37,7 @@ public class CreateServicePackageCommandHandler : IRequestHandler<CreateServiceP
     }
     public async Task<ApiResponse<ServicePackageDto>> Handle(CreateServicePackageCommand request, CancellationToken cancellationToken)
     {
+        var serviceList = await _context.Service.Where(x => request.ServiceIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         var entity = new ServicePackage
         {
             Name = request.Name,
@@ -45,7 +46,6 @@ public class CreateServicePackageCommandHandler : IRequestHandler<CreateServiceP
             Price = request.Price,
             DurationDays = request.DurationDays,
         };
-        var serviceList = await _context.Service.Where(x => request.ServiceId.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.SetServices(serviceList);
         _context.ServicePackage.Add(entity);
 
