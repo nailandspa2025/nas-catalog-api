@@ -47,6 +47,8 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public string? Email { get; init; }
 
     public string? Description { get; init; }
+
+    public int ServicePackageId { get; init; }
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -78,7 +80,8 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             MerchantId = request.MerchantId,
             BrandId = request.BrandId,
             Email = request.Email,
-            Description = request.Description
+            Description = request.Description,
+            ServicePackageId = request.ServicePackageId,
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

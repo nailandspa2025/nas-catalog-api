@@ -54,6 +54,8 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public string? Email { get; init; }
 
     public string? Description { get; init; }
+
+    public int ServicePackageId { get; init; }
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -95,6 +97,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.Email = request.Email;
         entity.Description = request.Description;
         entity.DeepLink = request.DeepLink;
+        entity.ServicePackageId = request.ServicePackageId;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
