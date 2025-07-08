@@ -35,6 +35,5 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<Service> Service { get; }
 
-    DbSet<Snap> Snap { get; }
 }
 
