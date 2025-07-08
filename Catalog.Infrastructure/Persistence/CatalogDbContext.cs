@@ -43,6 +43,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<Service> Service => Set<Service>();
 
+    public DbSet<Snap> Snap => Set<Snap>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -1,6 +1,4 @@
 using BuildingBlocks.Core.Response;
-using Catalog.Application.Features.ServicePackages.Models;
-using Catalog.Application.Features.ServicePackages.Queries.GetServicePackageByStore;
 using Catalog.Application.Features.Services.Commands.CreateService;
 using Catalog.Application.Features.Services.Commands.DeleteService;
 using Catalog.Application.Features.Services.Commands.UpdateService;
@@ -74,11 +72,10 @@ public class ServicesController : ApiControllerBase
         return await Mediator.Send(new GetServiceByIdsQuery { Ids = ids });
     }
 
-    [HttpGet("storeId")]
+    [HttpGet("store")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<ServiceDto>>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<IEnumerable<ServiceDto>>>> GetByStoreIdAsync(long storeId)
+    public async Task<ActionResult<ApiResponse<IEnumerable<ServiceDto>>>> GetByStoreIdAsync([FromQuery] GetServiceByStoreIdQuery query)
     {
-        return await Mediator.Send(new GetServiceByStoreIdQuery { StoreId = storeId });
+        return await Mediator.Send(query);
     }
-
 }

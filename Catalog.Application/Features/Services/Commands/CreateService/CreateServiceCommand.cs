@@ -11,10 +11,13 @@ namespace Catalog.Application.Features.Services.Commands.CreateService;
 
 public record CreateServiceCommand: IRequest<ApiResponse<ServiceDto>>
 {
-    public string Name { get; set; } = null!;
-    public string? Description { get; set; }
-    public string? Code { get; set; }
-    public IFormFile? Image { get; set; }
+    public string Name { get; init; } = null!;
+    public string? Description { get; init; }
+    public string? Code { get; init; }
+    public IFormFile? Image { get; init; }
+    public decimal? PriceFrom { get; init; }
+    public decimal? PriceTo { get; init; }
+    public int? Rating { get; init; }
 }
 
 public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, ApiResponse<ServiceDto>>
@@ -36,7 +39,9 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             Name = request.Name,
             Code = request.Code,
             Description = request.Description,
-
+            PriceFrom = request.PriceFrom,
+            PriceTo = request.PriceTo,
+            Rating = request.Rating,
         };
         if (request.Image != null)
         { 

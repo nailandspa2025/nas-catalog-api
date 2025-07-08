@@ -12,6 +12,9 @@ public class ServiceDto : BaseAuditableDto<int>
     public string? Code { get; set; }
     public string? Description { get; set; }
     public string UrlImage { get; set; }
+    public decimal? PriceFrom { get; set; }
+    public decimal? PriceTo { get; set; }
+    public int? Rating { get; set; }
     private class Mapping : Profile
     {
         public Mapping ()

@@ -34,5 +34,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<ReviewStore> ReviewStore { get; }
 
     DbSet<Service> Service { get; }
+
+    DbSet<Snap> Snap { get; }
 }
 
