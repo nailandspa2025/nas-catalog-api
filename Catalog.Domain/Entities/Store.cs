@@ -57,6 +57,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public int? ServicePackageId { get; set; }
     public ServicePackage? ServicePackage { get; set; }
 
+    public ICollection<BankAccount> bankAccounts { get; set; }  = new List<BankAccount>();
+
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
 
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
