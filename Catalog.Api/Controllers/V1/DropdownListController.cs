@@ -1,4 +1,8 @@
 using BuildingBlocks.Core.Response;
+using Catalog.Application.Features.BankAccounts.Models;
+using Catalog.Application.Features.BankAccounts.Queries.GetBankAccount;
+using Catalog.Application.Features.BankAccounts.Queries.GetBankAccounts;
+using Catalog.Application.Features.BankAccounts.Queries.GetBankAccountsWithPagination;
 using Catalog.Application.Features.CalendarTypes.Models;
 using Catalog.Application.Features.CalendarTypes.Queries.GetCalendarType;
 using Catalog.Application.Features.CalendarTypes.Queries.GetCalendarTypes;
@@ -158,8 +162,29 @@ public class DropdownListController : ApiControllerBase
 
     [HttpGet("service/{id}")]
     [ProducesResponseType(typeof(ApiResponse<ServiceDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<ServiceDto>>> GetserviceByIdAsync(int id)
+    public async Task<ActionResult<ApiResponse<ServiceDto>>> GetServiceByIdAsync(int id)
     {
         return await Mediator.Send(new GetServiceByIdQuery { Id = id });
+    }
+
+    [HttpGet("banks")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<BankAccountDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<PaginatedList<BankAccountDto>>>> GetBankAccountsAsync([FromQuery] GetBankAccountsWithPaginationQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
+    [HttpGet("bank-ids/{ids}")]
+    [ProducesResponseType(typeof(ApiResponse<BankAccountDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<BankAccountDto>>>> GebankaccountByIdsAsync(string ids)
+    {
+        return await Mediator.Send(new GetBankAccountByIdsQuery { Ids = ids });
+    }
+
+    [HttpGet("bank/{id}")]
+    [ProducesResponseType(typeof(ApiResponse<BankAccountDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<BankAccountDto>>> GetbankaccountByIdAsync(int id)
+    {
+        return await Mediator.Send(new GetBankAccountByIdQuery { Id = id });
     }
 }
