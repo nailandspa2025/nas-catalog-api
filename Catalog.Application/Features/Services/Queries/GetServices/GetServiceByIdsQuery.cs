@@ -26,7 +26,7 @@ public class GetServiceByIdsQueryHandler : IRequestHandler<GetServiceByIdsQuery,
     {
         var ids = request.Ids.Split(",");
 
-        var rewards = await _context.Store
+        var rewards = await _context.Service
             .AsNoTracking()
             .Where(x => ids.Contains(x.Id.ToString()))
             .ToListAsync(cancellationToken);
