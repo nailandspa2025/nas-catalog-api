@@ -4,8 +4,11 @@ using Catalog.Application.Features.BankAccounts.Commands.DeleteBankAccount;
 using Catalog.Application.Features.BankAccounts.Commands.UpdateBankAccount;
 using Catalog.Application.Features.BankAccounts.Models;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccount;
+using Catalog.Application.Features.BankAccounts.Queries.GetBankAccountByStore;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccounts;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccountsWithPagination;
+using Catalog.Application.Features.Services.Models;
+using Catalog.Application.Features.Services.Queries.GetServiceByStoreId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -60,5 +63,12 @@ public class BankAccountsController: ApiControllerBase
     public async Task<ActionResult<ApiResponse<IEnumerable<BankAccountDto>>>> GetByIdsAsync(string ids)
     {
         return await Mediator.Send(new GetBankAccountByIdsQuery { Ids = ids });
+    }
+
+    [HttpGet("store")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<BankAccountDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<BankAccountDto>>>> GetByStoreIdAsync([FromQuery] GetBankAccountByStoreIdQuery query)
+    {
+        return await Mediator.Send(query);
     }
 }

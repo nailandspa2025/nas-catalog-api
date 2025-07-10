@@ -16,17 +16,17 @@ public record GetServiceByStoreIdQuery: IRequest<ApiResponse<IEnumerable<Service
 
 public class GetServiceByStoreIdQueryHandler : IRequestHandler<GetServiceByStoreIdQuery, ApiResponse<IEnumerable<ServiceDto>>>
 {
-    private readonly ICatalogDbContext _contexxt;
+    private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
 
     public GetServiceByStoreIdQueryHandler(ICatalogDbContext context, IMapper mapper)
     {
-        _contexxt = context;
+        _context = context;
         _mapper = mapper;
     }
     public async Task<ApiResponse<IEnumerable<ServiceDto>>> Handle(GetServiceByStoreIdQuery request, CancellationToken cancellationToken)
     {
-        var query = _contexxt.Service
+        var query = _context.Service
             .Include(x => x.ServicePackages)
             .ThenInclude(x => x.Stores)
             .Where(service =>
