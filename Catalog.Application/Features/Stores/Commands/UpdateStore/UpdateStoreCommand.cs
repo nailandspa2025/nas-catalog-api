@@ -56,6 +56,8 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public string? Description { get; init; }
 
     public int ServicePackageId { get; init; }
+    public List<int> BankIds { get; init; } = new List<int>();
+
 }
 
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
@@ -76,13 +78,15 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         var entity = await _context.Store
            .Include(x => x.ImageGallerys)
            .Include(x => x.Products)
+           .Include(x => x.BankAccounts)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if(entity == null)
         {
             throw new NotFoundException(nameof(Store), request.Id);
         }
-        var produtList = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken:cancellationToken);
+        var produts = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken:cancellationToken);
+        var banks = await _context.BankAccount.Where(x => request.BankIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.StoreName = request.StoreName;
         entity.AddressStore = request.AddressStore;
         entity.RatingStar = request.RatingStar;
@@ -134,7 +138,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
             }).ToList()
         );
 
-        entity.SetProducts(produtList);
+        entity.SetProducts(produts);
+        entity.SetBanks(banks);
         var userStores = await _context.UserStore
         .Where(us => us.StoreId == entity.Id)
         .ToListAsync(cancellationToken);

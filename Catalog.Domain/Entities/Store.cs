@@ -57,7 +57,7 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public int? ServicePackageId { get; set; }
     public ServicePackage? ServicePackage { get; set; }
 
-    public ICollection<BankAccount> bankAccounts { get; set; }  = new List<BankAccount>();
+    public ICollection<BankAccount> BankAccounts { get; set; }  = new List<BankAccount>();
 
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
 
@@ -77,6 +77,12 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     {
         this.UserStores.Clear();
         this.UserStores = userStores;
+    }
+
+    public void SetBanks (List<BankAccount> bankAccounts)
+    {
+        this.BankAccounts.Clear();
+        this.BankAccounts = bankAccounts;
     }
 }
 

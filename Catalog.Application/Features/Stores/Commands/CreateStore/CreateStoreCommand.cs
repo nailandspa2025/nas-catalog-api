@@ -49,6 +49,8 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public string? Description { get; init; }
 
     public int ServicePackageId { get; init; }
+
+    public List<int> BankIds { get; init; } = new List<int>();
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -65,7 +67,8 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
     }
     public async Task<ApiResponse<StoreDto>> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {
-        var productList = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
+        var products = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
+        var banks = await _context.BankAccount.Where(x => request.BankIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken); ;
         var entity = new Store
         {
             StoreName = request.StoreName,
@@ -97,7 +100,8 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             }).ToList();
             entity.SetImageGallerys(storeImages);
         }
-        entity.SetProducts(productList);
+        entity.SetProducts(products);
+        entity.SetBanks(banks);
         if (request.UserIds != null && request.UserIds.Any())
         {
             var userStores = request.UserIds.Select(userId => new UserStore

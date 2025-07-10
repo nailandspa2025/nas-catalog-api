@@ -4,7 +4,7 @@
     "Projects": [
       {
         "Path": "Catalog.Infrastructure\\Catalog.Infrastructure.csproj",
-        "Action": "Start"
+        "Action": "StartWithoutDebugging"
       },
       {
         "Path": "Catalog.Api\\Catalog.Api.csproj",

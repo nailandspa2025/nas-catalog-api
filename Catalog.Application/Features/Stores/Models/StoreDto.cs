@@ -51,6 +51,7 @@ namespace Catalog.Application.Features.Stores.Models
         public string? DeepLink { get; set; }
 
         public int ServicePackageId { get; set; }
+        public List<int> BankIds { get; set; } = new List<int>();
         private class Mapping : Profile
         {
             public Mapping()
@@ -59,7 +60,8 @@ namespace Catalog.Application.Features.Stores.Models
                    .ForMember(dest => dest.ProductIds, opt => opt.MapFrom(src => src.Products.Select(p => p.Id).ToList()))
                    .ForMember(dest => dest.ProductsNames, opt => opt.MapFrom(src => src.Products.Select(p => p.ProductName).ToList()))
                    .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ImageGallerys.Select(i => i.Url).ToList()))
-                   .ForMember(dest => dest.UserIds, opt => opt.MapFrom(src => src.UserStores.Select(i => i.UserId).ToList()));
+                   .ForMember(dest => dest.UserIds, opt => opt.MapFrom(src => src.UserStores.Select(i => i.UserId).ToList()))
+                   .ForMember(dest => dest.BankIds, opt => opt.MapFrom(src => src.BankAccounts.Select(i => i.Id).ToList()));
             }
         }
     }
