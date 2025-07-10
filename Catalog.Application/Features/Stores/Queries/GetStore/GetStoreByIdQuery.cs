@@ -2,7 +2,6 @@
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
-using Catalog.Application.Features.Produts.Models;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
 using MediatR;
@@ -31,6 +30,7 @@ public class GetStoreByIdQueryHandler : IRequestHandler<GetStoreByIdQuery, ApiRe
             .AsNoTracking()
             .Include(x => x.ImageGallerys)
             .Include(x => x.UserStores)
+            .Include(x => x.BankAccounts)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if(entity == null)
         {

@@ -37,7 +37,7 @@ public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWith
     {
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
 
-        var query = _context.Store.AsNoTracking();
+        var query = _context.Store.Where(x => !x.IsDeleted).AsNoTracking();
         if (!string.IsNullOrWhiteSpace(paramSearchText))
         {
             query = query.Where(s => s.StoreName.ToUpper().Contains(paramSearchText)
@@ -48,7 +48,6 @@ public class GetStoresWithPaginationQueryHandler : IRequestHandler<GetStoresWith
             query = query.Where(s => s.RatingStar == request.Rating.Value);
         }
         var paginationResult = await query
-            .Where(x => !x.IsDeleted)
             .OrderBy(x => x.Created)
             .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
