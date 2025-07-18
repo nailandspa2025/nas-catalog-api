@@ -17,7 +17,6 @@ public class ServicePackageDto: BaseAuditableDto
     public decimal Price { get; set; }
 
     public int DurationDays { get; set; }
-    public virtual ICollection<StoreDto> Stores { get; set; } = new List<StoreDto>();
 
     public List<int> ServiceIds { get; set; }
     
