@@ -21,6 +21,7 @@ public record UpdateServiceCommand : IRequest<ApiResponse<ServiceDto>>
     public decimal? PriceFrom { get; init; }
     public decimal? PriceTo { get; init; }
     public int? Rating { get; init; }
+    public TimeSpan? WorkingTime { get; init; }
 }
 
 public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand, ApiResponse<ServiceDto>>
@@ -49,6 +50,7 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand,
         entity.Rating = request.Rating;
         entity.PriceFrom = request.PriceFrom;
         entity.PriceTo = request.PriceTo;
+        entity.WorkingTime = request.WorkingTime;
         if (request.Image != null)
         {
             var url = await _storageService.SaveFileAsync(request.Image, cancellationToken);

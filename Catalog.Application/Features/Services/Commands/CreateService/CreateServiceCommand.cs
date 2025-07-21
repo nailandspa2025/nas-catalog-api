@@ -18,6 +18,7 @@ public record CreateServiceCommand: IRequest<ApiResponse<ServiceDto>>
     public decimal? PriceFrom { get; init; }
     public decimal? PriceTo { get; init; }
     public int? Rating { get; init; }
+    public TimeSpan? WorkingTime { get; init; }
 }
 
 public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, ApiResponse<ServiceDto>>
@@ -42,6 +43,7 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             PriceFrom = request.PriceFrom,
             PriceTo = request.PriceTo,
             Rating = request.Rating,
+            WorkingTime = request.WorkingTime,
         };
         if (request.Image != null)
         { 

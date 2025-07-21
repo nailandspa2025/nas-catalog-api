@@ -15,6 +15,7 @@ public class ServiceDto : BaseAuditableDto<int>
     public decimal? PriceFrom { get; set; }
     public decimal? PriceTo { get; set; }
     public int? Rating { get; set; }
+    public TimeSpan? WorkingTime { get; set; }
     private class Mapping : Profile
     {
         public Mapping ()
