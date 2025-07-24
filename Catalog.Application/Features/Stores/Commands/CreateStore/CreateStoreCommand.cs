@@ -51,6 +51,14 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public int ServicePackageId { get; init; }
 
     public List<int> BankIds { get; init; } = new List<int>();
+    public List<CreateSocialNetworkModel>? SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
+
+}
+
+public record CreateSocialNetworkModel
+{
+    public string Name { get; init; } = null!;
+    public string? Url { get; init; }
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -110,6 +118,20 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 StoreId = entity.Id
             }).ToList();
             entity.SetStores(userStores);
+        }
+        if(request.SocialNetworks != null && request.SocialNetworks.Any())
+        {
+            var socialNetworks = new List<SocialNetwork>();
+            foreach (var network in request.SocialNetworks) 
+            {
+                var socialNetwork = new SocialNetwork
+                {
+                    Name = network.Name,
+                    Url = network.Url,
+                };
+                socialNetworks.Add(socialNetwork);
+            }
+            entity.SetSocialNetworks(socialNetworks);
         }
         _context.Store.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

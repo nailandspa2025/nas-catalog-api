@@ -60,7 +60,7 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public ICollection<BankAccount> BankAccounts { get; set; }  = new List<BankAccount>();
 
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
-
+    public ICollection<SocialNetwork> SocialNetworks { get; set; } = new List<SocialNetwork>();
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();
@@ -83,6 +83,12 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     {
         this.BankAccounts.Clear();
         this.BankAccounts = bankAccounts;
+    }
+
+    public void SetSocialNetworks (List<SocialNetwork> socialNetworks)
+    {
+        this.SocialNetworks.Clear();
+        this.SocialNetworks = socialNetworks;
     }
 }
 

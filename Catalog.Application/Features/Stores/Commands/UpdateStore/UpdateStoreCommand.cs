@@ -57,9 +57,14 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public int ServicePackageId { get; init; }
     public List<int> BankIds { get; init; } = new List<int>();
+    public List<UpdateSocialNetworkModel>? SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
 
 }
-
+public record UpdateSocialNetworkModel
+{
+    public string Name { get; init; } = null!;
+    public string? Url { get; init; }
+}
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
 {
     private readonly ICatalogDbContext _context;
@@ -79,6 +84,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
            .Include(x => x.ImageGallerys)
            .Include(x => x.Products)
            .Include(x => x.BankAccounts)
+           .Include(x => x.SocialNetworks)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if(entity == null)
@@ -153,6 +159,20 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
                 StoreId = entity.Id
             }).ToList();
             entity.SetStores(newUserStores);
+        }
+        if(request.SocialNetworks != null && request.SocialNetworks.Any())
+        {
+            var socialNetworks = new List<SocialNetwork>();
+            foreach (var network in request.SocialNetworks)
+            {
+                var socialNetwork = new SocialNetwork
+                {
+                    Name = network.Name,
+                    Url = network.Url,
+                };
+                socialNetworks.Add(socialNetwork);
+            }
+            entity.SetSocialNetworks(socialNetworks);
         }
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
