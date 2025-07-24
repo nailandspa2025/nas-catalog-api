@@ -1,10 +1,12 @@
-﻿using BuildingBlocks.Core.Response;
+﻿using BuildingBlocks.ApiClients.Clients.Identity.Models;
+using BuildingBlocks.Core.Response;
 using Catalog.Application.Features.Calendars.Commands.CreateCalendar;
 using Catalog.Application.Features.Calendars.Commands.DeleteCalendar;
 using Catalog.Application.Features.Calendars.Commands.UpdateCaledar;
 using Catalog.Application.Features.Calendars.Models;
 using Catalog.Application.Features.Calendars.Queries.GetCalendar;
 using Catalog.Application.Features.Calendars.Queries.GetCalendars;
+using Catalog.Application.Features.Calendars.Queries.GetTechniciansWithFreeSlot;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -60,6 +62,13 @@ public class CalendarsController: ApiControllerBase
     [HttpGet("mobile/workingtime-technician")]
     [ProducesResponseType(typeof(ApiResponse<WorkingTimeDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<WorkingTimeDto>>> GetWorkingTimeForMobileAsync([FromQuery] GetWorkingTimeTechnicianByStoreIdQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
+    [HttpGet("mobile-technician")]
+    [ProducesResponseType(typeof(ApiResponse<TechnicianDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<TechnicianDto>>>> GetTechniciansWithFreeSlotForMobileAsync([FromQuery] GetTechniciansWithFreeSlotQuery query)
     {
         return await Mediator.Send(query);
     }
