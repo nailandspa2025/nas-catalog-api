@@ -127,14 +127,12 @@
     <Folder Include="Features\Stores\Queries\GetStoreForMerchantsWithPagination\" />
     <Folder Include="Features\Stores\Queries\GetStores\" />
     <Folder Include="Features\Produts\Queries\GetProducts\" />
-    <Folder Include="Features\Calendars\" />
     <Folder Include="Features\CalendarTypes\" />
     <Folder Include="Features\CalendarTypes\Commands\" />
     <Folder Include="Features\CalendarTypes\Models\" />
     <Folder Include="Features\CalendarTypes\Queries\" />
     <Folder Include="Features\Calendars\Commands\" />
     <Folder Include="Features\Calendars\Models\" />
-    <Folder Include="Features\Calendars\Queries\" />
     <Folder Include="Features\CalendarTypes\Commands\CreateCalendarType\" />
     <Folder Include="Features\CalendarTypes\Commands\UpdateCalendarType\" />
     <Folder Include="Features\CalendarTypes\Commands\DeleteCalendarType\" />
