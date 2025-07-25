@@ -51,7 +51,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public int ServicePackageId { get; init; }
 
     public List<int> BankIds { get; init; } = new List<int>();
-    public List<CreateSocialNetworkModel>? SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
+    public List<CreateSocialNetworkModel> SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
 
 }
 

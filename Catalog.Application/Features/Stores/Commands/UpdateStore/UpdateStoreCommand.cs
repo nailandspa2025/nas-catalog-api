@@ -57,7 +57,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public int ServicePackageId { get; init; }
     public List<int> BankIds { get; init; } = new List<int>();
-    public List<UpdateSocialNetworkModel>? SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
+    public List<UpdateSocialNetworkModel>  SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
 
 }
 public record UpdateSocialNetworkModel
