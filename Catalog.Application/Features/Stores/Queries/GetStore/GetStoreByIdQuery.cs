@@ -31,6 +31,7 @@ public class GetStoreByIdQueryHandler : IRequestHandler<GetStoreByIdQuery, ApiRe
             .Include(x => x.ImageGallerys)
             .Include(x => x.UserStores)
             .Include(x => x.BankAccounts)
+            .Include(x => x.SocialNetworks)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if(entity == null)
         {

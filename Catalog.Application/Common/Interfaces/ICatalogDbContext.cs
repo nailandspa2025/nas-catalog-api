@@ -37,5 +37,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<BankAccount> BankAccount { get; }
 
+    DbSet<SocialNetwork> SocialNetwork { get; }
+
 }
 

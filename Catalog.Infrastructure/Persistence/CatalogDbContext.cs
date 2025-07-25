@@ -44,6 +44,7 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
     public DbSet<Service> Service => Set<Service>();
 
     public DbSet<BankAccount> BankAccount => Set<BankAccount>();
+    public DbSet<SocialNetwork> SocialNetwork => Set<SocialNetwork>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
