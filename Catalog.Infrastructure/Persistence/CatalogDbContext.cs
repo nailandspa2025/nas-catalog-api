@@ -46,6 +46,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
     public DbSet<BankAccount> BankAccount => Set<BankAccount>();
     public DbSet<SocialNetwork> SocialNetwork => Set<SocialNetwork>();
 
+    public DbSet<AppDeepLink> AppDeepLink => Set<AppDeepLink>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

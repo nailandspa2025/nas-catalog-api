@@ -3,6 +3,7 @@ using System;
 using Catalog.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Infrastructure.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    partial class CatalogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250804135128_DeppLinkUpdate")]
+    partial class DeppLinkUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -663,42 +666,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("Catalog.Domain.Entities.ReviewService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ReviewStoreId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewStoreId");
-
-                    b.ToTable("ReviewService");
-                });
-
             modelBuilder.Entity("Catalog.Domain.Entities.ReviewStore", b =>
                 {
                     b.Property<int>("Id")
@@ -763,42 +730,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.HasIndex("StoreId");
 
                     b.ToTable("ReviewStore");
-                });
-
-            modelBuilder.Entity("Catalog.Domain.Entities.ReviewTechnician", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ReviewStoreId")
-                        .HasColumnType("integer");
-
-                    b.Property<long>("TechnicianId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewStoreId");
-
-                    b.ToTable("ReviewTechnician");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Reward", b =>
@@ -1269,17 +1200,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("Catalog.Domain.Entities.ReviewService", b =>
-                {
-                    b.HasOne("Catalog.Domain.Entities.ReviewStore", "ReviewStore")
-                        .WithMany("ReviewServices")
-                        .HasForeignKey("ReviewStoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReviewStore");
-                });
-
             modelBuilder.Entity("Catalog.Domain.Entities.ReviewStore", b =>
                 {
                     b.HasOne("Catalog.Domain.Entities.Store", "Store")
@@ -1289,17 +1209,6 @@ namespace Catalog.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("Catalog.Domain.Entities.ReviewTechnician", b =>
-                {
-                    b.HasOne("Catalog.Domain.Entities.ReviewStore", "ReviewStore")
-                        .WithMany("ReviewTechnicians")
-                        .HasForeignKey("ReviewStoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReviewStore");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.Reward", b =>
@@ -1400,13 +1309,6 @@ namespace Catalog.Infrastructure.Migrations
                     b.Navigation("Reward");
 
                     b.Navigation("Stores");
-                });
-
-            modelBuilder.Entity("Catalog.Domain.Entities.ReviewStore", b =>
-                {
-                    b.Navigation("ReviewServices");
-
-                    b.Navigation("ReviewTechnicians");
                 });
 
             modelBuilder.Entity("Catalog.Domain.Entities.ServicePackage", b =>

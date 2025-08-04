@@ -30,7 +30,6 @@
     <Folder Include="API\ExceptionHandlers\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
     <Folder Include="API\Versioning\" />
     <Folder Include="Swagger\" />
     <Folder Include="Logging\" />

@@ -32,5 +32,18 @@ public class ReviewStore : BaseAuditableEntity<int>, ISoftDelete
     public Store Store { get; set; }
 
     public int  AccountId { get; set; }
+
+    public ICollection<ReviewTechnician> ReviewTechnicians { get; set; } = new List<ReviewTechnician>();
+    public ICollection<ReviewService> ReviewServices { get; set; } = new List<ReviewService>();
+    public void SetReviewTechnicians(List<ReviewTechnician> technicians)
+    {
+        this.ReviewTechnicians.Clear();
+        this.ReviewTechnicians = technicians;
+    } 
+    public void SetReviewServices(List<ReviewService> services)
+    {
+        this.ReviewServices.Clear();
+        this.ReviewServices = services;
+    }
 }
 

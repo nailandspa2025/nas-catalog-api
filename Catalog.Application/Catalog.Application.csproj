@@ -99,6 +99,8 @@
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
+    <Folder Include="Features\AppDeepLinks\Commands\DeleteAppDeepLink\" />
+    <Folder Include="Features\AppDeepLinks\Commands\UpdateAppDeepLink\" />
     <Folder Include="Features\Stores\Commands\UpdateStore\" />
     <Folder Include="Features\Stores\Commands\DeleteStore\" />
     <Folder Include="Features\Stores\Queries\" />

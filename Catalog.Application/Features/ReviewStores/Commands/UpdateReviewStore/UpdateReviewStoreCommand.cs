@@ -3,6 +3,7 @@ using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
+using Catalog.Application.Features.ReviewStores.Commands.CreateReviewStore;
 using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
 using MediatR;
@@ -31,8 +32,19 @@ public record UpdateReviewStoreCommand: IRequest<ApiResponse<ReviewStoreDto>>
     public string? Content { get; init; }
 
     public bool IsActive { get; init; }
+    public List<UpdateReviewTechnicianModel> ReviewTechnicians { get; init; } = new List<UpdateReviewTechnicianModel>();
+    public List<UpdateReviewServiceModel> ReviewServices { get; init; } = new List<UpdateReviewServiceModel>();
 }
-
+public record UpdateReviewTechnicianModel
+{
+    public long TechnicianId { get; init; }
+    public int Rating { get; init; }
+}
+public record UpdateReviewServiceModel
+{
+    public int ServiceId { get; init; }
+    public int Rating { get; init; }
+}
 public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStoreCommand, ApiResponse<ReviewStoreDto>>
 {
     private readonly ICatalogDbContext _context;
@@ -48,7 +60,9 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
     public async Task<ApiResponse<ReviewStoreDto>> Handle(UpdateReviewStoreCommand request, CancellationToken cancellationToken)
     {
         var entity = await _context.ReviewStore
-           .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+            .Include(x => x.ReviewTechnicians)
+            .Include(x => x.ReviewServices)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
@@ -64,6 +78,34 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
         entity.StoreRating = request.StoreRating;
         entity.Content = request.Content;
         entity.IsActive = request.IsActive;
+        if(request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
+        {
+            var reviewTechnicians = new List<ReviewTechnician>();
+            foreach (var item in request.ReviewTechnicians)
+            {
+                var reviewTechnician = new ReviewTechnician
+                {
+                    TechnicianId = item.TechnicianId,
+                    Rating = item.Rating,
+                };
+                reviewTechnicians.Add(reviewTechnician);
+            }
+            entity.SetReviewTechnicians(reviewTechnicians);
+        }
+        if (request.ReviewServices != null && request.ReviewServices.Any())
+        {
+            var reviewServices = new List<ReviewService>();
+            foreach (var item in request.ReviewServices)
+            {
+                var reviewService = new ReviewService
+                {
+                    ServiceId = item.ServiceId,
+                    Rating = item.Rating,
+                };
+                reviewServices.Add(reviewService);
+            }
+            entity.SetReviewServices(reviewServices);
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<ReviewStoreDto>.Success(_mapper.Map<ReviewStoreDto>(entity));

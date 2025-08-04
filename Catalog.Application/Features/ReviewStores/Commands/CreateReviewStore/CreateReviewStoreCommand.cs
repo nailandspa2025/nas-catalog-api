@@ -3,6 +3,7 @@ using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ReviewStores.Models;
+using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Domain.Entities;
 using MediatR;
 
@@ -27,6 +28,19 @@ public record CreateReviewStoreCommand: IRequest<ApiResponse<ReviewStoreDto>>
     public string? Content { get; init; }
 
     public bool IsActive { get; init; }
+
+    public List<CreateReviewTechnicianModel> ReviewTechnicians { get; init; } = new List<CreateReviewTechnicianModel>();
+    public List<CreateReviewServiceModel> ReviewServices { get; init; } = new List<CreateReviewServiceModel>();
+}
+public record CreateReviewTechnicianModel
+{
+    public long TechnicianId { get; init; }
+    public int Rating { get; init; }
+}
+public record CreateReviewServiceModel
+{
+    public int ServiceId { get; init; } 
+    public int Rating { get; init; }
 }
 
 public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStoreCommand, ApiResponse<ReviewStoreDto>>
@@ -57,6 +71,34 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
             IsActive = request.IsActive,
             AccountId = int.TryParse(_currentUser.UserId, out var id) ? id : 0,
         };
+        if (request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
+        {
+            var reviewTechnicians = new List<ReviewTechnician>();
+            foreach (var item in request.ReviewTechnicians)
+            {
+                var reviewTechnician = new ReviewTechnician
+                {
+                    TechnicianId = item.TechnicianId,
+                    Rating = item.Rating,
+                };
+                reviewTechnicians.Add(reviewTechnician);
+            }
+            entity.SetReviewTechnicians(reviewTechnicians);
+        }
+        if (request.ReviewServices != null && request.ReviewServices.Any())
+        {
+            var reviewServices = new List<ReviewService>();
+            foreach (var item in request.ReviewServices)
+            {
+                var reviewService = new ReviewService
+                {
+                    ServiceId = item.ServiceId,
+                    Rating = item.Rating,
+                };
+                reviewServices.Add(reviewService);
+            }
+            entity.SetReviewServices(reviewServices);
+        }
         _context.ReviewStore.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 

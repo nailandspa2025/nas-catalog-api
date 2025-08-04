@@ -39,5 +39,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<SocialNetwork> SocialNetwork { get; }
 
+    DbSet<AppDeepLink> AppDeepLink { get; }
+
 }
 
