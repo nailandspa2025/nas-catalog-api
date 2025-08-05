@@ -14,8 +14,8 @@ public class AppDeepLinkDto: BaseAuditableDto
     public string IOSLink { get; set; }
     public string AndroidLink { get; set; }
     public string WebFallback { get; set; }
-    public string ShortLink => $"https://deeplink.nasshine.com/{Code}";
-    public string QrCodeUrl => $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://deeplink.nasshine.com/{Code}";
+    public string ShortLink => $"http://deeplink.nasshine.com/{Code}";
+    public string QrCodeUrl => $"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://deeplink.nasshine.com/{Code}";
     private class Mapping : Profile
     {
         public Mapping()
