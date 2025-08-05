@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
-using Catalog.Application.Features.ReviewStores.Commands.CreateReviewStore;
 using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
 using MediatR;

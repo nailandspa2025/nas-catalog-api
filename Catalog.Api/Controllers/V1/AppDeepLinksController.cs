@@ -2,6 +2,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Features.AppDeepLinks.Commands.CreateAppDeepLink;
 using Catalog.Application.Features.AppDeepLinks.Models;
 using Catalog.Application.Features.AppDeepLinks.Queries.GetAppDeepLink;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -23,6 +24,7 @@ public class AppDeepLinksController : ApiControllerBase
         return await Mediator.Send(command);
     }
 
+    [AllowAnonymous]
     [HttpGet("{code}")]
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<AppDeepLinkDto>>> GetByCodeAsync(string code)
