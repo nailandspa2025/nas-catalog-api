@@ -35,36 +35,46 @@ public class AppDeepLinksController : ApiControllerBase
 
         var dto = result.Data;
         var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
-
-        string redirectUrl = dto.WebFallback;
-
-        if (userAgent.Contains("android"))
+        if (IsIosDevice(userAgent))
         {
-            redirectUrl = dto.AndroidLink;
+            return Content(GenerateIosRedirectHtml(dto.IOSLink), "text/html");
         }
-        else if (userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios"))
-        {
-            return Content($@"
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset='UTF-8'>
-                <title>Redirecting...</title>
-                <script type='text/javascript'>
-                    window.onload = function() {{
-                        window.location = '{dto.IOSLink}';
-                        setTimeout(function() {{
-                            window.location = 'https://apps.apple.com/us/app/nas-nail-spa/id6746377567';
-                        }}, 2000);
-                    }};
-                </script>
-            </head>
-            <body>
-                <p>Đang chuyển hướng...</p>
-            </body>
-            </html>
-        ", "text/html");
-        }
+
+        var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
         return Redirect(redirectUrl);
+    }
+
+    private bool IsAndroidDevice(string userAgent)
+    {
+        return userAgent.Contains("android");
+    }
+
+    private bool IsIosDevice(string userAgent)
+    {
+        return userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios");
+    }
+
+    private string GenerateIosRedirectHtml(string iosLink)
+    {
+        const string appStoreUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
+        return $@"
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <title>Redirecting...</title>
+            <script type='text/javascript'>
+                window.onload = function() {{
+                    window.location = '{iosLink}';
+                    setTimeout(function() {{
+                        window.location = '{appStoreUrl}';
+                    }}, 2000);
+                }};
+            </script>
+        </head>
+        <body>
+            <p>Loading ...</p>
+        </body>
+        </html>";
     }
 }
