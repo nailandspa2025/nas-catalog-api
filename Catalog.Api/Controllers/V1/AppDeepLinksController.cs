@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Core.Response;
+using Catalog.Application.Features.AppDeepLinks.Commands.AddAppDeepLink;
 using Catalog.Application.Features.AppDeepLinks.Commands.CreateAppDeepLink;
 using Catalog.Application.Features.AppDeepLinks.Models;
 using Catalog.Application.Features.AppDeepLinks.Queries.GetAppDeepLink;
@@ -20,6 +21,13 @@ public class AppDeepLinksController : ApiControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<AppDeepLinkDto>>> CreateAsync([FromForm] CreateAppDeepLinkCommand command)
+    {
+        return await Mediator.Send(command);
+    }
+
+    [HttpPost("assign-store")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse>> AddAsync([FromBody] AddAppDeepLinkCommand command)
     {
         return await Mediator.Send(command);
     }

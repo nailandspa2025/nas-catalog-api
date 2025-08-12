@@ -8,11 +8,6 @@ public class UserStoreDeepLinkConfiguration : IEntityTypeConfiguration<UserStore
 {
     public void Configure(EntityTypeBuilder<UserStoreDeepLink> builder)
     {
-        builder.HasOne(x => x.AppDeepLink)
-            .WithMany(x => x.UserStoreDeepLinks)
-            .HasForeignKey(bg => bg.AppDeepLinkId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
 
         builder.HasOne(x => x.Store)
             .WithMany(x => x.UserStoreDeepLinks)
