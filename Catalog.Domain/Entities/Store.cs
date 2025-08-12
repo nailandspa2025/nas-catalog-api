@@ -61,6 +61,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
     public ICollection<SocialNetwork> SocialNetworks { get; set; } = new List<SocialNetwork>();
+    public virtual ICollection<UserStoreDeepLink> UserStoreDeepLinks { get; set; }
+        = new List<UserStoreDeepLink>();
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

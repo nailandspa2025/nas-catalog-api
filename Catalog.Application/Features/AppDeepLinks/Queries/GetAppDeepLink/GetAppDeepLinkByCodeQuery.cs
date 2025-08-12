@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
+using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.AppDeepLinks.Models;
-using Catalog.Application.Features.BankAccounts.Models;
-using Google.Rpc;
+using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using static Google.Rpc.Help.Types;
 
 namespace Catalog.Application.Features.AppDeepLinks.Queries.GetAppDeepLink;
 
@@ -19,11 +18,13 @@ public class GetAppDeepLinkByCodeQueryHandler : IRequestHandler<GetAppDeepLinkBy
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
 
-    public GetAppDeepLinkByCodeQueryHandler(ICatalogDbContext context, IMapper mapper)
+    public GetAppDeepLinkByCodeQueryHandler(ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
     {
         _context = context;
         _mapper = mapper;
+        _currentUser = currentUser;
     }
     public async Task<ApiResponse<AppDeepLinkDto>> Handle(GetAppDeepLinkByCodeQuery request, CancellationToken cancellationToken)
     {
@@ -34,6 +35,23 @@ public class GetAppDeepLinkByCodeQueryHandler : IRequestHandler<GetAppDeepLinkBy
         if (entity == null)
         {
             return ApiResponse<AppDeepLinkDto>.Error("Link not found");
+        }
+        if (!string.IsNullOrEmpty(_currentUser.UserId))
+        {
+            long storeId = Convert.ToInt64(entity.TargetId);
+            bool alreadyExists = await _context.UserStoreDeepLink
+                .AnyAsync(x => x.UserId == _currentUser.UserId && x.StoreId == storeId, cancellationToken);
+            if (!alreadyExists)
+            {
+                var newRecord = new UserStoreDeepLink
+                {
+                    UserId = _currentUser.UserId,
+                    StoreId = storeId,
+                    AppDeepLinkId = entity.Id
+                };
+                _context.UserStoreDeepLink.Add(newRecord);
+                await _context.SaveChangesAsync(cancellationToken);
+            }
         }
         var dto = _mapper.Map<AppDeepLinkDto>(entity);
         return ApiResponse<AppDeepLinkDto>.Success(dto);

@@ -14,4 +14,12 @@ public class AppDeepLink : BaseAuditableEntity<int>, ISoftDelete
     public string? DeletedBy { get; set; }
     public DateTime? Deleted { get; set; }
     public bool IsDeleted { get; set; }
+    public virtual ICollection<UserStoreDeepLink> UserStoreDeepLinks { get; set; }
+        = new List<UserStoreDeepLink>();
+
+    public void SetUserStoreDeepLinks(List<UserStoreDeepLink> links)
+    {
+        this.UserStoreDeepLinks.Clear();
+        this.UserStoreDeepLinks = links;
+    }
 }

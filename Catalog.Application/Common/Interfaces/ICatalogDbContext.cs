@@ -41,5 +41,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<AppDeepLink> AppDeepLink { get; }
 
+    DbSet<UserStoreDeepLink> UserStoreDeepLink { get; }
+
 }
 

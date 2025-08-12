@@ -48,6 +48,7 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<AppDeepLink> AppDeepLink => Set<AppDeepLink>();
 
+    public DbSet<UserStoreDeepLink> UserStoreDeepLink => Set<UserStoreDeepLink>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

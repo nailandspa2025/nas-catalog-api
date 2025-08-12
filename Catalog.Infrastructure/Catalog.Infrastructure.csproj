@@ -15,9 +15,7 @@
     <None Remove="Persistence\Configurations\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Persistence\" />
     <Folder Include="Services\" />
-    <Folder Include="Persistence\Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
