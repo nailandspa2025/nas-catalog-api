@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BuildingBlocks.Authentication.Abstractions;
-using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
@@ -9,9 +8,9 @@ using Catalog.Application.Features.Stores.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
+namespace Catalog.Application.Features.Stores.Queries.GetStoreForMobileWithPagination;
 
-public record GetStoreForMerchantsWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
+public record GetStoreForMobileWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
 {
     public int PageNumber { get; init; } = 1;
 
@@ -22,42 +21,40 @@ public record GetStoreForMerchantsWithPaginationQuery: IRequest<ApiResponse<Pagi
     public int? Rating { get; init; }
 }
 
-public class GetStoreMerchantsWithPaginationQueryHandler : IRequestHandler<GetStoreForMerchantsWithPaginationQuery, ApiResponse<PaginatedList<StoreDto>>>
+public class GetStoreForMobileWithPaginationQueryHandler : IRequestHandler<GetStoreForMobileWithPaginationQuery, ApiResponse<PaginatedList<StoreDto>>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
 
-    public GetStoreMerchantsWithPaginationQueryHandler(ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
+    public GetStoreForMobileWithPaginationQueryHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
     {
         _context = context;
-        _mapper = mapper;
+        _mapper = mapper;  
         _currentUser = currentUser;
     }
-
-    public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoreForMerchantsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoreForMobileWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
         var query = _context.Store
             .Where(s => !s.IsDeleted &&
-                        _context.UserStore.Any(us => us.UserId == _currentUser.UserId && us.StoreId == s.Id))
+            _context.UserStoreDeepLink.Any(usd => usd.UserId == _currentUser.UserId && usd.StoreId == s.Id))
             .AsNoTracking();
 
-        if (!paramSearchText.IsNullOrEmpty())
+        if (!string.IsNullOrWhiteSpace(paramSearchText))
         {
-            query = query.Where(s => paramSearchText.Contains(s.StoreName));
+            query = query.Where(s => s.StoreName.ToUpper().Contains(paramSearchText)
+            || s.AddressStore.ToUpper().Contains(paramSearchText));
         }
         if (request.Rating.HasValue)
         {
             query = query.Where(s => s.RatingStar == request.Rating.Value);
         }
         var paginationResult = await query
-
             .OrderBy(x => x.Created)
             .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
         return ApiResponse<PaginatedList<StoreDto>>.Success(paginationResult);
-
     }
 }

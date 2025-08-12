@@ -5,6 +5,7 @@ using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
+using Catalog.Application.Features.Stores.Queries.GetStoreForMobileWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace Catalog.Api.Controllers.V1
         [AllowAnonymous]
         [HttpGet("mobile-pagingation")]
         [ProducesResponseType(typeof(ApiResponse<PaginatedList<StoreDto>>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetWithPaginationForMobileAsync([FromQuery] GetStoresWithPaginationQuery query)
+        public async Task<ActionResult<ApiResponse<PaginatedList<StoreDto>>>> GetWithPaginationForMobileAsync([FromQuery] GetStoreForMobileWithPaginationQuery query)
         {
             return await Mediator.Send(query);
         }
