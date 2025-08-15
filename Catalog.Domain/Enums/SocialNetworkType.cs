@@ -8,4 +8,5 @@ public enum SocialNetworkType
     Youtube = 4,
     Twitter = 5,
     LinkedIn = 6,
+    Website = 7,
 }
