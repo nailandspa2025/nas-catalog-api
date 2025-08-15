@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Persistence.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 
 namespace Catalog.Application.Features.Stores.Models;
 
@@ -72,6 +73,7 @@ public class SocialNetworkDto
     public int Id { get; set; }
     public string Name { get; set; }
     public string Url { get; set; }
+    public SocialNetworkType Icon { get; set; }
 
     private class Mapping : Profile
     {

@@ -4,6 +4,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,7 @@ public record CreateSocialNetworkModel
 {
     public string Name { get; init; } = null!;
     public string? Url { get; init; }
+    public SocialNetworkType Icon { get; init; }
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -128,6 +130,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 {
                     Name = network.Name,
                     Url = network.Url,
+                    Icon = network.Icon,
                 };
                 socialNetworks.Add(socialNetwork);
             }
