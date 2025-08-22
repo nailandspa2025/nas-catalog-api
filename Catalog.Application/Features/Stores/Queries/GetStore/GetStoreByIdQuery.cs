@@ -16,17 +16,17 @@ public class GetStoreByIdQuery: IRequest<ApiResponse<StoreDto>>
 
 public class GetStoreByIdQueryHandler : IRequestHandler<GetStoreByIdQuery, ApiResponse<StoreDto>>
 {
-    private readonly ICatalogDbContext _contexxt;
+    private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
 
     public GetStoreByIdQueryHandler(ICatalogDbContext context, IMapper mapper)
     {
-        _contexxt = context;
+        _context = context;
         _mapper = mapper;
     }
     public async Task<ApiResponse<StoreDto>> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _contexxt.Store
+        var entity = await _context.Store
             .AsNoTracking()
             .Include(x => x.ImageGallerys)
             .Include(x => x.UserStores)

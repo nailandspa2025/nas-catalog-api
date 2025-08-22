@@ -91,5 +91,12 @@ namespace Catalog.Api.Controllers.V1
         {
             return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
         }
+
+        [AllowAnonymous]
+        [HttpGet("paypal-config/{storeId}")]
+        public async Task<ActionResult<ApiResponse<PayPalConfigDto>>> GetPaypalConfigAsync(long storeId)
+        {
+            return await Mediator.Send(new GetPaypalByStoreIdQuery{ StoreId = storeId});
+        }
     }
 }
