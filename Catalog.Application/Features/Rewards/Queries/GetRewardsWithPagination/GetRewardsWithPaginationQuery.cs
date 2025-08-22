@@ -42,9 +42,10 @@ public class GetRewardsWithPaginationQueryHandler : IRequestHandler<GetRewardsWi
         var query = _context.Reward.Where(x => !x.IsDeleted).AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Name));
+            query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
+
         }
-        if(request.MerchantId.HasValue)
+        if (request.MerchantId.HasValue)
         {
             query = query.Where(x => x.MerchantId == request.MerchantId.Value);
         }

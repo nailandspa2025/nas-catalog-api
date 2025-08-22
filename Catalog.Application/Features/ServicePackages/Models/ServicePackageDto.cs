@@ -2,6 +2,7 @@
 using BuildingBlocks.Persistence.Models;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 
 namespace Catalog.Application.Features.ServicePackages.Models;
 
@@ -21,6 +22,8 @@ public class ServicePackageDto: BaseAuditableDto
     public List<int> ServiceIds { get; set; }
     
     public List<string> ServiceName { get; set; }
+
+    public CurrencyCode Currency { get; set; }
     private class Mapping : Profile 
     {
         public Mapping()

@@ -37,7 +37,7 @@ public class GetRewardsWithPaginationQueryHandler : IRequestHandler<GetServicePa
         var query = _context.ServicePackage.Where(x => !x.IsDeleted).AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Name));
+            query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
         
         var paginationResult = await query

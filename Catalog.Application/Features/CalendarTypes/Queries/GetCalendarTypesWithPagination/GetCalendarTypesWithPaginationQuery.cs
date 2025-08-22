@@ -39,7 +39,7 @@ public class GetCalendarTypesWithPaginationQueryHandler : IRequestHandler<GetCal
         var query = _context.CalendarType.Where(x => !x.IsDeleted && x.CreatedBy == _currentUser.UserName ).AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Name));
+            query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
 
         var paginationResult = await query

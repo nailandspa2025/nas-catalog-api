@@ -4,6 +4,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ServicePackages.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ public record UpdateServicePackageCommand : IRequest<ApiResponse<ServicePackageD
     public int DurationDays { get; init; }
 
     public List<int> ServiceIds { get; init; } = new List<int>();
+    public CurrencyCode Currency { get; init; }
 }
 
 
@@ -54,6 +56,7 @@ public class UpdateServicePackageCommandHandler : IRequestHandler<UpdateServiceP
         entity.Price = request.Price;
         entity.DurationDays = request.DurationDays;
         entity.IsActive = request.IsActive;
+        entity.Currency = request.Currency;
         entity.SetServices(serviceList);
         await _context.SaveChangesAsync(cancellationToken);
 

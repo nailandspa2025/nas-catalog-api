@@ -4,6 +4,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Services.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 
@@ -19,6 +20,8 @@ public record CreateServiceCommand: IRequest<ApiResponse<ServiceDto>>
     public decimal? PriceTo { get; init; }
     public int? Rating { get; init; }
     public TimeSpan? WorkingTime { get; init; }
+
+    public CurrencyCode Currency { get; init; } = CurrencyCode.USD;
 }
 
 public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, ApiResponse<ServiceDto>>
@@ -44,6 +47,7 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             PriceTo = request.PriceTo,
             Rating = request.Rating,
             WorkingTime = request.WorkingTime,
+            Currency = request.Currency
         };
         if (request.Image != null)
         { 

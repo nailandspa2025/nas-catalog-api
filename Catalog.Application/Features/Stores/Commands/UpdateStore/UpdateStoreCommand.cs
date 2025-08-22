@@ -3,6 +3,7 @@ using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
+using Catalog.Application.Features.Stores.Commands.CreateStore;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
 using Catalog.Domain.Enums;
@@ -56,16 +57,23 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public string? Description { get; init; }
 
-    public int ServicePackageId { get; init; }
+    public int? ServicePackageId { get; init; } = null;
     public List<int> BankIds { get; init; } = new List<int>();
     public List<UpdateSocialNetworkModel>  SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
-
+    public UpdatePaypalModel? PaypalConfig { get; init; }
 }
 public record UpdateSocialNetworkModel
 {
     public string Name { get; init; } = null!;
     public string? Url { get; init; }
     public SocialNetworkType Icon { get; init; }
+}
+public record UpdatePaypalModel
+{
+    public string ClientId { get; init; } = null!;
+    public string ClientSecret { get; init; } = null!;
+    public string Currency { get; init; } = "USD";
+    public bool IsSandbox { get; init; }
 }
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
 {
@@ -87,6 +95,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
            .Include(x => x.Products)
            .Include(x => x.BankAccounts)
            .Include(x => x.SocialNetworks)
+           .Include(x => x.PayPalConfig)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if(entity == null)
@@ -162,9 +171,9 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
             }).ToList();
             entity.SetStores(newUserStores);
         }
-        if(request.SocialNetworks != null && request.SocialNetworks.Any())
+        var socialNetworks = new List<SocialNetwork>();
+        if (request.SocialNetworks != null && request.SocialNetworks.Any())
         {
-            var socialNetworks = new List<SocialNetwork>();
             foreach (var network in request.SocialNetworks)
             {
                 var socialNetwork = new SocialNetwork
@@ -175,8 +184,24 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
                 };
                 socialNetworks.Add(socialNetwork);
             }
-            entity.SetSocialNetworks(socialNetworks);
         }
+        if (request.PaypalConfig != null)
+        {
+            entity.PayPalConfig ??= new PayPalConfig();
+
+            entity.PayPalConfig.ClientId = request.PaypalConfig.ClientId;
+            entity.PayPalConfig.ClientSecret = request.PaypalConfig.ClientSecret;
+            entity.PayPalConfig.Currency = string.IsNullOrWhiteSpace(request.PaypalConfig.Currency)
+                ? "USD"
+                : request.PaypalConfig.Currency;
+            entity.PayPalConfig.IsSandbox = request.PaypalConfig.IsSandbox;
+        }
+        else
+        {
+            entity.PayPalConfig = null;
+        }
+
+        entity.SetSocialNetworks(socialNetworks);
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
     }

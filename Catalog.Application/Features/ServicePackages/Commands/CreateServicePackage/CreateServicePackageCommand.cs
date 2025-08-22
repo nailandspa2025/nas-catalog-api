@@ -4,6 +4,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ServicePackages.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ public record CreateServicePackageCommand: IRequest<ApiResponse<ServicePackageDt
 
     public int DurationDays { get; init; }
     public List<int> ServiceIds { get; init; } = new List<int>();
+    public CurrencyCode Currency { get; init; } = CurrencyCode.USD;
 }
 
 public class CreateServicePackageCommandHandler : IRequestHandler<CreateServicePackageCommand, ApiResponse<ServicePackageDto>>
@@ -45,6 +47,7 @@ public class CreateServicePackageCommandHandler : IRequestHandler<CreateServiceP
             IsActive = request.IsActive,
             Price = request.Price,
             DurationDays = request.DurationDays,
+            Currency = request.Currency
         };
         entity.SetServices(serviceList);
         _context.ServicePackage.Add(entity);

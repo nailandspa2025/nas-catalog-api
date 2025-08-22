@@ -54,6 +54,8 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public List<int> BankIds { get; init; } = new List<int>();
     public List<CreateSocialNetworkModel> SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
 
+    public CreatePaypalModel? PaypalConfig { get; init; }
+
 }
 
 public record CreateSocialNetworkModel
@@ -61,6 +63,14 @@ public record CreateSocialNetworkModel
     public string Name { get; init; } = null!;
     public string? Url { get; init; }
     public SocialNetworkType Icon { get; init; }
+}
+
+public record CreatePaypalModel
+{
+    public string ClientId { get; init; } = null!;
+    public string ClientSecret { get; init; } = null!;
+    public string Currency { get; init; } = "USD";
+    public bool IsSandbox { get; init; }
 }
 
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
@@ -135,6 +145,18 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 socialNetworks.Add(socialNetwork);
             }
             entity.SetSocialNetworks(socialNetworks);
+        }
+        if (request.PaypalConfig != null)
+        {
+            var paypalConfig = new PayPalConfig
+            {
+                ClientId = request.PaypalConfig.ClientId,
+                ClientSecret = request.PaypalConfig.ClientSecret,
+                Currency = request.PaypalConfig.Currency,
+                IsSandbox = request.PaypalConfig.IsSandbox,
+                StoreId = entity.Id,
+            };
+            entity.PayPalConfig = paypalConfig; 
         }
         _context.Store.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);

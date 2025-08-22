@@ -63,6 +63,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public ICollection<SocialNetwork> SocialNetworks { get; set; } = new List<SocialNetwork>();
     public virtual ICollection<UserStoreDeepLink> UserStoreDeepLinks { get; set; }
         = new List<UserStoreDeepLink>();
+
+    public PayPalConfig ? PayPalConfig { get; set; }
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

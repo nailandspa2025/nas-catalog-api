@@ -2,6 +2,7 @@
 using AutoMapper;
 using BuildingBlocks.Persistence.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 
 namespace Catalog.Application.Features.Services.Models;
 
@@ -16,6 +17,7 @@ public class ServiceDto : BaseAuditableDto<int>
     public decimal? PriceTo { get; set; }
     public int? Rating { get; set; }
     public TimeSpan? WorkingTime { get; set; }
+    public CurrencyCode Currency { get; set; }
     private class Mapping : Profile
     {
         public Mapping ()

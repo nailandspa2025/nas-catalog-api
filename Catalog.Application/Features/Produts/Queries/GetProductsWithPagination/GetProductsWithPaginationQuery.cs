@@ -38,7 +38,7 @@ public class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProducts
         var query = _context.Product.AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.ProductName));
+            query = query.Where(s => s.ProductName.ToUpper().Contains(paramSearchText));
         }
 
         var paginationResult = await query

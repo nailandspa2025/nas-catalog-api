@@ -53,6 +53,7 @@ public class StoreDto: BaseAuditableDto
 
     public int ServicePackageId { get; set; }
     public List<int> BankIds { get; set; } = new List<int>();
+    public PayPalConfigDto ? PaypalConfig { get; set; }
     public List<SocialNetworkDto> SocialNetworks { get; set; } = new List<SocialNetworkDto>();
     private class Mapping : Profile
     {
@@ -80,6 +81,21 @@ public class SocialNetworkDto
         public Mapping()
         {
             CreateMap<SocialNetwork, SocialNetworkDto>();
+        }
+    }
+}
+
+public class PayPalConfigDto
+{
+    public string ClientId { get; set; } = null!;
+    public string ClientSecret { get; set; } = null!;
+    public string Currency { get; set; } = "USD";
+    public bool IsSandbox { get; set; }
+    private class Mapping : Profile
+    {
+        public Mapping()
+        {
+            CreateMap<PayPalConfig, PayPalConfigDto>();
         }
     }
 }

@@ -5,6 +5,7 @@ using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Services.Models;
 using Catalog.Domain.Entities;
+using Catalog.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ public record UpdateServiceCommand : IRequest<ApiResponse<ServiceDto>>
     public decimal? PriceTo { get; init; }
     public int? Rating { get; init; }
     public TimeSpan? WorkingTime { get; init; }
+    public CurrencyCode Currency { get; init; }
 }
 
 public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand, ApiResponse<ServiceDto>>
@@ -51,6 +53,7 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand,
         entity.PriceFrom = request.PriceFrom;
         entity.PriceTo = request.PriceTo;
         entity.WorkingTime = request.WorkingTime;
+        entity.Currency = request.Currency;
         if (request.Image != null)
         {
             var url = await _storageService.SaveFileAsync(request.Image, cancellationToken);

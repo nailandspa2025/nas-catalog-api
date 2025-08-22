@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.Persistence.Entities.Common;
+using Catalog.Domain.Enums;
 
 namespace Catalog.Domain.Entities;
 public class Service : BaseAuditableEntity<int>
@@ -12,5 +13,6 @@ public class Service : BaseAuditableEntity<int>
     public decimal? PriceTo { get; set; }
     public int? Rating { get; set; }
     public TimeSpan ? WorkingTime { get; set; }
+    public CurrencyCode Currency { get; set; }
     public virtual ICollection<ServicePackage> ServicePackages { get; set; } = new List<ServicePackage>();
 }

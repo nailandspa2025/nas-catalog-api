@@ -15,7 +15,7 @@ public class ServicePackageConfiguration: IEntityTypeConfiguration<ServicePackag
 
         builder.Property(x => x.Description)
             .HasMaxLength(250)
-            .IsRequired(true);
+            .IsRequired(false);
     }
 }
 

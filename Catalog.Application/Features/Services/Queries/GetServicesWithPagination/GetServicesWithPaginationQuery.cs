@@ -36,7 +36,7 @@ public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServices
         var query = _context.Service.AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => paramSearchText.Contains(s.Name));
+            query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
        
         var paginationResult = await query

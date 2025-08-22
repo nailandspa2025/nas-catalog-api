@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.Persistence.Abstractions.Entities;
 using BuildingBlocks.Persistence.Entities.Common;
+using Catalog.Domain.Enums;
 
 namespace Catalog.Domain.Entities;
 
@@ -20,6 +21,8 @@ public class ServicePackage: BaseAuditableEntity<int>, ISoftDelete
     public DateTime? Deleted { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public CurrencyCode Currency { get; set; }
 
     public virtual ICollection<Merchant> Merchants { get; set; } = new List<Merchant>();
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
