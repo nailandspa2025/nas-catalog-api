@@ -25,20 +25,17 @@ public class GetStoreForMobileWithPaginationQueryHandler : IRequestHandler<GetSt
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
-    private readonly ICurrentUser _currentUser;
 
-    public GetStoreForMobileWithPaginationQueryHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
+    public GetStoreForMobileWithPaginationQueryHandler (ICatalogDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;  
-        _currentUser = currentUser;
     }
     public async Task<ApiResponse<PaginatedList<StoreDto>>> Handle(GetStoreForMobileWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
         var query = _context.Store
-            .Where(s => !s.IsDeleted &&
-            _context.UserStoreDeepLink.Any(usd => usd.UserId == _currentUser.UserId && usd.StoreId == s.Id))
+            .Where(s => !s.IsDeleted)
             .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(paramSearchText))
