@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Common.FileStorage;
+using BuildingBlocks.Common.Helpers;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Stores.Models;
@@ -159,6 +160,17 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             entity.PayPalConfig = paypalConfig; 
         }
         _context.Store.Add(entity);
+       
+        var deepLink = new AppDeepLink
+        {
+            Type = "store",
+            TargetId = entity.Id.ToString(),
+            Code = StringGenerateRandom.Generate(),
+            AndroidLink = $"intent://store-detail/{entity.Id}#Intent;package=com.nas.nas_mobile;scheme=nasshine;end",
+            IOSLink = $"nasshine://store-detail/{entity.Id}",
+            WebFallback = $"https://nasshine.com/{entity.Id}"
+        };
+        _context.AppDeepLink.Add(deepLink);
         await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
