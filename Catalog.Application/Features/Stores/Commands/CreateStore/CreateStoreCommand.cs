@@ -6,6 +6,7 @@ using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Stores.Models;
 using Catalog.Domain.Entities;
 using Catalog.Domain.Enums;
+using Google.Rpc;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -90,6 +91,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
     {
         var products = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         var banks = await _context.BankAccount.Where(x => request.BankIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken); ;
+        var code = StringGenerateRandom.Generate();
         var entity = new Store
         {
             StoreName = request.StoreName,
@@ -106,6 +108,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             Email = request.Email,
             Description = request.Description,
             ServicePackageId = request.ServicePackageId,
+            DeepLink = $"http://deeplink.nasshine.com/{code}"
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
@@ -165,12 +168,13 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
         {
             Type = "store",
             TargetId = entity.Id.ToString(),
-            Code = StringGenerateRandom.Generate(),
+            Code = code,
             AndroidLink = $"intent://store-detail/{entity.Id}#Intent;package=com.nas.nas_mobile;scheme=nasshine;end",
             IOSLink = $"nasshine://store-detail/{entity.Id}",
             WebFallback = $"https://nasshine.com/{entity.Id}"
         };
         _context.AppDeepLink.Add(deepLink);
+        
         await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));

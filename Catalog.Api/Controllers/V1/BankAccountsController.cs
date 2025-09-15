@@ -7,8 +7,6 @@ using Catalog.Application.Features.BankAccounts.Queries.GetBankAccount;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccountByStore;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccounts;
 using Catalog.Application.Features.BankAccounts.Queries.GetBankAccountsWithPagination;
-using Catalog.Application.Features.Services.Models;
-using Catalog.Application.Features.Services.Queries.GetServiceByStoreId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
