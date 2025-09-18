@@ -45,7 +45,7 @@ public class AppDeepLinksController : ApiControllerBase
         var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
         if (IsIosDevice(userAgent))
         {
-            return Content(GenerateIosRedirectHtml(dto.IOSLink), "text/html");
+            return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
         }
 
         var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
@@ -62,9 +62,14 @@ public class AppDeepLinksController : ApiControllerBase
         return userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios");
     }
 
-    private string GenerateIosRedirectHtml(string iosLink)
+    private string GenerateIosRedirectHtml(string iosLink, string type)
     {
-        const string appStoreUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
+
+        const string merchantUrl = "https://apps.apple.com/us/app/nas-business/id6751517132";
+        const string clientUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
+
+        string appStoreUrl = type == "merchant" ? merchantUrl : clientUrl;
+
         return $@"
         <!DOCTYPE html>
         <html>
