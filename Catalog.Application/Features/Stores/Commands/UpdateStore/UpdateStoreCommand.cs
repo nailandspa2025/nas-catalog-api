@@ -61,6 +61,7 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
     public List<int> BankIds { get; init; } = new List<int>();
     public List<UpdateSocialNetworkModel>  SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
     public UpdatePaypalModel? PaypalConfig { get; init; }
+    public int? Order { get; init; }
 }
 public record UpdateSocialNetworkModel
 {
@@ -119,6 +120,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.Description = request.Description;
         entity.DeepLink = request.DeepLink;
         entity.ServicePackageId = request.ServicePackageId;
+        entity.Order = request.Order.Value;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

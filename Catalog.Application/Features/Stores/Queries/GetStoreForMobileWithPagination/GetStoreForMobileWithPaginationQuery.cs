@@ -48,7 +48,8 @@ public class GetStoreForMobileWithPaginationQueryHandler : IRequestHandler<GetSt
             query = query.Where(s => s.RatingStar == request.Rating.Value);
         }
         var paginationResult = await query
-            .OrderBy(x => x.Created)
+            .OrderBy(x => x.Order)
+            .ThenByDescending(x => x.Created)
             .ProjectTo<StoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 

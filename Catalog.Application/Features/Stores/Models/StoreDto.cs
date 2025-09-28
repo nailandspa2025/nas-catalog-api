@@ -55,6 +55,7 @@ public class StoreDto: BaseAuditableDto
     public List<int> BankIds { get; set; } = new List<int>();
     public PayPalConfigDto ? PaypalConfig { get; set; }
     public List<SocialNetworkDto> SocialNetworks { get; set; } = new List<SocialNetworkDto>();
+    public int Order { set; get; }
     private class Mapping : Profile
     {
         public Mapping()

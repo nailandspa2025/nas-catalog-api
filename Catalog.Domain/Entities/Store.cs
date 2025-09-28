@@ -33,6 +33,8 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public string ? DeepLink { get; set; }
 
+    public int Order { set; get; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }
