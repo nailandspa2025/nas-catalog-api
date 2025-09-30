@@ -31,6 +31,9 @@ public class ReviewStoreDto: BaseAuditableDto
 
     public AppAccountDto?  AccountInfo { get; set; }
 
+    public List<ReviewTechnicianDto> ReviewTechnicians { get; set; } = new List<ReviewTechnicianDto>();
+    public List<ReviewServiceDto> ReviewServices { get; set; } = new List<ReviewServiceDto>();
+
     private class Mapping : Profile
     {
         public Mapping ()

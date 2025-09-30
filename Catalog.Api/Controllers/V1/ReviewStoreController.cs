@@ -4,6 +4,7 @@ using Catalog.Application.Features.ReviewStores.Commands.DeleteReviewStore;
 using Catalog.Application.Features.ReviewStores.Commands.UpdateReviewStore;
 using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Application.Features.ReviewStores.Queries.GetReviewStore;
+using Catalog.Application.Features.ReviewStores.Queries.GetReviewStores;
 using Catalog.Application.Features.ReviewStores.Queries.GetReviewStoresWithPagination;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,7 @@ public class ReviewStoreController: ApiControllerBase
 {
     [HttpGet("pagingation")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedList<ReviewStoreDto>>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<ApiResponse<PaginatedList<ReviewStoreDto>>>> GetBannersWithPaginationAsync([FromQuery] GetReviewStoresWithPaginationQuery query)
+    public async Task<ActionResult<ApiResponse<PaginatedList<ReviewStoreDto>>>> GetWithPaginationAsync([FromQuery] GetReviewStoresWithPaginationQuery query)
     {
         return await Mediator.Send(query);
     }
@@ -59,5 +60,13 @@ public class ReviewStoreController: ApiControllerBase
     {
         return await Mediator.Send(new DeleteReviewStoreCommand(id));
     }
+
+    [HttpGet("technician")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<ReviewTechnicianDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<PaginatedList<ReviewTechnicianDto>>>> GetTechnicianIdWithPaginationAsync([FromQuery] GetReviewStoreByTechnicianIdsQuery query)
+    {
+        return await Mediator.Send(query);
+    }
+
 }
 

@@ -36,11 +36,13 @@ public record CreateReviewTechnicianModel
 {
     public long TechnicianId { get; init; }
     public int Rating { get; init; }
+    public string ? Comment { get; init; }
 }
 public record CreateReviewServiceModel
 {
     public int ServiceId { get; init; } 
     public int Rating { get; init; }
+    public string ? Comment { get; init; }
 }
 
 public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStoreCommand, ApiResponse<ReviewStoreDto>>
@@ -80,6 +82,7 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
                 {
                     TechnicianId = item.TechnicianId,
                     Rating = item.Rating,
+                    Comment= item.Comment,
                 };
                 reviewTechnicians.Add(reviewTechnician);
             }
@@ -94,6 +97,7 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
                 {
                     ServiceId = item.ServiceId,
                     Rating = item.Rating,
+                    Comment = item.Comment,
                 };
                 reviewServices.Add(reviewService);
             }

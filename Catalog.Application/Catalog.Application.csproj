@@ -165,15 +165,11 @@
     <Folder Include="Features\Rewards\Queries\GetReward\" />
     <Folder Include="Features\Rewards\Queries\GetRewards\" />
     <Folder Include="Features\Rewards\Queries\GetRewardsWithPagination\" />
-    <Folder Include="Features\ReviewStores\" />
     <Folder Include="Features\ReviewStores\Commands\" />
-    <Folder Include="Features\ReviewStores\Models\" />
-    <Folder Include="Features\ReviewStores\Queries\" />
     <Folder Include="Features\ReviewStores\Commands\CreateReviewStore\" />
     <Folder Include="Features\ReviewStores\Commands\UpdateReviewStore\" />
     <Folder Include="Features\ReviewStores\Commands\DeleteReviewStore\" />
     <Folder Include="Features\ReviewStores\Queries\GetReviewStore\" />
-    <Folder Include="Features\ReviewStores\Queries\GetReviewStores\" />
     <Folder Include="Features\ReviewStores\Queries\GetReviewStoresWithPagination\" />
   </ItemGroup>
   <ItemGroup>

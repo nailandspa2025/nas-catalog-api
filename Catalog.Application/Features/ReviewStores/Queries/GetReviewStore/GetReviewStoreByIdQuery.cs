@@ -27,6 +27,8 @@ public class GetReviewStoreByIdQueryHandler : IRequestHandler<GetReviewStoreById
     public async Task<ApiResponse<ReviewStoreDto>> Handle(GetReviewStoreByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _contexxt.ReviewStore
+            .Include(x => x.ReviewServices)
+            .Include(x => x.ReviewTechnicians)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if (entity == null)

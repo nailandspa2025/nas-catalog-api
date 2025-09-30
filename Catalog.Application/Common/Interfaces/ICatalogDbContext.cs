@@ -43,5 +43,9 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<UserStoreDeepLink> UserStoreDeepLink { get; }
 
+    DbSet<ReviewTechnician> ReviewTechnician { get; }
+
+    DbSet<ReviewService> ReviewService { get; }
+
 }
 
