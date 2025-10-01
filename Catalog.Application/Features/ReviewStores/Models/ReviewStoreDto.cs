@@ -31,6 +31,8 @@ public class ReviewStoreDto: BaseAuditableDto
 
     public AppAccountDto?  AccountInfo { get; set; }
 
+    public bool IsRated { get; set; }
+
     public List<ReviewTechnicianDto> ReviewTechnicians { get; set; } = new List<ReviewTechnicianDto>();
     public List<ReviewServiceDto> ReviewServices { get; set; } = new List<ReviewServiceDto>();
 

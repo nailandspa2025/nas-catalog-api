@@ -72,6 +72,7 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
             Content = request.Content,
             IsActive = request.IsActive,
             AccountId = int.TryParse(_currentUser.UserId, out var id) ? id : 0,
+            IsRated = true
         };
         if (request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
         {
