@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BuildingBlocks.ApiClients.Clients.Identity;
+using BuildingBlocks.ApiClients.Clients.Identity.Models;
 using BuildingBlocks.Common.Mappings;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
@@ -21,21 +23,43 @@ public class GetReviewStoreByTechnicianIdsQueryHandler : IRequestHandler<GetRevi
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IIdentityClient _identityClient;
 
-    public GetReviewStoreByTechnicianIdsQueryHandler(ICatalogDbContext context, IMapper mapper)
+    public GetReviewStoreByTechnicianIdsQueryHandler(ICatalogDbContext context, IMapper mapper, IIdentityClient identityClient)
     {
         _context = context;
         _mapper = mapper;
+        _identityClient = identityClient;
     }
     public async Task<ApiResponse<PaginatedList<ReviewTechnicianDto>>> Handle(GetReviewStoreByTechnicianIdsQuery request, CancellationToken cancellationToken)
     {
-        var query = _context.ReviewTechnician.Where(s => s.TechnicianId == request.TechnicianId).AsNoTracking();
+        var query = _context.ReviewTechnician
+            .Where(s => s.TechnicianId == request.TechnicianId)
+            .Include(s => s.ReviewStore)
+            .AsNoTracking();
 
         var paginationResult = await query
            .OrderBy(x => x.Created)
            .ProjectTo<ReviewTechnicianDto>(_mapper.ConfigurationProvider)
            .PaginatedListAsync(request.PageNumber, request.PageSize);
 
+        try
+        {
+            var appAccountIds = paginationResult.Items.Select(s => s.AccountId).Distinct();
+            if (appAccountIds.Any())
+            {
+                var appAccounts = (await _identityClient.GetAppAccountByIdsAsync(string.Join(",", appAccountIds), cancellationToken))?.Data;
+                var appAccountDictionary = appAccounts?.ToDictionary(t => t.Id, t => t) ?? new Dictionary<int, AppAccountDto>();
+                foreach (var reviews in paginationResult.Items)
+                {
+                    if (appAccountDictionary.TryGetValue(reviews.AccountId, out var account))
+                    {
+                        reviews.AccountInfo = account;
+                    }
+                }
+            }
+        }
+        catch (Exception) { }
         return ApiResponse<PaginatedList<ReviewTechnicianDto>>.Success(paginationResult);
     }
 }
