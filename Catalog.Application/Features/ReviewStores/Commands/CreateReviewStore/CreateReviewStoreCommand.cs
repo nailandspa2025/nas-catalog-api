@@ -3,7 +3,6 @@ using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ReviewStores.Models;
-using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Domain.Entities;
 using MediatR;
 
@@ -84,6 +83,7 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
                     TechnicianId = item.TechnicianId,
                     Rating = item.Rating,
                     Comment= item.Comment,
+                    IsRated = true
                 };
                 reviewTechnicians.Add(reviewTechnician);
             }
@@ -99,6 +99,7 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
                     ServiceId = item.ServiceId,
                     Rating = item.Rating,
                     Comment = item.Comment,
+                    IsRated = true
                 };
                 reviewServices.Add(reviewService);
             }

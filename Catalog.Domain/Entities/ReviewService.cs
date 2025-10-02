@@ -8,4 +8,5 @@ public class ReviewService : BaseAuditableEntity<int>
     public int ServiceId { get; set; }
     public int Rating { get; set; }
     public string? Comment { get; set; }
+    public bool IsRated { get; set; }
 }

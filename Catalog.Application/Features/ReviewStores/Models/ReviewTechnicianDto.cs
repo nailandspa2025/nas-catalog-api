@@ -12,6 +12,7 @@ public class ReviewTechnicianDto
     public long TechnicianId { get; set; }
     public int AccountId { get; set; }
     public AppAccountDto? AccountInfo { get; set; }
+    public bool IsRated { get; set; }
     private class Mapping : Profile
     {
         public Mapping()
