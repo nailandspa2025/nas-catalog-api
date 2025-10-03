@@ -33,7 +33,7 @@ public class ReviewStore : BaseAuditableEntity<int>, ISoftDelete
 
     public int  AccountId { get; set; }
 
-    public bool IsRated { get; init; }
+    public bool IsRated { get; set; }
 
     public ICollection<ReviewTechnician> ReviewTechnicians { get; set; } = new List<ReviewTechnician>();
     public ICollection<ReviewService> ReviewServices { get; set; } = new List<ReviewService>();

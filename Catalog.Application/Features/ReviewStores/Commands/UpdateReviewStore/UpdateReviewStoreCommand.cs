@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
+using BuildingBlocks.EventBus.Events;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,11 +51,13 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UpdateReviewStoreCommandHandler(ICatalogDbContext context, IMapper mapper)
+    public UpdateReviewStoreCommandHandler(ICatalogDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
 
@@ -78,6 +82,8 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
         entity.StoreRating = request.StoreRating;
         entity.Content = request.Content;
         entity.IsActive = request.IsActive;
+        entity.IsRated = true;
+   
         if(request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
         {
             var reviewTechnicians = new List<ReviewTechnician>();
@@ -88,6 +94,7 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
                     TechnicianId = item.TechnicianId,
                     Rating = item.Rating,
                     Comment = item.Comment,
+                    IsRated = true
                 };
                 reviewTechnicians.Add(reviewTechnician);
             }
@@ -103,6 +110,7 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
                     ServiceId = item.ServiceId,
                     Rating = item.Rating,
                     Comment= item.Comment,
+                    IsRated = true
                 };
                 reviewServices.Add(reviewService);
             }
@@ -110,6 +118,12 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _publishEndpoint.Publish(new BookingUpdateRateEvent
+        {
+            BookingId = entity.Id,
+            IsRated = true
+        });
         return ApiResponse<ReviewStoreDto>.Success(_mapper.Map<ReviewStoreDto>(entity));
     }
 }

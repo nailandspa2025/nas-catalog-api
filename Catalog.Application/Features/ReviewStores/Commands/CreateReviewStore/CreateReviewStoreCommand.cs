@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Authentication.Abstractions;
 using BuildingBlocks.Core.Response;
+using BuildingBlocks.EventBus.Events;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
+using MassTransit;
 using MediatR;
 
 namespace Catalog.Application.Features.ReviewStores.Commands.CreateReviewStore;
@@ -49,12 +51,14 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser)
+    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _mapper = mapper;
         _currentUser = currentUser;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<ApiResponse<ReviewStoreDto>> Handle(CreateReviewStoreCommand request, CancellationToken cancellationToken)
@@ -105,8 +109,15 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
             }
             entity.SetReviewServices(reviewServices);
         }
+
         _context.ReviewStore.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _publishEndpoint.Publish(new BookingUpdateRateEvent
+        {
+            BookingId = entity.Id,
+            IsRated = true
+        });
 
         return ApiResponse<ReviewStoreDto>.Success(_mapper.Map<ReviewStoreDto>(entity));
     }
