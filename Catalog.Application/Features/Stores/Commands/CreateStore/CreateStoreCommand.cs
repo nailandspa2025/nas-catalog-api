@@ -57,7 +57,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public List<CreateSocialNetworkModel> SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
 
     public CreatePaypalModel? PaypalConfig { get; init; }
-    public int ? Order { get; init; }
+    public int  Order { get; init; }
 
 }
 
@@ -110,7 +110,7 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             Description = request.Description,
             ServicePackageId = request.ServicePackageId,
             DeepLink = $"http://deeplink.nasshine.com/{code}",
-            Order =request.Order.Value
+            Order = request.Order
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
         {
