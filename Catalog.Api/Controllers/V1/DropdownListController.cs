@@ -28,6 +28,7 @@ using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -54,6 +55,7 @@ public class DropdownListController : ApiControllerBase
         return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
     }
 
+    [AllowAnonymous]
     [HttpGet("store/{id}")]
     [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<StoreDto>>> GetStoreByIdAsync(long id)
