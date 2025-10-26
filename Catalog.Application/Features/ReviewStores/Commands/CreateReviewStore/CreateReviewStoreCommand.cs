@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Authentication.Abstractions;
+using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Core.Response;
 using BuildingBlocks.EventBus.Events;
 using Catalog.Application.Common.Interfaces;
@@ -7,6 +8,7 @@ using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Catalog.Application.Features.ReviewStores.Commands.CreateReviewStore;
 
@@ -32,6 +34,8 @@ public record CreateReviewStoreCommand: IRequest<ApiResponse<ReviewStoreDto>>
 
     public List<CreateReviewTechnicianModel> ReviewTechnicians { get; init; } = new List<CreateReviewTechnicianModel>();
     public List<CreateReviewServiceModel> ReviewServices { get; init; } = new List<CreateReviewServiceModel>();
+
+    public List<IFormFile> Images { get; init; } = new List<IFormFile>();
 }
 public record CreateReviewTechnicianModel
 {
@@ -52,13 +56,15 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IStorageService _storageService;
 
-    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser, IPublishEndpoint publishEndpoint)
+    public CreateReviewStoreCommandHandler (ICatalogDbContext context, IMapper mapper, ICurrentUser currentUser, IPublishEndpoint publishEndpoint, IStorageService storageService)
     {
         _context = context;
         _mapper = mapper;
         _currentUser = currentUser;
         _publishEndpoint = publishEndpoint;
+        _storageService = storageService;
     }
 
     public async Task<ApiResponse<ReviewStoreDto>> Handle(CreateReviewStoreCommand request, CancellationToken cancellationToken)
@@ -77,6 +83,16 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
             AccountId = int.TryParse(_currentUser.UserId, out var id) ? id : 0,
             IsRated = true
         };
+        if (request.Images.Any())
+        {
+            var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
+            var images = imageUrls.Select(p => new ReviewStoreFile
+            {
+                Url = p
+            }).ToList();
+            entity.SetReviewFiles(images);
+        }
+
         if (request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
         {
             var reviewTechnicians = new List<ReviewTechnician>();

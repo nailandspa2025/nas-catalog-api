@@ -36,7 +36,11 @@ public class ReviewStore : BaseAuditableEntity<int>, ISoftDelete
     public bool IsRated { get; set; }
 
     public ICollection<ReviewTechnician> ReviewTechnicians { get; set; } = new List<ReviewTechnician>();
+
     public ICollection<ReviewService> ReviewServices { get; set; } = new List<ReviewService>();
+
+    public ICollection<ReviewStoreFile> ReviewFiles { get; set; } = new List<ReviewStoreFile>();
+
     public void SetReviewTechnicians(List<ReviewTechnician> technicians)
     {
         this.ReviewTechnicians.Clear();
@@ -46,6 +50,12 @@ public class ReviewStore : BaseAuditableEntity<int>, ISoftDelete
     {
         this.ReviewServices.Clear();
         this.ReviewServices = services;
+    }
+
+    public void SetReviewFiles(List<ReviewStoreFile> files)
+    {
+        ReviewFiles.Clear();
+        ReviewFiles = files;
     }
 }
 

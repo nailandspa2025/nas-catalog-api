@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Common.Exceptions;
+using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Core.Response;
 using BuildingBlocks.EventBus.Events;
 using Catalog.Application.Common.Interfaces;
@@ -7,6 +8,7 @@ using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Domain.Entities;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.ReviewStores.Commands.UpdateReviewStore;
@@ -34,6 +36,9 @@ public record UpdateReviewStoreCommand: IRequest<ApiResponse<ReviewStoreDto>>
     public bool IsActive { get; init; }
     public List<UpdateReviewTechnicianModel> ReviewTechnicians { get; init; } = new List<UpdateReviewTechnicianModel>();
     public List<UpdateReviewServiceModel> ReviewServices { get; init; } = new List<UpdateReviewServiceModel>();
+    public List<IFormFile> Images { get; init; } = new List<IFormFile>();
+    public List<string> LinkUrls { get; init; } = new List<string>();
+
 }
 public record UpdateReviewTechnicianModel
 {
@@ -52,12 +57,14 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IStorageService _storageService;
 
-    public UpdateReviewStoreCommandHandler(ICatalogDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
+    public UpdateReviewStoreCommandHandler(ICatalogDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint, IStorageService storageService)
     {
         _context = context;
         _mapper = mapper;
         _publishEndpoint = publishEndpoint;
+        _storageService = storageService;
     }
 
 
@@ -66,6 +73,7 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
         var entity = await _context.ReviewStore
             .Include(x => x.ReviewTechnicians)
             .Include(x => x.ReviewServices)
+            .Include(x => x.ReviewFiles)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
@@ -83,8 +91,31 @@ public class UpdateReviewStoreCommandHandler : IRequestHandler<UpdateReviewStore
         entity.Content = request.Content;
         entity.IsActive = request.IsActive;
         entity.IsRated = true;
-   
-        if(request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
+
+        var updatedImageUrls = new List<string>();
+        var oldImageUrls = entity.ReviewFiles.Select(g => g.Url).Where(url => !request.LinkUrls.Contains(url)).ToList();
+        if (oldImageUrls.Any())
+        {
+            await _storageService.DeleteFileAsync(oldImageUrls, cancellationToken);
+        }
+        if (request.Images.Any())
+        {
+            var imageUrls = await _storageService.SaveFilesAsync(request.Images, cancellationToken);
+
+            updatedImageUrls.AddRange(imageUrls);
+        }
+        if (request.LinkUrls != null && request.LinkUrls.Any())
+        {
+            updatedImageUrls.AddRange(request.LinkUrls);
+        }
+        entity.SetReviewFiles(
+        updatedImageUrls.Select(url => new ReviewStoreFile
+            {
+                Url = url
+            }).ToList()
+        );
+
+        if (request.ReviewTechnicians != null && request.ReviewTechnicians.Any())
         {
             var reviewTechnicians = new List<ReviewTechnician>();
             foreach (var item in request.ReviewTechnicians)

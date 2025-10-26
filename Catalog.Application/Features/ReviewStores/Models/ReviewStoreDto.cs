@@ -36,11 +36,14 @@ public class ReviewStoreDto: BaseAuditableDto
     public List<ReviewTechnicianDto> ReviewTechnicians { get; set; } = new List<ReviewTechnicianDto>();
     public List<ReviewServiceDto> ReviewServices { get; set; } = new List<ReviewServiceDto>();
 
+    public List<string> ImageUrls { get; set; } = new List<string>();
+
     private class Mapping : Profile
     {
         public Mapping ()
         {
-            CreateMap<ReviewStore, ReviewStoreDto>();
+            CreateMap<ReviewStore, ReviewStoreDto>()
+                .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ReviewFiles.Select(i => i.Url).ToList())); ;
         }
     }
 }
