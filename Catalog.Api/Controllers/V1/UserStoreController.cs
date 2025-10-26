@@ -14,4 +14,11 @@ public class UserStoreController : ApiControllerBase
     {
         return await Mediator.Send(new GetUserStoreByUserIdQuery { UserId = userId });
     }
+
+    [HttpGet("store-user/{userId}")]
+    [ProducesResponseType(typeof(ApiResponse<UserStoreDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<UserStoreDto>>>> GetUserByIdsAsync(string userId)
+    {
+        return await Mediator.Send(new GetUserIdsForCurrentUserStoreQuery { UserId = userId });
+    }
 }
