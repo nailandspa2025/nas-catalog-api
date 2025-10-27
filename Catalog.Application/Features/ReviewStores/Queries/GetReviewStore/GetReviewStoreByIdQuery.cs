@@ -16,17 +16,17 @@ public record GetReviewStoreByIdQuery: IRequest<ApiResponse<ReviewStoreDto>>
 
 public class GetReviewStoreByIdQueryHandler : IRequestHandler<GetReviewStoreByIdQuery, ApiResponse<ReviewStoreDto>>
 {
-    private readonly ICatalogDbContext _contexxt;
+    private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
 
     public GetReviewStoreByIdQueryHandler(ICatalogDbContext context, IMapper mapper)
     {
-        _contexxt = context;
+        _context = context;
         _mapper = mapper;
     }
     public async Task<ApiResponse<ReviewStoreDto>> Handle(GetReviewStoreByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await _contexxt.ReviewStore
+        var entity = await _context.ReviewStore
             .Include(x => x.ReviewServices)
             .Include(x => x.ReviewTechnicians)
             .AsNoTracking()

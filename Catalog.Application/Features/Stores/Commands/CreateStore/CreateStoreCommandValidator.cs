@@ -17,21 +17,21 @@ namespace Catalog.Application.Features.Stores.Commands.CreateStore
             //RuleFor(v => v.OwnerId)
             //    .NotEmpty();
 
-            RuleFor(v => v.Lat)
-                .NotEmpty();
+            //RuleFor(v => v.Lat)
+            //    .NotEmpty();
 
-            RuleFor(v => v.Lng)
-                .NotEmpty();
+            //RuleFor(v => v.Lng)
+            //    .NotEmpty();
 
             RuleFor(v => v.Hotline)
                 .NotEmpty()
                 .MaximumLength(20);
 
-            RuleFor(v => v.OpenTime)
-                .NotEmpty();
+            //RuleFor(v => v.OpenTime)
+            //    .NotEmpty();
 
-            RuleFor(v => v.CloseTime)
-                .NotEmpty();
+            //RuleFor(v => v.CloseTime)
+            //    .NotEmpty();
 
         }
 	}
