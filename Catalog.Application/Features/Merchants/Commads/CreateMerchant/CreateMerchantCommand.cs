@@ -57,6 +57,8 @@ public record CreateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
     public List<CreateBrandModel>? Brands { get; init; } = new List<CreateBrandModel>();
 
     public DateTime? DeploymentDate { get; init; }
+
+    public string? Country { get; set; }
 }
 
 public record CreateBrandModel
@@ -104,7 +106,8 @@ public class CreateMerchantCommandHandler : IRequestHandler<CreateMerchantComman
             ServicePackageId = request.ServicePackageId,
             IsActive = request.IsActive,
             ContactPhoneNumber = request.ContactPhoneNumber,
-            DeploymentDate = request.DeploymentDate
+            DeploymentDate = request.DeploymentDate,
+            Country = request.Country
         };
         if (request.Logo != null && request.Logo.Length > 0)
         {

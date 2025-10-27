@@ -51,6 +51,8 @@ public class MerchantDto: BaseAuditableDto
 
     public  List<BrandDto> Brands { get; set; } = new List<BrandDto>();
 
+    public string ? Country { get; set; }
+
     private class Mapping : Profile
     {
         public Mapping()

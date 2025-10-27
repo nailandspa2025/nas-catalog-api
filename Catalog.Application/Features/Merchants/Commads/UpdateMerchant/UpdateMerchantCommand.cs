@@ -65,6 +65,8 @@ public record UpdateMerchantCommand: IRequest<ApiResponse<MerchantDto>>
     public DateTime? DeploymentDate { get; init; }
 
     public string? ContactPhoneNumber { get; init; }
+
+    public string? Country { get; set; }
 }
 
 public record UpdateBrandModel
@@ -124,6 +126,7 @@ public class UpdateMerchantCommandHandler : IRequestHandler<UpdateMerchantComman
         entity.ServicePackageId = request.ServicePackageId;
         entity.DeploymentDate = request.DeploymentDate;
         entity.ContactPhoneNumber = request.ContactPhoneNumber;
+        entity.Country = request.Country;
 
         if (request.Logo != null && request.Logo.Length > 0)
         {

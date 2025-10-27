@@ -58,6 +58,8 @@ public class Merchant: BaseAuditableEntity<int>, ISoftDelete
 
     public virtual Reward ? Reward { get; set; }
 
+    public string? Country { get; set; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }
