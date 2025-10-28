@@ -95,6 +95,16 @@
     <None Remove="Features\ReviewStores\Queries\GetReviewStore\" />
     <None Remove="Features\ReviewStores\Queries\GetReviewStores\" />
     <None Remove="Features\ReviewStores\Queries\GetReviewStoresWithPagination\" />
+    <None Remove="Features\Categories\" />
+    <None Remove="Features\Categories\Commands\" />
+    <None Remove="Features\Categories\Commands\CreateCategory\" />
+    <None Remove="Features\Categories\Models\" />
+    <None Remove="Features\Categories\Commands\UpdateCategory\" />
+    <None Remove="Features\Categories\Commands\DeleteCategory\" />
+    <None Remove="Features\Categories\Queries\" />
+    <None Remove="Features\Categories\Queries\GetCategory\" />
+    <None Remove="Features\Categories\Queries\GetCategories\" />
+    <None Remove="Features\Categories\Queries\GetCategoryWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -171,6 +181,16 @@
     <Folder Include="Features\ReviewStores\Commands\DeleteReviewStore\" />
     <Folder Include="Features\ReviewStores\Queries\GetReviewStore\" />
     <Folder Include="Features\ReviewStores\Queries\GetReviewStoresWithPagination\" />
+    <Folder Include="Features\Categories\" />
+    <Folder Include="Features\Categories\Commands\" />
+    <Folder Include="Features\Categories\Commands\CreateCategory\" />
+    <Folder Include="Features\Categories\Models\" />
+    <Folder Include="Features\Categories\Commands\UpdateCategory\" />
+    <Folder Include="Features\Categories\Commands\DeleteCategory\" />
+    <Folder Include="Features\Categories\Queries\" />
+    <Folder Include="Features\Categories\Queries\GetCategory\" />
+    <Folder Include="Features\Categories\Queries\GetCategories\" />
+    <Folder Include="Features\Categories\Queries\GetCategoryWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

@@ -47,5 +47,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<ReviewService> ReviewService { get; }
 
+    DbSet<Category> Category { get; }
+
 }
 

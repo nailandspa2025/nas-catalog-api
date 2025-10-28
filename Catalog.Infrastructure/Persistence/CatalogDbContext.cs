@@ -52,6 +52,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<ReviewTechnician> ReviewTechnician => Set<ReviewTechnician>();
 
+    public DbSet<Category> Category => Set<Category>();
+
     public DbSet<ReviewService> ReviewService => Set<ReviewService>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
