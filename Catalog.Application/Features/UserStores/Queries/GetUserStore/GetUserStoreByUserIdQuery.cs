@@ -30,10 +30,10 @@ public class GetUserStoreByUserIdQueryHandler : IRequestHandler<GetUserStoreByUs
             .Where(us => us.UserId == request.UserId)
             .ToListAsync(cancellationToken);
 
-        if (!entities.Any())
-        {
-            throw new NotFoundException(nameof(UserStore), request.UserId);
-        }
+        //if (!entities.Any())
+        //{
+        //    throw new NotFoundException(nameof(UserStore), request.UserId);
+        //}
         return ApiResponse<IEnumerable<UserStoreDto>>.Success(_mapper.Map<IEnumerable<UserStoreDto>>(entities));
     }
 }
