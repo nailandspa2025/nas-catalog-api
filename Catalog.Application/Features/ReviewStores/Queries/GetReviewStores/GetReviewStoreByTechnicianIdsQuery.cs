@@ -16,7 +16,7 @@ public class GetReviewStoreByTechnicianIdsQuery : IRequest<ApiResponse<Paginated
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 10;
 
-    public int TechnicianId { get; init; }
+    public int TechnicianId { get; init; }  
 }
 
 public class GetReviewStoreByTechnicianIdsQueryHandler : IRequestHandler<GetReviewStoreByTechnicianIdsQuery, ApiResponse<PaginatedList<ReviewTechnicianDto>>>
@@ -36,6 +36,7 @@ public class GetReviewStoreByTechnicianIdsQueryHandler : IRequestHandler<GetRevi
         var query = _context.ReviewTechnician
             .Where(s => s.TechnicianId == request.TechnicianId)
             .Include(s => s.ReviewStore)
+            .ThenInclude(x => x.ReviewFiles)
             .AsNoTracking();
 
         var paginationResult = await query

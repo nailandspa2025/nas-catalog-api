@@ -7,19 +7,31 @@ namespace Catalog.Application.Features.ReviewStores.Models;
 public class ReviewTechnicianDto
 {
     public int Id { get; set; }
+
     public int Rating { get; set; }
+
     public string? Comment { get; set; }
+
     public long TechnicianId { get; set; }
+
     public int AccountId { get; set; }
+
     public AppAccountDto? AccountInfo { get; set; }
+
     public bool IsRated { get; set; }
+
+    public List<string> ImageUrls { get; set; } = new List<string>();
+
     private class Mapping : Profile
     {
         public Mapping()
         {
             CreateMap<ReviewTechnician, ReviewTechnicianDto>()
                 .ForMember(dest => dest.AccountId,
-               opt => opt.MapFrom(src => src.ReviewStore.AccountId));
+                opt => opt.MapFrom(src => src.ReviewStore.AccountId))
+                .ForMember(dest => dest.ImageUrls,
+                opt => opt.MapFrom(src => src.ReviewStore.ReviewFiles
+                    .Select(f => f.Url).ToList()));
         }
     }
 }

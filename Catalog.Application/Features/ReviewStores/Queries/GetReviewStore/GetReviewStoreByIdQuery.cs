@@ -29,6 +29,7 @@ public class GetReviewStoreByIdQueryHandler : IRequestHandler<GetReviewStoreById
         var entity = await _context.ReviewStore
             .Include(x => x.ReviewServices)
             .Include(x => x.ReviewTechnicians)
+            .Include(x => x.ReviewFiles)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if (entity == null)

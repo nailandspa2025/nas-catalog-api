@@ -66,6 +66,7 @@ public class GetReviewStoresWithPaginationQueryHandler : IRequestHandler<GetRevi
             .OrderBy(x => x.Created)
             .Include(x => x.ReviewServices)
             .Include(x => x.ReviewTechnicians)
+            .Include(x => x.ReviewFiles)
             .ProjectTo<ReviewStoreDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
         try
