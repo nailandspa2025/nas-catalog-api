@@ -1,5 +1,4 @@
-﻿using System;
-using BuildingBlocks.Persistence.Abstractions.Entities;
+﻿using BuildingBlocks.Persistence.Abstractions.Entities;
 using BuildingBlocks.Persistence.Entities.Common;
 
 namespace Catalog.Domain.Entities;
@@ -27,5 +26,13 @@ public class Category: BaseAuditableEntity<int>, ISoftDelete
     public DateTime? Deleted { get; set; }
 
     public bool IsDeleted { get; set; }
+
+    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
+
+    public void SetService(List<Service> services)
+    {
+        this.Services.Clear();
+        this.Services = services;
+    }
 }
 

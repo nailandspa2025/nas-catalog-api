@@ -7,12 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Queries.GetStores;
 
-public record GetStoreByIdsQuery: IRequest<ApiResponse<IEnumerable<StoreDto>>>
+public record GetCategoryByIsdQuery: IRequest<ApiResponse<IEnumerable<StoreDto>>>
 {
     public string Ids { get; init; } = null!;
 }
 
-public class GetStoreByIdsQueryHandler : IRequestHandler<GetStoreByIdsQuery, ApiResponse<IEnumerable<StoreDto>>>
+public class GetStoreByIdsQueryHandler : IRequestHandler<GetCategoryByIsdQuery, ApiResponse<IEnumerable<StoreDto>>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class GetStoreByIdsQueryHandler : IRequestHandler<GetStoreByIdsQuery, Api
         _mapper = mapper;
     }
 
-    public async Task<ApiResponse<IEnumerable<StoreDto>>> Handle(GetStoreByIdsQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<IEnumerable<StoreDto>>> Handle(GetCategoryByIsdQuery request, CancellationToken cancellationToken)
     {
         var ids = request.Ids.Split(",");
 

@@ -89,7 +89,7 @@ namespace Catalog.Api.Controllers.V1
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<StoreDto>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<IEnumerable<StoreDto>>>> GetByIdsAsync(string ids)
         {
-            return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
+            return await Mediator.Send(new GetCategoryByIsdQuery { Ids = ids });
         }
 
         [AllowAnonymous]

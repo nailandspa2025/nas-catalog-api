@@ -28,6 +28,8 @@ public record UpdateCategoryCommand: IRequest<ApiResponse<CategoryDto>>
     public int? ParentId { get; init; }
 
     public bool IsImage { get; init; }
+
+    public List<int> ServiceIds { get; init; }
 }
 
 public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, ApiResponse<CategoryDto>>
@@ -50,8 +52,13 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
     public async Task<ApiResponse<CategoryDto>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
+        var services = await _context.Service
+               .Where(s => request.ServiceIds.Contains(s.Id))
+               .ToListAsync(cancellationToken);
+
         var entity = await _context.Category
            .Include(x => x.Children)
+           .Include(x => x.Services)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
@@ -63,7 +70,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         entity.IsActive = request.IsActive;
         entity.OrderNo = request.OrderNo;
         entity.ParentId = request.ParentId;
-
+        entity.SetService(services);
         if (request.Image != null && request.Image.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Image, cancellationToken);

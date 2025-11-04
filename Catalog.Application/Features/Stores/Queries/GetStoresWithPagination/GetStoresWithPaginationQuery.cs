@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
 
-public class GetStoresWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
+public record GetStoresWithPaginationQuery: IRequest<ApiResponse<PaginatedList<StoreDto>>>
 {
     public int PageNumber { get; init; } = 1;
 

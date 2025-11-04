@@ -6,6 +6,7 @@ using Catalog.Application.Features.Categories.Models;
 using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Categories.Commands.CreateCategory;
 
@@ -22,6 +23,8 @@ public record CreateCategoryCommand: IRequest<ApiResponse<CategoryDto>>
     public IFormFile ? Image { get; init; }
 
     public int? ParentId { get; init; }
+
+    public List<int> ServiceIds { get; init; }
 }
 
 
@@ -52,6 +55,15 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             ParentId = request.ParentId,
             Description = request.Description
         };
+        if (request.ServiceIds != null && request.ServiceIds.Any())
+        {
+            var services = await _context.Service
+                .Where(s => request.ServiceIds.Contains(s.Id))
+                .ToListAsync(cancellationToken);
+
+            entity.SetService(services);
+        }
+
         if (request.Image != null && request.Image.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Image, cancellationToken);

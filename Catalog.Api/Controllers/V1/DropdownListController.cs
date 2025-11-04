@@ -52,7 +52,7 @@ public class DropdownListController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponse<StoreDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<IEnumerable<StoreDto>>>> GetStoreByIdsAsync(string ids)
     {
-        return await Mediator.Send(new GetStoreByIdsQuery { Ids = ids });
+        return await Mediator.Send(new GetCategoryByIsdQuery { Ids = ids });
     }
 
     [AllowAnonymous]

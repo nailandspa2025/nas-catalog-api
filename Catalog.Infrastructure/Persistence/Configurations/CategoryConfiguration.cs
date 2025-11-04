@@ -20,6 +20,9 @@ public class CategoryConfiguration: IEntityTypeConfiguration<Category>
             .HasForeignKey(c => c.ParentId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasMany(x => x.Services)
+            .WithMany(x => x.Categories);
+
     }
 }
 
