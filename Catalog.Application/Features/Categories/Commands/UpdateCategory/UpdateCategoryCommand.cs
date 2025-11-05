@@ -71,6 +71,20 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         entity.OrderNo = request.OrderNo;
         entity.ParentId = request.ParentId;
         entity.SetService(services);
+        if (request.ParentId.HasValue)
+        {
+            if (request.ParentId.Value == request.Id)
+                return ApiResponse<CategoryDto>.Error("Category cannot be its own parent.");
+
+            var parent = await _context.Category
+                .FirstOrDefaultAsync(c => c.Id == request.ParentId.Value, cancellationToken);
+
+            if (parent == null)
+                return ApiResponse<CategoryDto>.Error("Parent category not found.");
+
+            entity.ParentId = request.ParentId; 
+        }
+
         if (request.Image != null && request.Image.Length > 0)
         {
             var imageUrl = await _storageService.SaveFileAsync(request.Image, cancellationToken);

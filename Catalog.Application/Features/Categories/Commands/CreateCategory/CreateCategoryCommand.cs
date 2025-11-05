@@ -52,9 +52,19 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
             Name = request.Name,
             IsActive = request.IsActive,
             OrderNo = request.OrderNo,
-            ParentId = request.ParentId,
             Description = request.Description
         };
+        if(request.ParentId.HasValue)
+        {
+            var parentCategory = await _context.Category
+                .FirstOrDefaultAsync(c => c.Id == request.ParentId.Value, cancellationToken);
+
+            if (parentCategory == null)
+            {
+                return ApiResponse<CategoryDto>.Error("Parent category not found");
+            }
+            entity.Parent = parentCategory;
+        }
         if (request.ServiceIds != null && request.ServiceIds.Any())
         {
             var services = await _context.Service
