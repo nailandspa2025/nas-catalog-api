@@ -43,7 +43,7 @@ public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategory
         var paginationResult = await query
             .Include(x => x.Children)
             .Include(x => x.Services)
-            .OrderBy(x => x.Created)
+            .OrderByDescending(x => x.OrderNo)
             .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 

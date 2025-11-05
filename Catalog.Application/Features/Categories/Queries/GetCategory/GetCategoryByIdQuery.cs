@@ -28,15 +28,12 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
     public async Task<ApiResponse<CategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Category
-            .Include(x => x.Children)
-            .Include(x => x.Services)
             .AsNoTracking()
-            .Include(x => x.Children)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
-            throw new NotFoundException(nameof(Banner), request.Id);
+            throw new NotFoundException(nameof(Categories), request.Id);
         }
 
         return ApiResponse<CategoryDto>.Success(_mapper.Map<CategoryDto>(entity));

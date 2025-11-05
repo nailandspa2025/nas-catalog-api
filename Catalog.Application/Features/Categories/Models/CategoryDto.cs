@@ -1,7 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using BuildingBlocks.Persistence.Models;
-using Catalog.Application.Features.Banners.Models;
 using Catalog.Domain.Entities;
 
 namespace Catalog.Application.Features.Categories.Models;
@@ -18,7 +16,7 @@ public class CategoryDto: BaseAuditableDto
 
     public int? ParentId { get; set; }
 
-    public virtual ICollection<Category>? Children { get; set; }
+    public virtual ICollection<CategoryDto>? Children { get; set; }
 
     public int OrderNo { get; set; } = 0;
 
@@ -28,8 +26,9 @@ public class CategoryDto: BaseAuditableDto
 	{
         public Mapping()
         {
-            CreateMap<Category, CategoryDto>();
-            
+            CreateMap<Category, CategoryDto>()
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Id));
+
         }
     }
 }
