@@ -28,6 +28,7 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
     public async Task<ApiResponse<CategoryDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Category
+            .Include(x => x.Services)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 

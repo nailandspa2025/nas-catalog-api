@@ -41,7 +41,7 @@ public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategory
         }
 
         var paginationResult = await query
-            .Include(x => x.Children.Where(c => !c.IsDeleted))
+            .Include(x => x.Children)
             .Include(x => x.Services)
             .OrderByDescending(x => x.OrderNo)
             .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)

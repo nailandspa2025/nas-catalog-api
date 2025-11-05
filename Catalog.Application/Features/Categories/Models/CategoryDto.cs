@@ -22,11 +22,18 @@ public class CategoryDto: BaseAuditableDto
 
     public bool IsActive { get; set; } = true;
 
+    public List<string> ServiceName { get; set; }
+
+    public List<int> ServiceIds { get; set; }
+
     private class Mapping : Profile
 	{
         public Mapping()
         {
-            CreateMap<Category, CategoryDto>();
+            CreateMap<Category, CategoryDto>()
+            .ForMember(dest => dest.Children, opt => opt.MapFrom(src => src.Children.Where(c => !c.IsDeleted)))
+            .ForMember(dest => dest.ServiceIds, opt => opt.MapFrom(src => src.Services.Select(s => s.Id).ToList()))
+            .ForMember(dest => dest.ServiceName, opt => opt.MapFrom(src => src.Services.Select(s => s.Name).ToList()));
         }
     }
 }
