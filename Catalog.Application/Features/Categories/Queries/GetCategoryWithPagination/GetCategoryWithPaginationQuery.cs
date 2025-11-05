@@ -34,14 +34,14 @@ public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategory
     public async Task<ApiResponse<PaginatedList<CategoryDto>>> Handle(GetCategoryWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var paramSearchText = (request.SearchText ?? string.Empty).ToUpper();
-        var query = _context.Category.Where(x => !x.IsDeleted).AsNoTracking();
+        var query = _context.Category.Where(x => !x.IsDeleted && x.ParentId == null).AsNoTracking();
         if (!string.IsNullOrWhiteSpace(paramSearchText))
         {
             query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
 
         var paginationResult = await query
-            .Include(x => x.Children)
+            .Include(x => x.Children.Where(c => !c.IsDeleted))
             .Include(x => x.Services)
             .OrderByDescending(x => x.OrderNo)
             .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)

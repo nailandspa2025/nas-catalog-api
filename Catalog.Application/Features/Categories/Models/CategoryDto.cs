@@ -26,9 +26,7 @@ public class CategoryDto: BaseAuditableDto
 	{
         public Mapping()
         {
-            CreateMap<Category, CategoryDto>()
-                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.Id));
-
+            CreateMap<Category, CategoryDto>();
         }
     }
 }
