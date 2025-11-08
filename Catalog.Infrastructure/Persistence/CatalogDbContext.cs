@@ -55,6 +55,9 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
     public DbSet<Category> Category => Set<Category>();
 
     public DbSet<ReviewService> ReviewService => Set<ReviewService>();
+
+    public DbSet<StoreBio> StoreBio => Set<StoreBio>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

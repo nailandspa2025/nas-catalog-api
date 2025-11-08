@@ -49,5 +49,6 @@ public interface ICatalogDbContext : IEfCoreDbContext
 
     DbSet<Category> Category { get; }
 
+    DbSet<StoreBio> StoreBio { get; }
 }
 

@@ -67,6 +67,9 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
         = new List<UserStoreDeepLink>();
 
     public PayPalConfig ? PayPalConfig { get; set; }
+
+    public StoreBio? StoreBio { get; set; }
+
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();

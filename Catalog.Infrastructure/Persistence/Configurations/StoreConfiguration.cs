@@ -32,5 +32,10 @@ public class StoreConfiguration: IEntityTypeConfiguration<Store>
             .IsRequired(false)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasOne(x => x.StoreBio)
+            .WithOne(x => x.Store)
+            .HasForeignKey<StoreBio>(b => b.StoreId)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

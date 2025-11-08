@@ -105,6 +105,16 @@
     <None Remove="Features\Categories\Queries\GetCategory\" />
     <None Remove="Features\Categories\Queries\GetCategories\" />
     <None Remove="Features\Categories\Queries\GetCategoryWithPagination\" />
+    <None Remove="Features\StoreBios\" />
+    <None Remove="Features\StoreBios\Commands\" />
+    <None Remove="Features\StoreBios\Models\" />
+    <None Remove="Features\StoreBios\Queries\" />
+    <None Remove="Features\StoreBios\Commands\CreateStoreBio\" />
+    <None Remove="Features\StoreBios\Commands\UpdateStoreBio\" />
+    <None Remove="Features\StoreBios\Commands\DeleteStoreBio\" />
+    <None Remove="Features\StoreBios\Queries\GetStoreBio\" />
+    <None Remove="Features\StoreBios\Queries\GetStoreBios\" />
+    <None Remove="Features\StoreBios\Queries\GetStoreBioWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Common\" />
@@ -191,6 +201,16 @@
     <Folder Include="Features\Categories\Queries\GetCategory\" />
     <Folder Include="Features\Categories\Queries\GetCategories\" />
     <Folder Include="Features\Categories\Queries\GetCategoryWithPagination\" />
+    <Folder Include="Features\StoreBios\" />
+    <Folder Include="Features\StoreBios\Commands\" />
+    <Folder Include="Features\StoreBios\Models\" />
+    <Folder Include="Features\StoreBios\Queries\" />
+    <Folder Include="Features\StoreBios\Commands\CreateStoreBio\" />
+    <Folder Include="Features\StoreBios\Commands\UpdateStoreBio\" />
+    <Folder Include="Features\StoreBios\Commands\DeleteStoreBio\" />
+    <Folder Include="Features\StoreBios\Queries\GetStoreBio\" />
+    <Folder Include="Features\StoreBios\Queries\GetStoreBios\" />
+    <Folder Include="Features\StoreBios\Queries\GetStoreBioWithPagination\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />

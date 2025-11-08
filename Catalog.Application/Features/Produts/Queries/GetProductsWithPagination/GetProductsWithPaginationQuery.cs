@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BuildingBlocks.Common.Extensions;
 using BuildingBlocks.Common.Mappings;
