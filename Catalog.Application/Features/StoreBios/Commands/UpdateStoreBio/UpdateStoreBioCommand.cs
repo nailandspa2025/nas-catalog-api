@@ -8,7 +8,6 @@ using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalog.Application.Features.StoreBios.Commands.UpdateStoreBio;
 
@@ -27,6 +26,8 @@ public class UpdateStoreBioCommand: IRequest<ApiResponse<StoreBioDto>>
     public bool IsImage { get; init; }
 
     public long StoreId { get; init; }
+
+    public bool IsActive { get; init; }
 }
 
 public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioCommand, ApiResponse<StoreBioDto>>
@@ -58,6 +59,7 @@ public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioComman
         }
         entity.Text = request.Text;
         entity.StoreId = request.StoreId;
+        entity.IsActive = request.IsActive;
 
         if (request.Image != null && request.Image.Length > 0)
         {
@@ -88,7 +90,7 @@ public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioComman
         {
             if (!string.IsNullOrEmpty(entity.File))
                 await _storageService.DeleteFileAsync(entity.File, cancellationToken);
-            entity.IsFile = string.Empty;
+            entity.File = string.Empty;
         }
         await _context.SaveChangesAsync(cancellationToken);
 

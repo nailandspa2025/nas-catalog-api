@@ -19,6 +19,8 @@ public record CreateStoreBioCommand: IRequest<ApiResponse<StoreBioDto>>
 	public IFormFile ? Image { get; init; }
 
 	public long StoreId { get; init; }
+
+    public bool IsActive { get; init; }
 }
 
 public class CreateStoreBioCommandHandler : IRequestHandler<CreateStoreBioCommand, ApiResponse<StoreBioDto>>
@@ -43,7 +45,8 @@ public class CreateStoreBioCommandHandler : IRequestHandler<CreateStoreBioComman
         var entity = new StoreBio
         {
             Text = request.Text,
-            StoreId = request.StoreId
+            StoreId = request.StoreId,
+            IsActive = request.IsActive
         };
 
         if (request.Image != null && request.Image.Length > 0)

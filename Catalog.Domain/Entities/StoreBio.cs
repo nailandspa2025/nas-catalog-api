@@ -15,6 +15,8 @@ public class StoreBio : BaseAuditableEntity<int> , ISoftDelete
 
     public Store ? Store { get; set; }
 
+    public bool IsActive { get; set; }
+
     public string? DeletedBy { get; set; }
 
     public DateTime? Deleted { get; set; }

@@ -18,6 +18,8 @@ public class StoreBioDto: BaseAuditableDto
 
     public string ? StoreName { get; set; }
 
+    public bool IsActive { get; set; }
+
     private class Mapping : Profile
     {
         public Mapping()
