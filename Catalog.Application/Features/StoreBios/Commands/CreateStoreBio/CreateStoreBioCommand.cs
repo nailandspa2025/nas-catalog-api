@@ -2,12 +2,11 @@
 using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
-using Catalog.Application.Features.ServicePackages.Commands.CreateServicePackage;
-using Catalog.Application.Features.ServicePackages.Models;
 using Catalog.Application.Features.StoreBios.Models;
 using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.StoreBios.Commands.CreateStoreBio;
 
@@ -15,9 +14,9 @@ public record CreateStoreBioCommand: IRequest<ApiResponse<StoreBioDto>>
 {
 	public string ? Text { get; init; }
 
-	public IFormFile File { get; init; }
+	public IFormFile ? File { get; init; }
 
-	public IFormFile Image { get; init; }
+	public IFormFile ? Image { get; init; }
 
 	public long StoreId { get; init; }
 }
@@ -36,6 +35,11 @@ public class CreateStoreBioCommandHandler : IRequestHandler<CreateStoreBioComman
     }
     public async Task<ApiResponse<StoreBioDto>> Handle(CreateStoreBioCommand request, CancellationToken cancellationToken)
     {
+        if (await _context.StoreBio.AsNoTracking().AnyAsync(x => x.StoreId == request.StoreId, cancellationToken))
+        {
+            return ApiResponse<StoreBioDto>.Error("Store already has a bio. Use update instead.");
+        }
+
         var entity = new StoreBio
         {
             Text = request.Text,
@@ -51,6 +55,7 @@ public class CreateStoreBioCommandHandler : IRequestHandler<CreateStoreBioComman
         if (request.File != null && request.File.Length > 0)
         {
             var filePath = await _storageService.SaveFileAsync(request.File, cancellationToken);
+
             entity.File = filePath; 
         }
         _context.StoreBio.Add(entity);

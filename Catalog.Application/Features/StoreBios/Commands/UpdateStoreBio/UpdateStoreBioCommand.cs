@@ -8,6 +8,7 @@ using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Catalog.Application.Features.StoreBios.Commands.UpdateStoreBio;
 
@@ -17,9 +18,13 @@ public class UpdateStoreBioCommand: IRequest<ApiResponse<StoreBioDto>>
 
     public string? Text { get; init; }
 
-    public IFormFile File { get; init; }
+    public IFormFile ? File { get; init; }
 
-    public IFormFile Image { get; init; }
+    public bool IsFile { get; init; }
+
+    public IFormFile ? Image { get; init; }
+
+    public bool IsImage { get; init; }
 
     public long StoreId { get; init; }
 }
@@ -39,12 +44,17 @@ public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioComman
 
     public async Task<ApiResponse<StoreBioDto>> Handle(UpdateStoreBioCommand request, CancellationToken cancellationToken)
     {
+
         var entity = await _context.StoreBio
              .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
             throw new NotFoundException(nameof(StoreBio), request.Id);
+        }
+        if (await _context.StoreBio.AsNoTracking().AnyAsync(x => x.StoreId == request.StoreId && x.Id != request.Id, cancellationToken))
+        {
+            return ApiResponse<StoreBioDto>.Error("Store already has a bio. Use update instead.");
         }
         entity.Text = request.Text;
         entity.StoreId = request.StoreId;
@@ -58,6 +68,12 @@ public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioComman
             var newImagePath = await _storageService.SaveFileAsync(request.Image, cancellationToken);
             entity.Image = newImagePath;
         }
+        else if (request.IsImage)
+        {
+            if (!string.IsNullOrEmpty(entity.Image))
+                await _storageService.DeleteFileAsync(entity.Image, cancellationToken);
+            entity.Image = string.Empty;
+        }
         if (request.File != null && request.File.Length > 0)
         {
             if (!string.IsNullOrEmpty(entity.File))
@@ -67,6 +83,12 @@ public class UpdateStoreBioCommandHandler : IRequestHandler<UpdateStoreBioComman
 
             var newFilePath = await _storageService.SaveFileAsync(request.File, cancellationToken);
             entity.File = newFilePath;
+        }
+        else if (request.IsFile)
+        {
+            if (!string.IsNullOrEmpty(entity.File))
+                await _storageService.DeleteFileAsync(entity.File, cancellationToken);
+            entity.IsFile = string.Empty;
         }
         await _context.SaveChangesAsync(cancellationToken);
 
