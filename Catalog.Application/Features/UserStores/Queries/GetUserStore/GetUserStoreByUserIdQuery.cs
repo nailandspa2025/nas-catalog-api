@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using BuildingBlocks.Common.Exceptions;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.UserStores.Models;
-using Catalog.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +25,10 @@ public class GetUserStoreByUserIdQueryHandler : IRequestHandler<GetUserStoreByUs
     public async Task<ApiResponse<IEnumerable<UserStoreDto>>> Handle(GetUserStoreByUserIdQuery request, CancellationToken cancellationToken)
     {
         var entities = await _context.UserStore
+
             .Where(us => us.UserId == request.UserId)
+            .Include(x => x.Store)
+            .ThenInclude(x => x.StoreBio)
             .ToListAsync(cancellationToken);
 
         //if (!entities.Any())
