@@ -16,6 +16,8 @@ public record GetCategoryWithPaginationQuery: IRequest<ApiResponse<PaginatedList
     public int PageSize { get; init; } = 10;
 
     public string? SearchText { get; init; }
+
+    public int ? StoreId { get; init; }
 }
 
 public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategoryWithPaginationQuery, ApiResponse<PaginatedList<CategoryDto>>>
@@ -39,7 +41,10 @@ public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategory
         {
             query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
-
+        if(request.StoreId.HasValue)
+        {
+            query = query.Where(x => x.Services.Any(s => s.ServicePackages.Any(sp => sp.Stores.Any(st => st.Id == request.StoreId.Value))));
+        }
         var paginationResult = await query
             .Include(x => x.Children)
             .Include(x => x.Services)
