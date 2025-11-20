@@ -17,6 +17,8 @@ public record GetServicesWithPaginationQuery : IRequest<ApiResponse<PaginatedLis
     public int PageSize { get; init; } = 10;
 
     public string? SearchText { get; init; }
+
+    public int ? CategoryId { get;  init;}
 }
 
 public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServicesWithPaginationQuery, ApiResponse<PaginatedList<ServiceDto>>>
@@ -38,7 +40,10 @@ public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServices
         {
             query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
         }
-       
+        if(request.CategoryId.HasValue)
+        {
+            query = query.Where(x => x.Categories.Any(c => c.Id == request.CategoryId));
+        }
         var paginationResult = await query
             .OrderBy(x => x.Created)
             .ProjectTo<ServiceDto>(_mapper.ConfigurationProvider)
