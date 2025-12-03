@@ -129,12 +129,18 @@ public class CreateReviewStoreCommandHandler : IRequestHandler<CreateReviewStore
         _context.ReviewStore.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish(new BookingUpdateRateEvent
+        try
         {
-            BookingId = entity.Id,
-            IsRated = true
-        });
-
+            await _publishEndpoint.Publish(new BookingUpdateRateEvent
+            {
+                BookingId = entity.Id,
+                IsRated = true
+            });
+        }
+        catch (Exception)
+        {
+            
+        }
         return ApiResponse<ReviewStoreDto>.Success(_mapper.Map<ReviewStoreDto>(entity));
     }
 }
