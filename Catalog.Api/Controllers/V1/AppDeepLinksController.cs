@@ -74,19 +74,29 @@ public class AppDeepLinksController : ApiControllerBase
         <!DOCTYPE html>
         <html>
         <head>
-            <meta charset='UTF-8'>
-            <title>Redirecting...</title>
-            <script type='text/javascript'>
-                window.onload = function() {{
-                    window.location = '{iosLink}';
-                    setTimeout(function() {{
-                        window.location = '{appStoreUrl}';
-                    }}, 2000);
-                }};
-            </script>
+        <meta charset='UTF-8'>
+        <title>Redirecting...</title>
+
+        <!-- iOS camera mở link sẽ ưu tiên meta-refresh -->
+        <meta http-equiv='refresh' content='0; url={iosLink}' />
+
+        <script>
+            // Safari mở trực tiếp vẫn chạy JS
+            setTimeout(function() {{
+                window.location = '{appStoreUrl}';
+            }}, 1500);
+        </script>
+
+        <style>
+            body {{
+                font-family: Arial;
+                text-align: center;
+                padding-top: 40px;
+            }}
+        </style>
         </head>
         <body>
-            <p>Loading ...</p>
+            <p>Loading...</p>
         </body>
         </html>";
     }

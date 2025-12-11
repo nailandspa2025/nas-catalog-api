@@ -3,5 +3,6 @@
 public class BookingTimeDto
 {
     public TimeSpan BookingTime { get; set; }
+    public DateTime BookingDate { get; set; }
 }
 
