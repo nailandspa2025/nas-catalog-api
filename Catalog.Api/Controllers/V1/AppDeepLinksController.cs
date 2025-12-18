@@ -64,40 +64,85 @@ public class AppDeepLinksController : ApiControllerBase
 
     private string GenerateIosRedirectHtml(string iosLink, string type)
     {
-
         const string merchantUrl = "https://apps.apple.com/us/app/nas-business/id6751517132";
         const string clientUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
 
         string appStoreUrl = type == "merchant" ? merchantUrl : clientUrl;
 
         return $@"
-        <!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset='UTF-8'>
-        <title>Redirecting...</title>
-
-        <!-- iOS camera mở link sẽ ưu tiên meta-refresh -->
-        <meta http-equiv='refresh' content='0; url={iosLink}' />
-
-        <script>
-            // Safari mở trực tiếp vẫn chạy JS
-            setTimeout(function() {{
-                window.location = '{appStoreUrl}';
-            }}, 1500);
-        </script>
-
-        <style>
-            body {{
-                font-family: Arial;
-                text-align: center;
-                padding-top: 40px;
-            }}
-        </style>
-        </head>
-        <body>
-            <p>Loading...</p>
-        </body>
-        </html>";
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Redirecting...</title>
+    <style>
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background: #f5f5f5;
+        }}
+        .loader {{
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007AFF;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }}
+        @keyframes spin {{
+            0% {{ transform: rotate(0deg); }}
+            100% {{ transform: rotate(360deg); }}
+        }}
+    </style>
+</head>
+<body>
+    <div class='loader'></div>
+    <p>Opening app...</p>
+    
+    <script>
+        (function() {{
+            var deepLink = '{iosLink}';
+            var appStoreUrl = '{appStoreUrl}';
+            var timeout = null;
+            var startTime = Date.now();
+            
+            // Tạo iframe ẩn để thử mở deep link
+            var iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLink;
+            document.body.appendChild(iframe);
+            
+            // Đồng thời thử mở bằng window.location
+            window.location.href = deepLink;
+            
+            // Fallback: nếu sau 2s vẫn còn ở trang này thì chuyển App Store
+            timeout = setTimeout(function() {{
+                // Kiểm tra nếu trang vẫn visible (app không mở được)
+                if (!document.hidden) {{
+                    window.location.href = appStoreUrl;
+                }}
+            }}, 2000);
+            
+            // Nếu app mở được, page sẽ bị hide -> clear timeout
+            document.addEventListener('visibilitychange', function() {{
+                if (document.hidden) {{
+                    clearTimeout(timeout);
+                }}
+            }});
+            
+            window.addEventListener('pagehide', function() {{
+                clearTimeout(timeout);
+            }});
+            
+            window.addEventListener('blur', function() {{
+                clearTimeout(timeout);
+            }});
+        }})();
+    </script>
+</body>
+</html>";
     }
 }
