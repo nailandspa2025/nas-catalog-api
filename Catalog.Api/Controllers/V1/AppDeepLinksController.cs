@@ -31,7 +31,7 @@ public class AppDeepLinksController : ApiControllerBase
     {
         return await Mediator.Send(command);
     }
-
+    
     [AllowAnonymous]
     [HttpGet("{code}")]
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
@@ -42,141 +42,22 @@ public class AppDeepLinksController : ApiControllerBase
             return NotFound(result);
 
         var dto = result.Data;
-        var ua = Request.Headers["User-Agent"].ToString().ToLower();
+        var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
 
-        bool isIos = IsIosDevice(ua);
-        bool isAndroid = IsAndroidDevice(ua);
-        bool isZalo = ua.Contains("zalo");
+        // 🔥 Universal Link iOS
+        // iOS sẽ mở app TRƯỚC khi request tới server
+        // Nên KHÔNG làm gì cho iOS ở đây
 
-        // ---------- iOS ----------
-        if (isIos)
-        {
-            // ✅ Zalo → auto open scheme
-            if (isZalo)
-            {
-                return Content(
-                    GenerateIosAutoRedirectHtml(dto.IOSLink, dto.Type),
-                    "text/html"
-                );
-            }
-
-            // ❗ Safari / Chrome → user click
-            return Content(
-                GenerateIosManualOpenHtml(dto.IOSLink, dto.Type),
-                "text/html"
-            );
-        }
-
-        // ---------- Android ----------
-        if (isAndroid)
+        // 🔥 Android App Link
+        if (IsAndroidDevice(userAgent))
         {
             return Redirect(dto.AndroidLink);
         }
 
-        // ---------- Desktop / other ----------
+        // 🔥 Web / Desktop fallback
         return Redirect(dto.WebFallback);
     }
 
-    private bool IsAndroidDevice(string userAgent)
-    {
-        return userAgent.Contains("android");
-    }
-
-    private bool IsIosDevice(string userAgent)
-    {
-        return userAgent.Contains("iphone")
-            || userAgent.Contains("ipad")
-            || userAgent.Contains("ios");
-    }
-
-    private string GenerateIosAutoRedirectHtml(string iosLink, string type)
-    {
-        string appStoreUrl = GetAppStoreUrl(type);
-
-        return $@"
-        <!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Opening app...</title>
-        </head>
-        <body style='font-family:-apple-system;text-align:center;padding-top:60px'>
-            <p>Đang mở ứng dụng…</p>
-
-        <script>
-        (function() {{
-            var deepLink = '{iosLink}';
-            var appStore = '{appStoreUrl}';
-
-            // Zalo cho phép auto open
-            window.location.href = deepLink;
-
-            // fallback App Store
-            setTimeout(function() {{
-                window.location.href = appStore;
-            }}, 2000);
-        }})();
-        </script>
-        </body>
-        </html>";
-    }
-
-
-    private string GenerateIosManualOpenHtml(string iosLink, string type)
-    {
-        string appStoreUrl = GetAppStoreUrl(type);
-
-        return $@"
-        <!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset='utf-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Mở ứng dụng</title>
-        </head>
-        <body style='
-            font-family:-apple-system;
-            text-align:center;
-            padding:40px;
-            background:#f5f5f5
-        '>
-            <h3>NAS App</h3>
-
-            <button
-                style='
-                    padding:14px 28px;
-                    font-size:16px;
-                    border:none;
-                    border-radius:8px;
-                    background:#007AFF;
-                    color:white;
-                    cursor:pointer'
-                onclick=""window.location.href='{iosLink}'"">
-                🚀 Mở App
-            </button>
-
-            <p style='margin-top:20px'>
-                Chưa cài app?
-                <br/>
-                <a href='{appStoreUrl}' style='color:#007AFF'>
-                    Tải từ App Store
-                </a>
-            </p>
-        </body>
-        </html>";
-    }
-
-    private string GetAppStoreUrl(string type)
-    {
-        const string merchantUrl =
-            "https://apps.apple.com/us/app/nas-business/id6751517132";
-
-        const string clientUrl =
-            "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
-
-        return type == "merchant" ? merchantUrl : clientUrl;
-    }
 
 
 
@@ -200,52 +81,52 @@ public class AppDeepLinksController : ApiControllerBase
     //     return Redirect(redirectUrl);
     // }
 
-    // private bool IsAndroidDevice(string userAgent)
-    // {
-    //     return userAgent.Contains("android");
-    // }
+    private bool IsAndroidDevice(string userAgent)
+    {
+        return userAgent.Contains("android");
+    }
 
-    // private bool IsIosDevice(string userAgent)
-    // {
-    //     return userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios");
-    // }
+    private bool IsIosDevice(string userAgent)
+    {
+        return userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios");
+    }
 
-    // private string GenerateIosRedirectHtml(string iosLink, string type)
-    // {
+    private string GenerateIosRedirectHtml(string iosLink, string type)
+    {
 
-    //     const string merchantUrl = "https://apps.apple.com/us/app/nas-business/id6751517132";
-    //     const string clientUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
+        const string merchantUrl = "https://apps.apple.com/us/app/nas-business/id6751517132";
+        const string clientUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
 
-    //     string appStoreUrl = type == "merchant" ? merchantUrl : clientUrl;
+        string appStoreUrl = type == "merchant" ? merchantUrl : clientUrl;
 
-    //     return $@"
-    //     <!DOCTYPE html>
-    //     <html>
-    //     <head>
-    //     <meta charset='UTF-8'>
-    //     <title>Redirecting...</title>
+        return $@"
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset='UTF-8'>
+        <title>Redirecting...</title>
 
-    //     <!-- iOS camera mở link sẽ ưu tiên meta-refresh -->
-    //     <meta http-equiv='refresh' content='0; url={iosLink}' />
+        <!-- iOS camera mở link sẽ ưu tiên meta-refresh -->
+        <meta http-equiv='refresh' content='0; url={iosLink}' />
 
-    //     <script>
-    //         // Safari mở trực tiếp vẫn chạy JS
-    //         setTimeout(function() {{
-    //             window.location = '{appStoreUrl}';
-    //         }}, 1500);
-    //     </script>
+        <script>
+            // Safari mở trực tiếp vẫn chạy JS
+            setTimeout(function() {{
+                window.location = '{appStoreUrl}';
+            }}, 1500);
+        </script>
 
-    //     <style>
-    //         body {{
-    //             font-family: Arial;
-    //             text-align: center;
-    //             padding-top: 40px;
-    //         }}
-    //     </style>
-    //     </head>
-    //     <body>
-    //         <p>Loading...</p>
-    //     </body>
-    //     </html>";
-    // }
+        <style>
+            body {{
+                font-family: Arial;
+                text-align: center;
+                padding-top: 40px;
+            }}
+        </style>
+        </head>
+        <body>
+            <p>Loading...</p>
+        </body>
+        </html>";
+    }
 }
