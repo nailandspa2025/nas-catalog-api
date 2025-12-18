@@ -31,7 +31,7 @@ public class AppDeepLinksController : ApiControllerBase
     {
         return await Mediator.Send(command);
     }
-    
+
     [AllowAnonymous]
     [HttpGet("{code}")]
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
@@ -43,43 +43,14 @@ public class AppDeepLinksController : ApiControllerBase
 
         var dto = result.Data;
         var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
-
-        // 🔥 Universal Link iOS
-        // iOS sẽ mở app TRƯỚC khi request tới server
-        // Nên KHÔNG làm gì cho iOS ở đây
-
-        // 🔥 Android App Link
-        if (IsAndroidDevice(userAgent))
+        if (IsIosDevice(userAgent))
         {
-            return Redirect(dto.AndroidLink);
+            return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
         }
 
-        // 🔥 Web / Desktop fallback
-        return Redirect(dto.WebFallback);
+        var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
+        return Redirect(redirectUrl);
     }
-
-
-
-
-    // [AllowAnonymous]
-    // [HttpGet("{code}")]
-    // [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
-    // public async Task<IActionResult> GetByCodeAsync(string code)
-    // {
-    //     var result = await Mediator.Send(new GetAppDeepLinkByCodeQuery { Code = code });
-    //     if (!result.Succeeded)
-    //         return NotFound(result);
-
-    //     var dto = result.Data;
-    //     var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
-    //     if (IsIosDevice(userAgent))
-    //     {
-    //         return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
-    //     }
-
-    //     var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
-    //     return Redirect(redirectUrl);
-    // }
 
     private bool IsAndroidDevice(string userAgent)
     {
