@@ -42,7 +42,8 @@ public class AppDeepLinksController : ApiControllerBase
             return NotFound(result);
 
         var dto = result.Data;
-        var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
+        // var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
+       var userAgent = Request.Headers.UserAgent.ToString().ToLower();
         if (IsIosDevice(userAgent))
         {
             return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
