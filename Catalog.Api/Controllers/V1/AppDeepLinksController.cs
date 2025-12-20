@@ -37,30 +37,43 @@ public class AppDeepLinksController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByCodeAsync(string code)
     {
+        var userAgent = Request.Headers["User-Agent"].FirstOrDefault();
+        userAgent = userAgent?.ToLowerInvariant() ?? "";
+
+        Console.WriteLine($"UA: {userAgent}");
+
         var result = await Mediator.Send(new GetAppDeepLinkByCodeQuery { Code = code });
         if (!result.Succeeded)
             return NotFound(result);
 
         var dto = result.Data;
-        // var userAgent = Request.Headers["User-Agent"].ToString().ToLower();
-       var userAgent = Request.Headers.UserAgent.ToString().ToLower();
         if (IsIosDevice(userAgent))
         {
             return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
         }
 
         var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
+        if (string.IsNullOrWhiteSpace(redirectUrl))
+        {
+            return BadRequest("Redirect URL is empty");
+        }
+
+        Console.WriteLine($"redirectUrl: {redirectUrl}");
+
         return Redirect(redirectUrl);
     }
 
-    private bool IsAndroidDevice(string userAgent)
+    private static bool IsAndroidDevice(string ua)
     {
-        return userAgent.Contains("android");
+         Console.WriteLine($"UA: {ua.Contains("android")}");
+        return ua.Contains("android");
     }
 
-    private bool IsIosDevice(string userAgent)
+    private static bool IsIosDevice(string ua)
     {
-        return userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ios");
+        return ua.Contains("iphone")
+        || ua.Contains("ipad")
+        || ua.Contains("ipod");
     }
 
     private string GenerateIosRedirectHtml(string iosLink, string type)
