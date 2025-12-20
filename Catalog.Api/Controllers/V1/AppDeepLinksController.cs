@@ -52,15 +52,12 @@ public class AppDeepLinksController : ApiControllerBase
             return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
         }
 
-        var redirectUrl = IsAndroidDevice(userAgent) ? dto.AndroidLink : dto.WebFallback;
-        if (string.IsNullOrWhiteSpace(redirectUrl))
+        else if (IsAndroidDevice(userAgent))
         {
-            return BadRequest("Redirect URL is empty");
+             return Content(GenerateAndroidRedirectHtml(dto.AndroidLink), "text/html");
         }
 
-        Console.WriteLine($"redirectUrl: {redirectUrl}");
-
-        return Redirect(redirectUrl);
+        return Redirect(dto.WebFallback);
     }
 
     private static bool IsAndroidDevice(string ua)
@@ -76,6 +73,26 @@ public class AppDeepLinksController : ApiControllerBase
         || ua.Contains("ipod");
     }
 
+    private string GenerateAndroidRedirectHtml(string link)
+    {
+        return $"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Open App</title>
+
+        <script>
+            window.location.href = "{link}";
+        </script>
+        </head>
+        <body>
+        <p>Opening app...</p>
+        </body>
+        </html>
+        """;
+    }
     private string GenerateIosRedirectHtml(string iosLink, string type)
     {
 
