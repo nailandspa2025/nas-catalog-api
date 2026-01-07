@@ -63,7 +63,7 @@ public class AppDeepLinksController : ApiControllerBase
         if (IsAndroid(userAgent))
         {
             return Content(
-                GenerateAndroidHtml(),
+                GenerateAndroidHtml(dto.AndroidLink),
                 "text/html"
             );
         }
@@ -79,7 +79,7 @@ public class AppDeepLinksController : ApiControllerBase
         => ua.Contains("android");
     
     private static string GenerateIosHtml(string iosLink, string type)
-{
+    {
     const string merchantAppStore =
         "https://apps.apple.com/us/app/nas-business/id6751517132";
     const string clientAppStore =
@@ -90,56 +90,66 @@ public class AppDeepLinksController : ApiControllerBase
         : clientAppStore;
 
     return $@"
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>Open App</title>
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>Open App</title>
 
-<script>
-function openApp() {{
-    window.location.href = '{iosLink}';
-    setTimeout(function() {{
-        window.location.href = '{appStoreUrl}';
-    }}, 1500);
-}}
-</script>
-</head>
+        <script>
+        function openApp() {{
+            window.location.href = '{iosLink}';
+            setTimeout(function() {{
+                window.location.href = '{appStoreUrl}';
+            }}, 1500);
+        }}
+        </script>
+        </head>
+        <style>
+            body {{
+                font-family: Arial;
+                text-align: center;
+                padding-top: 40px;
+            }}
+        </style>
+        <body>
+            <p>Tap the button to open the app</p>
+            <button onclick='openApp()'>Open App</button>
+        </body>
+        </html>";
+    }    
+    private static string GenerateAndroidHtml(string androidLink)
+    {
+        return @"
+        <!DOCTYPE html>
+        <html lang='en'>
+        <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>Open App</title>
 
-<body>
-    <p>Tap the button to open the app</p>
-    <button onclick='openApp()'>Open App</button>
-</body>
-</html>";
-}
-
-    
-    private static string GenerateAndroidHtml()
-{
-    return @"
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>Open App</title>
-
-<script>
-function openApp() {
-    window.location.href = 'market://details?id=com.nas.business';
-    setTimeout(function() {
-        window.location.href = 'https://play.google.com/store/apps/details?id=com.nas.business';
-    }, 1500);
-}
-</script>
-</head>
-
-<body>
-    <p>Tap the button to open the app</p>
-    <button onclick='openApp()'>Open App</button>
-</body>
-</html>";
-}
+        <script>
+        function openApp() {
+            window.location.href = '{androidLink}';
+            setTimeout(function() {
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.nas.business';
+            }, 1500);
+        }
+        </script>
+        </head>
+        <style>
+            body {{
+                font-family: Arial;
+                text-align: center;
+                padding-top: 40px;
+            }}
+        </style>
+        <body>
+            <p>Tap the button to open the app</p>
+            <button onclick='openApp()'>Open App</button>
+        </body>
+        </html>";
+    }
 
 }
