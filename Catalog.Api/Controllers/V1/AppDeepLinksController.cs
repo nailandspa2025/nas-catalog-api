@@ -37,107 +37,86 @@ public class AppDeepLinksController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponse<AppDeepLinkDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByCodeAsync(string code)
     {
-        var userAgent = Request.Headers["User-Agent"]
-            .FirstOrDefault()?
-            .ToLowerInvariant() ?? "";
+        var userAgent = Request.Headers["User-Agent"].FirstOrDefault();
+        userAgent = userAgent?.ToLowerInvariant() ?? "";
 
-        Console.WriteLine($"UA = {userAgent}");
+        Console.WriteLine($"UA: {userAgent}");
 
-        var result = await Mediator.Send(new GetAppDeepLinkByCodeQuery
-        {
-            Code = code
-        });
-
-        if (!result.Succeeded || result.Data == null)
+        var result = await Mediator.Send(new GetAppDeepLinkByCodeQuery { Code = code });
+        if (!result.Succeeded)
             return NotFound(result);
 
         var dto = result.Data;
-
-        if (IsIos(userAgent))
+        if (IsIosDevice(userAgent))
         {
-            return Content(
-                GenerateIosHtml(dto.IOSLink, dto.Type),
-                "text/html"
-            );
+            return Content(GenerateIosRedirectHtml(dto.IOSLink, dto.Type), "text/html");
         }
-        if (IsAndroid(userAgent))
+
+        else if (IsAndroidDevice(userAgent))
         {
-            return Content(
-                GenerateAndroidHtml(dto.AndroidLink),
-                "text/html"
-            );
+             return Content(GenerateAndroidRedirectHtml(dto.AndroidLink), "text/html");
         }
 
         return Redirect(dto.WebFallback);
     }
-    private static bool IsIos(string ua)
-        => ua.Contains("iphone")
+
+    private static bool IsAndroidDevice(string ua)
+    {
+         Console.WriteLine($"UA: {ua.Contains("android")}");
+        return ua.Contains("android");
+    }
+
+    private static bool IsIosDevice(string ua)
+    {
+        return ua.Contains("iphone")
         || ua.Contains("ipad")
         || ua.Contains("ipod");
-    
-    private static bool IsAndroid(string ua)
-        => ua.Contains("android");
-    
-    private static string GenerateIosHtml(string iosLink, string type)
+    }
+
+    private string GenerateAndroidRedirectHtml(string link)
     {
-    const string merchantAppStore =
-        "https://apps.apple.com/us/app/nas-business/id6751517132";
-    const string clientAppStore =
-        "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
-
-    var appStoreUrl = type == "merchant"
-        ? merchantAppStore
-        : clientAppStore;
-
-    return $@"
+        return $"""
         <!DOCTYPE html>
-        <html lang='en'>
+        <html>
         <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Open App</title>
 
         <script>
-        function openApp() {{
-            window.location.href = '{iosLink}';
-            setTimeout(function() {{
-                window.location.href = '{appStoreUrl}';
-            }}, 1500);
-        }}
+            window.location.href = "{link}";
         </script>
         </head>
-        <style>
-            body {{
-                font-family: Arial;
-                text-align: center;
-                padding-top: 40px;
-            }}
-        </style>
         <body>
-            <p>Tap the button to open the app</p>
-            <button onclick='openApp()'>Open App</button>
+        <p>Opening app...</p>
         </body>
-        </html>";
-    }    
-    private static string GenerateAndroidHtml(string androidLink)
+        </html>
+        """;
+    }
+    private string GenerateIosRedirectHtml(string iosLink, string type)
     {
+
+        const string merchantUrl = "https://apps.apple.com/us/app/nas-business/id6751517132";
+        const string clientUrl = "https://apps.apple.com/us/app/nas-nail-spa/id6746377567";
+
+        string appStoreUrl = type == "merchant" ? merchantUrl : clientUrl;
+
         return $@"
         <!DOCTYPE html>
-        <html lang='en'>
+        <html>
         <head>
-            <meta charset='UTF-8'>
-            <meta name='viewport' content='width=device-width, initial-scale=1'>
-            <title>Open App</title>
+        <meta charset='UTF-8'>
+        <title>Redirecting...</title>
 
-            <script>
-                function openApp() {{
-                    window.location.href = '{androidLink}';
-                    setTimeout(function() {{
-                        window.location.href = 'https://play.google.com/store/apps/details?id=com.nas.business';
-                    }}, 1500);
-                }}
-            </script>
-        </head>
+        <!-- iOS camera mở link sẽ ưu tiên meta-refresh -->
+        <meta http-equiv='refresh' content='0; url={iosLink}' />
+
+        <script>
+            // Safari mở trực tiếp vẫn chạy JS
+            setTimeout(function() {{
+                window.location = '{appStoreUrl}';
+            }}, 1500);
+        </script>
 
         <style>
             body {{
@@ -146,10 +125,9 @@ public class AppDeepLinksController : ApiControllerBase
                 padding-top: 40px;
             }}
         </style>
-
-        <body onload='openApp()'>
-            <p>Redirecting...</p>
-            <button onclick='openApp()'>Open App</button>
+        </head>
+        <body>
+            <p>Loading...</p>
         </body>
         </html>";
     }
