@@ -121,23 +121,24 @@ public class AppDeepLinksController : ApiControllerBase
     }    
     private static string GenerateAndroidHtml(string androidLink)
     {
-        return @"
+        return $@"
         <!DOCTYPE html>
         <html lang='en'>
         <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Open App</title>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <title>Open App</title>
 
-        <script>
-        function openApp() {
-            window.location.href = '{androidLink}';
-            setTimeout(function() {
-                window.location.href = 'https://play.google.com/store/apps/details?id=com.nas.business';
-            }, 1500);
-        }
-        </script>
+            <script>
+                function openApp() {{
+                    window.location.href = '{androidLink}';
+                    setTimeout(function() {{
+                        window.location.href = 'https://play.google.com/store/apps/details?id=com.nas.business';
+                    }}, 1500);
+                }}
+            </script>
         </head>
+
         <style>
             body {{
                 font-family: Arial;
@@ -145,11 +146,11 @@ public class AppDeepLinksController : ApiControllerBase
                 padding-top: 40px;
             }}
         </style>
-        <body>
-            <p>Tap the button to open the app</p>
+
+        <body onload='openApp()'>
+            <p>Redirecting...</p>
             <button onclick='openApp()'>Open App</button>
         </body>
         </html>";
     }
-
 }
