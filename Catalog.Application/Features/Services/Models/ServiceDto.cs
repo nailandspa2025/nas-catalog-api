@@ -18,11 +18,27 @@ public class ServiceDto : BaseAuditableDto<int>
     public int? Rating { get; set; }
     public TimeSpan? WorkingTime { get; set; }
     public CurrencyCode Currency { get; set; }
+    public List<int> CategoryIds { get; set; }
+    public List<string> CategoryNames { get; set; }
+    
+    public List<int> StoreIds { get; set; } = new();   // ✅ thêm
+
     private class Mapping : Profile
     {
-        public Mapping ()
+        public Mapping()
         {
-            CreateMap<Service, ServiceDto>();
+            CreateMap<Service, ServiceDto>()
+            .ForMember(dest => dest.CategoryIds, opt => opt.MapFrom(src => src.Categories.Select(c => c.Id).ToList()))
+            .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.Categories.Select(c => c.Name).ToList()))
+            .ForMember(
+                dest => dest.StoreIds,
+                opt => opt.MapFrom(src =>
+                    src.ServicePackages
+                        .SelectMany(sp => sp.Stores)
+                        .Select(st => st.Id)
+                        .Distinct()
+                        .ToList()
+                ));
         }
     }
 }
