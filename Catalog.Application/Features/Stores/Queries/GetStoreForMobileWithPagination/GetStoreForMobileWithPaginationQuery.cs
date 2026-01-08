@@ -13,14 +13,12 @@ namespace Catalog.Application.Features.Stores.Queries.GetStoreForMobileWithPagin
 public record GetStoreForMobileWithPaginationQuery : IRequest<ApiResponse<PaginatedList<StoreDto>>>
 {
     public int PageNumber { get; init; } = 1;
-
     public int PageSize { get; init; } = 10;
-
     public string? SearchText { get; init; }
-
     public int? Rating { get; init; }
     public double? Lat { get; init; }
     public double? Long { get; init; }
+    public bool? IsFavorite { get; init; }
 
 }
 
@@ -49,6 +47,10 @@ public class GetStoreForMobileWithPaginationQueryHandler : IRequestHandler<GetSt
         if (request.Rating.HasValue)
         {
             query = query.Where(s => s.RatingStar == request.Rating.Value);
+        }
+        if (request.IsFavorite.HasValue)
+        {
+            query = query.Where(s => s.IsFavorite == request.IsFavorite.Value);
         }
         if (request.Lat.HasValue && request.Long.HasValue)
         {
