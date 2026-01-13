@@ -21,7 +21,7 @@ public class ServiceDto : BaseAuditableDto<int>
     public List<int> CategoryIds { get; set; }
     public List<string> CategoryNames { get; set; }
     
-    public List<int> StoreIds { get; set; } = new();   // ✅ thêm
+    public List<long> StoreIds { get; set; } = new();   // ✅ thêm
 
     private class Mapping : Profile
     {
