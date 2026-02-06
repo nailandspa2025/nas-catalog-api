@@ -64,7 +64,7 @@ public record UpdateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public int Order { get; init; }
     
-    public List<UpdateSoreWorkingDayModel> WorkingDays { get; init; } = new List<UpdateSoreWorkingDayModel>();
+    public List<UpdateSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<UpdateSoreWorkingDayModel>();
 }
 public record UpdateSocialNetworkModel
 {
@@ -216,9 +216,9 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
 
         entity.SetSocialNetworks(socialNetworks);
         var workingDays = new List<StoreWorkingDay>();
-        if (request.WorkingDays != null && request.WorkingDays.Any())
+        if (request.StoreWorkingDays != null && request.StoreWorkingDays.Any())
         {
-            foreach (var item in request.WorkingDays)
+            foreach (var item in request.StoreWorkingDays)
             {
                 var workingDay = new StoreWorkingDay
                 {

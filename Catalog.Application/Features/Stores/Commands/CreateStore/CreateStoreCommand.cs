@@ -58,7 +58,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public CreatePaypalModel? PaypalConfig { get; init; }
     public int Order { get; init; }
-    public List<CreatesSoreWorkingDayModel> WorkingDays { get; init; } = new List<CreatesSoreWorkingDayModel>();
+    public List<CreatesSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<CreatesSoreWorkingDayModel>();
 }
 
 public record CreateSocialNetworkModel
@@ -183,9 +183,9 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
         };
         _context.AppDeepLink.Add(deepLink);
 
-        if (request.WorkingDays != null && request.WorkingDays.Any())
+        if (request.StoreWorkingDays != null && request.StoreWorkingDays.Any())
         {
-            var workingDays = request.WorkingDays.Select(x => new StoreWorkingDay
+            var workingDays = request.StoreWorkingDays.Select(x => new StoreWorkingDay
             {
                 StoreId = entity.Id,
                 DayOfWeek = x.DayOfWeek,
