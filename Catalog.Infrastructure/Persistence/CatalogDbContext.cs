@@ -58,6 +58,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
 
     public DbSet<StoreBio> StoreBio => Set<StoreBio>();
 
+    public DbSet<StoreWorkingDay> StoreWorkingDay => Set<StoreWorkingDay>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

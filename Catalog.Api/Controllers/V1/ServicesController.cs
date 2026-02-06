@@ -72,6 +72,7 @@ public class ServicesController : ApiControllerBase
         return await Mediator.Send(new GetServiceByIdsQuery { Ids = ids });
     }
 
+    [AllowAnonymous]
     [HttpGet("store")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<ServiceDto>>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<IEnumerable<ServiceDto>>>> GetByStoreIdAsync([FromQuery] GetServiceByStoreIdQuery query)

@@ -13,13 +13,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Stores.Commands.UpdateStore;
 
-public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
+public record UpdateStoreCommand : IRequest<ApiResponse<StoreDto>>
 {
     public long Id { get; set; }
 
     public string StoreName { get; init; } = null!;
 
-    public IFormFile ? Avatar { get; init; }
+    public IFormFile? Avatar { get; init; }
 
     public string? AddressStore { get; init; }
 
@@ -59,10 +59,12 @@ public record UpdateStoreCommand: IRequest<ApiResponse<StoreDto>>
 
     public int? ServicePackageId { get; init; } = null;
     public List<int> BankIds { get; init; } = new List<int>();
-    public List<UpdateSocialNetworkModel>  SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
+    public List<UpdateSocialNetworkModel> SocialNetworks { get; init; } = new List<UpdateSocialNetworkModel>();
     public UpdatePaypalModel? PaypalConfig { get; init; }
 
-    public int  Order { get; init; }
+    public int Order { get; init; }
+    
+    public List<UpdateSoreWorkingDayModel> WorkingDays { get; init; } = new List<UpdateSoreWorkingDayModel>();
 }
 public record UpdateSocialNetworkModel
 {
@@ -76,6 +78,13 @@ public record UpdatePaypalModel
     public string ClientSecret { get; init; } = null!;
     public string Currency { get; init; } = "USD";
     public bool IsSandbox { get; init; }
+}
+
+public record UpdateSoreWorkingDayModel
+{
+    public int DayOfWeek { get; init; }
+    public TimeSpan? OpenTime { get; init; }
+    public TimeSpan? CloseTime { get; init; } 
 }
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
 {
@@ -98,13 +107,14 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
            .Include(x => x.BankAccounts)
            .Include(x => x.SocialNetworks)
            .Include(x => x.PayPalConfig)
+           .Include(x => x.StoreWorkingDays)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
-        if(entity == null)
+        if (entity == null)
         {
             throw new NotFoundException(nameof(Store), request.Id);
         }
-        var produts = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken:cancellationToken);
+        var produts = await _context.Product.Where(x => request.PrductIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         var banks = await _context.BankAccount.Where(x => request.BankIds.Contains(x.Id)).ToListAsync(cancellationToken: cancellationToken);
         entity.StoreName = request.StoreName;
         entity.AddressStore = request.AddressStore;
@@ -155,7 +165,7 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         updatedImageUrls.Select(url => new StoreImageGallery
         {
             Url = url
-            }).ToList()
+        }).ToList()
         );
 
         entity.SetProducts(produts);
@@ -205,6 +215,21 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         }
 
         entity.SetSocialNetworks(socialNetworks);
+        var workingDays = new List<StoreWorkingDay>();
+        if (request.WorkingDays != null && request.WorkingDays.Any())
+        {
+            foreach (var item in request.WorkingDays)
+            {
+                var workingDay = new StoreWorkingDay
+                {
+                    DayOfWeek = item.DayOfWeek,
+                    OpenTime = item.OpenTime,
+                    CloseTime = item.CloseTime,
+                };
+                workingDays.Add(workingDay);
+            }
+        }
+        entity.SetStoreWorkingDays(workingDays);
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));
     }

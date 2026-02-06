@@ -56,6 +56,7 @@ public class StoreDto: BaseAuditableDto
     public PayPalConfigDto ? PaypalConfig { get; set; }
     public List<SocialNetworkDto> SocialNetworks { get; set; } = new List<SocialNetworkDto>();
     public int Order { set; get; }
+    public List<StoreWorkingDayDto> StoreWorkingDays { get; set; } = new List<StoreWorkingDayDto>();
     private class Mapping : Profile
     {
         public Mapping()

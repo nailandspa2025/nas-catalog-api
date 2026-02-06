@@ -50,5 +50,7 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<Category> Category { get; }
 
     DbSet<StoreBio> StoreBio { get; }
+
+    DbSet<StoreWorkingDay> StoreWorkingDay { get; }
 }
 

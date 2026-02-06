@@ -17,7 +17,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
 {
     public string StoreName { get; init; } = null!;
 
-    public IFormFile ? Avatar { get; init; }
+    public IFormFile? Avatar { get; init; }
 
     public string? AddressStore { get; init; }
 
@@ -29,7 +29,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public string? Hotline { get; init; }
 
-    public TimeSpan  OpenTime { get; init; }
+    public TimeSpan OpenTime { get; init; }
 
     public TimeSpan CloseTime { get; init; }
 
@@ -57,8 +57,8 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public List<CreateSocialNetworkModel> SocialNetworks { get; init; } = new List<CreateSocialNetworkModel>();
 
     public CreatePaypalModel? PaypalConfig { get; init; }
-    public int  Order { get; init; }
-
+    public int Order { get; init; }
+    public List<CreatesSoreWorkingDayModel> WorkingDays { get; init; } = new List<CreatesSoreWorkingDayModel>();
 }
 
 public record CreateSocialNetworkModel
@@ -76,13 +76,19 @@ public record CreatePaypalModel
     public bool IsSandbox { get; init; }
 }
 
+public record CreatesSoreWorkingDayModel
+{
+    public int DayOfWeek { get; init; }
+    public TimeSpan? OpenTime { get; init; }
+    public TimeSpan? CloseTime { get; init; } 
+}
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
     private readonly IStorageService _storageService;
 
-    public CreateStoreCommandHandler (ICatalogDbContext context, IMapper mapper, IStorageService storageService)
+    public CreateStoreCommandHandler(ICatalogDbContext context, IMapper mapper, IStorageService storageService)
     {
         _context = context;
         _mapper = mapper;
@@ -137,10 +143,10 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             }).ToList();
             entity.SetStores(userStores);
         }
-        if(request.SocialNetworks != null && request.SocialNetworks.Any())
+        if (request.SocialNetworks != null && request.SocialNetworks.Any())
         {
             var socialNetworks = new List<SocialNetwork>();
-            foreach (var network in request.SocialNetworks) 
+            foreach (var network in request.SocialNetworks)
             {
                 var socialNetwork = new SocialNetwork
                 {
@@ -162,10 +168,10 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 IsSandbox = request.PaypalConfig.IsSandbox,
                 StoreId = entity.Id,
             };
-            entity.PayPalConfig = paypalConfig; 
+            entity.PayPalConfig = paypalConfig;
         }
         _context.Store.Add(entity);
-       
+
         var deepLink = new AppDeepLink
         {
             Type = "store",
@@ -176,7 +182,18 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             WebFallback = $"https://nasshine.com/{entity.Id}"
         };
         _context.AppDeepLink.Add(deepLink);
-        
+
+        if (request.WorkingDays != null && request.WorkingDays.Any())
+        {
+            var workingDays = request.WorkingDays.Select(x => new StoreWorkingDay
+            {
+                StoreId = entity.Id,
+                DayOfWeek = x.DayOfWeek,
+                OpenTime = x.OpenTime,
+                CloseTime =  x.CloseTime
+            }).ToList();
+            entity.SetStoreWorkingDays(workingDays);
+        }
         await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));

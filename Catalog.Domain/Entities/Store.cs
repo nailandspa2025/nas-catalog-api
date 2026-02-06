@@ -3,7 +3,7 @@ using BuildingBlocks.Persistence.Entities.Common;
 
 namespace Catalog.Domain.Entities;
 
-public class Store: BaseAuditableEntity<long> , ISoftDelete
+public class Store : BaseAuditableEntity<long>, ISoftDelete
 {
     public string StoreName { get; set; } = null!;
 
@@ -17,7 +17,7 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public double Lng { get; set; }
 
-    public string?  Hotline { get; set; }
+    public string? Hotline { get; set; }
 
     public string? Email { get; set; }
 
@@ -31,7 +31,7 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
 
     public bool IsFavorite { get; set; }
 
-    public string ? DeepLink { get; set; }
+    public string? DeepLink { get; set; }
 
     public int Order { set; get; }
 
@@ -59,14 +59,16 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
     public int? ServicePackageId { get; set; }
     public ServicePackage? ServicePackage { get; set; }
 
-    public ICollection<BankAccount> BankAccounts { get; set; }  = new List<BankAccount>();
+    public ICollection<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
 
     public virtual ICollection<ReviewStore> ReviewStore { get; set; } = new List<ReviewStore>();
     public ICollection<SocialNetwork> SocialNetworks { get; set; } = new List<SocialNetwork>();
     public virtual ICollection<UserStoreDeepLink> UserStoreDeepLinks { get; set; }
         = new List<UserStoreDeepLink>();
 
-    public PayPalConfig ? PayPalConfig { get; set; }
+    public ICollection<StoreWorkingDay> StoreWorkingDays { get; set; }
+        = new List<StoreWorkingDay>();
+    public PayPalConfig? PayPalConfig { get; set; }
 
     public StoreBio? StoreBio { get; set; }
 
@@ -82,22 +84,27 @@ public class Store: BaseAuditableEntity<long> , ISoftDelete
         this.Products = products;
     }
 
-    public void SetStores (List<UserStore> userStores)
+    public void SetStores(List<UserStore> userStores)
     {
         this.UserStores.Clear();
         this.UserStores = userStores;
     }
 
-    public void SetBanks (List<BankAccount> bankAccounts)
+    public void SetBanks(List<BankAccount> bankAccounts)
     {
         this.BankAccounts.Clear();
         this.BankAccounts = bankAccounts;
     }
 
-    public void SetSocialNetworks (List<SocialNetwork> socialNetworks)
+    public void SetSocialNetworks(List<SocialNetwork> socialNetworks)
     {
         this.SocialNetworks.Clear();
         this.SocialNetworks = socialNetworks;
     }
-}
 
+    public void SetStoreWorkingDays(List<StoreWorkingDay> storeWorkingDays)
+    {
+        this.StoreWorkingDays.Clear();
+        this.StoreWorkingDays = storeWorkingDays;
+    }
+}

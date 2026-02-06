@@ -33,6 +33,7 @@ public class GetStoreByIdQueryHandler : IRequestHandler<GetStoreByIdQuery, ApiRe
             .Include(x => x.BankAccounts)
             .Include(x => x.SocialNetworks)
             .Include(x => x.PayPalConfig)
+            .Include(x => x.StoreWorkingDays)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         if(entity == null)
         {
