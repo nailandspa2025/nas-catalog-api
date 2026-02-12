@@ -19,7 +19,7 @@ public record GetTechniciansWithFreeSlotQuery : IRequest<ApiResponse<IEnumerable
     public TimeSpan Time { get; init; }
 }
 
-public class GetTechniciansWithFreeSlotQueryHandler: IRequestHandler<GetTechniciansWithFreeSlotQuery, ApiResponse<IEnumerable<TechnicianDto>>>
+public class GetTechniciansWithFreeSlotQueryHandler : IRequestHandler<GetTechniciansWithFreeSlotQuery, ApiResponse<IEnumerable<TechnicianDto>>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
@@ -48,7 +48,9 @@ public class GetTechniciansWithFreeSlotQueryHandler: IRequestHandler<GetTechnici
         foreach (var tech in technicians)
         {
             var calendars = await _context.Calendar
+                .Include(x => x.CalendarType)
                 .Include(x => x.CalendarOverrides)
+                .ThenInclude(x => x.CalendarType)
                 .Where(c =>
                     c.TechnicianId == tech.Id &&
                     c.StoreId == request.StoreId &&
@@ -81,7 +83,7 @@ public class GetTechniciansWithFreeSlotQueryHandler: IRequestHandler<GetTechnici
             if (!isBooked)
                 availableTechnicians.Add(tech);
         }
-       
+
         return ApiResponse<IEnumerable<TechnicianDto>>.Success(_mapper.Map<IEnumerable<TechnicianDto>>(availableTechnicians));
     }
     private List<WorkingTimeDto> CalculateWorkingTimes(List<Calendar> calendars, DateTime targetDate, long technicianId, int storeId)
@@ -91,9 +93,22 @@ public class GetTechniciansWithFreeSlotQueryHandler: IRequestHandler<GetTechnici
             .Where(o => !o.IsDeleted && o.WorkDate.Date == targetDate)
             .ToList();
 
-        if (overrideEntries.Any())
+        var offOverrides = overrideEntries
+            .Where(o => IsOff(o.CalendarType.Name))
+            .ToList();
+
+        var workingOverrides = overrideEntries
+            .Where(o => !IsOff(o.CalendarType.Name))
+            .ToList();
+
+        // OFF toàn ngày
+        if (offOverrides.Any() && !workingOverrides.Any())
         {
-            return overrideEntries.Select(o => new WorkingTimeDto
+            return new List<WorkingTimeDto>();
+        }
+        if (workingOverrides.Any())
+        {
+            return workingOverrides.Select(o => new WorkingTimeDto
             {
                 StoreId = storeId,
                 TechnicianId = technicianId,
@@ -136,5 +151,15 @@ public class GetTechniciansWithFreeSlotQueryHandler: IRequestHandler<GetTechnici
             WorkStartTime = ws.WorkStartTime,
             WorkEndTime = ws.WorkEndTime
         }).ToList();
+    }
+    
+    private static bool IsOff(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return false;
+
+        name = name.Trim().ToLowerInvariant();
+
+        return name.Contains("off")
+            || name.Contains("absent");
     }
 }

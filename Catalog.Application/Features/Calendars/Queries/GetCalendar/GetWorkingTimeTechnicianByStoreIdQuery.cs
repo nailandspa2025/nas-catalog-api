@@ -35,7 +35,9 @@ public class GetWorkingTimeTechnicianByStoreIdQueryHandler : IRequestHandler<Get
         var targetDate = request.Date.Date;
 
         var schedules = await _context.Calendar
+            .Include(x => x.CalendarType)
             .Include(x => x.CalendarOverrides)
+            .ThenInclude(x => x.CalendarType)
             .Where(ws =>
                 ws.TechnicianId == request.TechnicianId &&
                 ws.StoreId == request.StoreId &&
@@ -46,12 +48,24 @@ public class GetWorkingTimeTechnicianByStoreIdQueryHandler : IRequestHandler<Get
             .SelectMany(c => c.CalendarOverrides)
             .Where(o => o.WorkDate.Date == targetDate && !o.IsDeleted)
             .ToList();
+        
+        var offOverrides = overrideEntries
+            .Where(o => IsOff(o.CalendarType.Name))
+            .ToList();
 
+        var workingOverrides = overrideEntries
+            .Where(o => !IsOff(o.CalendarType.Name))
+            .ToList();
+        // Chỉ OFF toàn ngày khi không tồn tại Working override
+        if (offOverrides.Any() && !workingOverrides.Any())
+        {
+            return ApiResponse<WorkingTimeDto>.Error("Technician is off on this day.");
+        }
         var workingTimes = new List<WorkingTimeDto>();
 
-        if (overrideEntries.Any())
+        if (workingOverrides.Any())
         {
-            workingTimes = overrideEntries.Select(o => new WorkingTimeDto
+            workingTimes = workingOverrides.Select(o => new WorkingTimeDto
             {
                 StoreId = request.StoreId,
                 TechnicianId = request.TechnicianId,
@@ -173,5 +187,14 @@ public class GetWorkingTimeTechnicianByStoreIdQueryHandler : IRequestHandler<Get
         }
 
         return result;
+    }
+    private static bool IsOff(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return false;
+
+        name = name.Trim().ToLowerInvariant();
+
+        return name.Contains("off")
+            || name.Contains("absent");
     }
 }
