@@ -55,8 +55,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.GCP_SERVER_HOST }}
-          username: admin
-          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          username: ${{ secrets.GCP_SERVER_USER }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}`
           # password: ${{ secrets.SERVER_PASSWORD }}
 
           script: |
