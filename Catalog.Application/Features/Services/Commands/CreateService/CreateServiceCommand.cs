@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Catalog.Application.Features.Services.Commands.CreateService;
 
-public record CreateServiceCommand: IRequest<ApiResponse<ServiceDto>>
+public record CreateServiceCommand : IRequest<ApiResponse<ServiceDto>>
 {
     public string Name { get; init; } = null!;
     public string? Description { get; init; }
@@ -20,8 +20,8 @@ public record CreateServiceCommand: IRequest<ApiResponse<ServiceDto>>
     public decimal? PriceTo { get; init; }
     public int? Rating { get; init; }
     public TimeSpan? WorkingTime { get; init; }
-
     public CurrencyCode Currency { get; init; } = CurrencyCode.USD;
+    public double Commission { get; init; } 
 }
 
 public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, ApiResponse<ServiceDto>>
@@ -47,7 +47,8 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             PriceTo = request.PriceTo,
             Rating = request.Rating,
             WorkingTime = request.WorkingTime,
-            Currency = request.Currency
+            Currency = request.Currency,
+            Commission = request.Commission
         };
         if (request.Image != null)
         { 

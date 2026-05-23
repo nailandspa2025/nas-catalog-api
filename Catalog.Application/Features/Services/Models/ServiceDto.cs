@@ -20,9 +20,8 @@ public class ServiceDto : BaseAuditableDto<int>
     public CurrencyCode Currency { get; set; }
     public List<int> CategoryIds { get; set; }
     public List<string> CategoryNames { get; set; }
-    
-    public List<long> StoreIds { get; set; } = new();   // ✅ thêm
-
+    public List<long> StoreIds { get; set; } = new();  
+    public double Commission { get; set; }
     private class Mapping : Profile
     {
         public Mapping()

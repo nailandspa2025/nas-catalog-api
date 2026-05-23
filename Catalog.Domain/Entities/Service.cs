@@ -21,6 +21,8 @@ public class Service : BaseAuditableEntity<int>
     public TimeSpan ? WorkingTime { get; set; }
 
     public CurrencyCode Currency { get; set; }
+    
+    public double Commission { get; set; }
 
     public virtual ICollection<ServicePackage> ServicePackages { get; set; } = new List<ServicePackage>();
 

@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Catalog.Application.Features.Services.Commands.UpdateService;
 public record UpdateServiceCommand : IRequest<ApiResponse<ServiceDto>>
 {
-    public int Id { get; init; } 
+    public int Id { get; init; }
     public string Name { get; init; } = null!;
     public string? Description { get; init; }
     public string? Code { get; init; }
@@ -24,6 +24,8 @@ public record UpdateServiceCommand : IRequest<ApiResponse<ServiceDto>>
     public int? Rating { get; init; }
     public TimeSpan? WorkingTime { get; init; }
     public CurrencyCode Currency { get; init; }
+    public double Commission { get; init; } 
+    
 }
 
 public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand, ApiResponse<ServiceDto>>
@@ -54,6 +56,7 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand,
         entity.PriceTo = request.PriceTo;
         entity.WorkingTime = request.WorkingTime;
         entity.Currency = request.Currency;
+        entity.Commission = request.Commission;
         if (request.Image != null)
         {
             var url = await _storageService.SaveFileAsync(request.Image, cancellationToken);
