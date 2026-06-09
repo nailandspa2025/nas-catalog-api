@@ -103,25 +103,7 @@ public class PayPalConfigDto
     }
 }
 
-public class PaymentProviderDto
-{
-    public int Id { get; set; }
 
-    public PaymentMethod PaymentMethod { get; set; }
-
-    public bool IsActive { get; set; }
-
-    public List<PaymentProviderSettingDto> Settings { get; set; }
-        = new();
-
-    private class Mapping : Profile
-    {
-        public Mapping()
-        {
-            CreateMap<PaymentProvider, PaymentProviderDto>();
-        }
-    }
-}
 public class PaymentProviderSettingDto
 {
     public int Id { get; set; }

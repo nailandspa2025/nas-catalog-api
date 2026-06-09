@@ -3,11 +3,13 @@ using Catalog.Application.Features.Stores.Commands.CreateStore;
 using Catalog.Application.Features.Stores.Commands.DeleteStore;
 using Catalog.Application.Features.Stores.Commands.UpdateStore;
 using Catalog.Application.Features.Stores.Models;
+using Catalog.Application.Features.Stores.Queries.GetPaymentProvider;
 using Catalog.Application.Features.Stores.Queries.GetStore;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMerchantsWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStoreForMobileWithPagination;
 using Catalog.Application.Features.Stores.Queries.GetStores;
 using Catalog.Application.Features.Stores.Queries.GetStoresWithPagination;
+using Catalog.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -96,7 +98,32 @@ namespace Catalog.Api.Controllers.V1
         [HttpGet("paypal-config/{storeId}")]
         public async Task<ActionResult<ApiResponse<PayPalConfigDto>>> GetPaypalConfigAsync(long storeId)
         {
-            return await Mediator.Send(new GetPaypalByStoreIdQuery{ StoreId = storeId});
+            return await Mediator.Send(new GetPaypalByStoreIdQuery { StoreId = storeId });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("payment-providers/{storeId}")]
+        public async Task<ActionResult<ApiResponse<IEnumerable<PaymentProviderDto>>>> GetPaymentProviders(long storeId)
+        {
+            return await Mediator.Send(
+            new GetPaymentProviderByStoreIdQuery
+            {
+                StoreId = storeId
+            });
+        }
+        [AllowAnonymous]
+        [HttpGet("payment-provider")]
+        public async Task<ActionResult<ApiResponse<PaymentProviderDto>>>
+            GetPaymentProviderAsync(
+                long storeId,
+                PaymentMethod paymentMethod)
+        {
+            return await Mediator.Send(
+                new GetPaymentProviderByMethodQuery
+                {
+                    StoreId = storeId,
+                    PaymentMethod = paymentMethod
+                });
         }
     }
 }
