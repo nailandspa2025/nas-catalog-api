@@ -101,7 +101,7 @@ public record UpdatePaymentProviderSettingModel
 {
     public string Key { get; init; } = string.Empty;
 
-    public string Value { get; init; } = string.Empty;
+    public string ? Value { get; init; }
 }
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
 {

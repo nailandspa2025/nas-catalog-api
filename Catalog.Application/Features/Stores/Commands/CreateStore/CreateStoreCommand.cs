@@ -96,8 +96,7 @@ public record CreatePaymentProviderModel
 public record CreatePaymentProviderSettingModel
 {
     public string Key { get; init; } = string.Empty;
-
-    public string Value { get; init; } = string.Empty;
+    public string? Value { get; init; }
 }
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
 {
