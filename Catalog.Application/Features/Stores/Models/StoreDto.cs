@@ -57,6 +57,7 @@ public class StoreDto: BaseAuditableDto
     public List<SocialNetworkDto> SocialNetworks { get; set; } = new List<SocialNetworkDto>();
     public int Order { set; get; }
     public List<StoreWorkingDayDto> StoreWorkingDays { get; set; } = new List<StoreWorkingDayDto>();
+    public List<PaymentProviderDto> PaymentProviders { get; set; }= new();
     private class Mapping : Profile
     {
         public Mapping()
@@ -102,3 +103,38 @@ public class PayPalConfigDto
     }
 }
 
+public class PaymentProviderDto
+{
+    public long Id { get; set; }
+
+    public PaymentMethod PaymentMethod { get; set; }
+
+    public bool IsActive { get; set; }
+
+    public List<PaymentProviderSettingDto> Settings { get; set; }
+        = new();
+
+    private class Mapping : Profile
+    {
+        public Mapping()
+        {
+            CreateMap<PaymentProvider, PaymentProviderDto>();
+        }
+    }
+}
+public class PaymentProviderSettingDto
+{
+    public long Id { get; set; }
+
+    public string Key { get; set; } = string.Empty;
+
+    public string Value { get; set; } = string.Empty;
+
+    private class Mapping : Profile
+    {
+        public Mapping()
+        {
+            CreateMap<PaymentProviderSetting, PaymentProviderSettingDto>();
+        }
+    }
+}
