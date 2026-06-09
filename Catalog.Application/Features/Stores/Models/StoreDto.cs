@@ -105,7 +105,7 @@ public class PayPalConfigDto
 
 public class PaymentProviderDto
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public PaymentMethod PaymentMethod { get; set; }
 
@@ -124,7 +124,7 @@ public class PaymentProviderDto
 }
 public class PaymentProviderSettingDto
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
     public string Key { get; set; } = string.Empty;
 
