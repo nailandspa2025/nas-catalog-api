@@ -30,7 +30,7 @@ public class ServicesController : ApiControllerBase
         return await Mediator.Send(query);
     }
 
-   
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponse<ServiceDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<ServiceDto>>> GetByIdAsync(int id)
@@ -79,4 +79,13 @@ public class ServicesController : ApiControllerBase
     {
         return await Mediator.Send(query);
     }
+
+    [AllowAnonymous]
+    [HttpGet("services-by-technician")]
+    [ProducesResponseType(typeof(ApiResponse<PaginatedList<ServiceDto>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<ServiceDto>>>> GetServicesByTechnicianAsync(string technicianIds)
+    {
+        return await Mediator.Send(new GetServiceByTechnicianIdsQuery { TechnicianIds = technicianIds });
+    }
+
 }

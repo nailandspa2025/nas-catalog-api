@@ -59,6 +59,8 @@ public class CatalogDbContext: EfCoreDbContext<CatalogDbContext>, ICatalogDbCont
     public DbSet<StoreBio> StoreBio => Set<StoreBio>();
 
     public DbSet<StoreWorkingDay> StoreWorkingDay => Set<StoreWorkingDay>();
+    public DbSet<PaymentProvider> PaymentProvider => Set<PaymentProvider>();
+    public DbSet<PaymentProviderSetting> PaymentProviderSetting => Set<PaymentProviderSetting>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -59,6 +59,7 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public CreatePaypalModel? PaypalConfig { get; init; }
     public int Order { get; init; }
     public List<CreatesSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<CreatesSoreWorkingDayModel>();
+    public List<CreatePaymentProviderModel> PaymentProviders { get; init; } = new();
 }
 
 public record CreateSocialNetworkModel
@@ -80,7 +81,23 @@ public record CreatesSoreWorkingDayModel
 {
     public int DayOfWeek { get; init; }
     public TimeSpan? OpenTime { get; init; }
-    public TimeSpan? CloseTime { get; init; } 
+    public TimeSpan? CloseTime { get; init; }
+}
+public record CreatePaymentProviderModel
+{
+    public PaymentMethod PaymentMethod { get; init; }
+
+    public bool IsActive { get; init; } = true;
+
+    public List<CreatePaymentProviderSettingModel> Settings { get; init; }
+        = new();
+}
+
+public record CreatePaymentProviderSettingModel
+{
+    public string Key { get; init; } = string.Empty;
+
+    public string Value { get; init; } = string.Empty;
 }
 public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, ApiResponse<StoreDto>>
 {
@@ -193,6 +210,27 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
                 CloseTime =  x.CloseTime
             }).ToList();
             entity.SetStoreWorkingDays(workingDays);
+        }
+        if (request.PaymentProviders.Any())
+        {
+            var paymentProviders = request.PaymentProviders
+                .Select(provider => new PaymentProvider
+                {
+                    StoreId = entity.Id,
+                    PaymentMethod = provider.PaymentMethod,
+                    IsActive = provider.IsActive,
+
+                    Settings = provider.Settings
+                        .Select(setting => new PaymentProviderSetting
+                        {
+                            Key = setting.Key,
+                            Value = setting.Value
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            entity.SetPaymentProviders(paymentProviders);
         }
         await _context.SaveChangesAsync(cancellationToken);
 

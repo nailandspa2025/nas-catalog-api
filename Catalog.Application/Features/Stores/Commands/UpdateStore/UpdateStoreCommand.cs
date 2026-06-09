@@ -63,8 +63,9 @@ public record UpdateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public UpdatePaypalModel? PaypalConfig { get; init; }
 
     public int Order { get; init; }
-    
+
     public List<UpdateSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<UpdateSoreWorkingDayModel>();
+    public List<UpdateaymentProviderModel> PaymentProviders { get; init; } = new();
 }
 public record UpdateSocialNetworkModel
 {
@@ -84,7 +85,23 @@ public record UpdateSoreWorkingDayModel
 {
     public int DayOfWeek { get; init; }
     public TimeSpan? OpenTime { get; init; }
-    public TimeSpan? CloseTime { get; init; } 
+    public TimeSpan? CloseTime { get; init; }
+}
+public record UpdateaymentProviderModel
+{
+    public PaymentMethod PaymentMethod { get; init; }
+
+    public bool IsActive { get; init; } = true;
+
+    public List<UpdatePaymentProviderSettingModel> Settings { get; init; }
+        = new();
+}
+
+public record UpdatePaymentProviderSettingModel
+{
+    public string Key { get; init; } = string.Empty;
+
+    public string Value { get; init; } = string.Empty;
 }
 public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, ApiResponse<StoreDto>>
 {
@@ -108,6 +125,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
            .Include(x => x.SocialNetworks)
            .Include(x => x.PayPalConfig)
            .Include(x => x.StoreWorkingDays)
+           .Include(x => x.PaymentProviders)
+           .ThenInclude(x => x.Settings)
            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
@@ -229,6 +248,32 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
                 workingDays.Add(workingDay);
             }
         }
+        if (entity.PaymentProviders.Any())
+        {
+            _context.PaymentProviderSetting.RemoveRange(
+                entity.PaymentProviders.SelectMany(x => x.Settings));
+
+            _context.PaymentProvider.RemoveRange(
+                entity.PaymentProviders);
+        }
+
+        var paymentProviders = request.PaymentProviders
+            .Select(provider => new PaymentProvider
+            {
+                StoreId = entity.Id,
+                PaymentMethod = provider.PaymentMethod,
+                IsActive = provider.IsActive,
+
+                Settings = provider.Settings
+                    .Select(setting => new PaymentProviderSetting
+                    {
+                        Key = setting.Key,
+                        Value = setting.Value
+                    })
+                    .ToList()
+            }).ToList();
+
+        entity.PaymentProviders = paymentProviders;
         entity.SetStoreWorkingDays(workingDays);
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<StoreDto>.Success(_mapper.Map<StoreDto>(entity));

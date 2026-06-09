@@ -52,5 +52,8 @@ public interface ICatalogDbContext : IEfCoreDbContext
     DbSet<StoreBio> StoreBio { get; }
 
     DbSet<StoreWorkingDay> StoreWorkingDay { get; }
+
+    DbSet<PaymentProvider> PaymentProvider { get; }
+    DbSet<PaymentProviderSetting> PaymentProviderSetting { get; }
 }
 

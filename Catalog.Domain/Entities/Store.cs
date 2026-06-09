@@ -71,7 +71,7 @@ public class Store : BaseAuditableEntity<long>, ISoftDelete
     public PayPalConfig? PayPalConfig { get; set; }
 
     public StoreBio? StoreBio { get; set; }
-
+    public ICollection<PaymentProvider> PaymentProviders { get; set; } = new List<PaymentProvider>();
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();
@@ -106,5 +106,10 @@ public class Store : BaseAuditableEntity<long>, ISoftDelete
     {
         this.StoreWorkingDays.Clear();
         this.StoreWorkingDays = storeWorkingDays;
+    }
+    public void SetPaymentProviders(List<PaymentProvider> paymentProviders)
+    {
+        this.PaymentProviders.Clear();
+        this.PaymentProviders = paymentProviders;
     }
 }
