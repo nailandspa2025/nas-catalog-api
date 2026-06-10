@@ -13,11 +13,18 @@ public class PaymentProviderDto
 
     public List<PaymentProviderSettingDto> Settings { get; set; }
         = new();
+    public string PaymentMethodName { get; set; } = string.Empty;
+
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<PaymentProvider, PaymentProviderDto>();
+            CreateMap<PaymentProvider, PaymentProviderDto>()
+                .ForMember(
+                    dest => dest.PaymentMethodName,
+                    opt => opt.MapFrom(src => src.PaymentMethod.ToString())
+                );
+            ;
         }
     }
 }
