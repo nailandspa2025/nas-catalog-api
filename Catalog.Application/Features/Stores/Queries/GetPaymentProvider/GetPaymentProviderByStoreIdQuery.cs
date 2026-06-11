@@ -25,8 +25,8 @@ public class GetPaymentProviderByStoreIdQueryHandler : IRequestHandler<GetPaymen
     {
         var providers = _context.PaymentProvider
             .AsNoTracking()
-            .Where(x => x.StoreId == request.StoreId && x.IsActive);
-            //.Include(x => x.Settings);
+            .Where(x => x.StoreId == request.StoreId && x.IsActive)
+            .Include(x => x.Settings);
         return ApiResponse<IEnumerable<PaymentProviderDto>>.Success(_mapper.Map<IEnumerable<PaymentProviderDto>>(providers));
     }
 }
