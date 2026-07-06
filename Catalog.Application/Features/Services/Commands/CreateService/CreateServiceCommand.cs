@@ -22,6 +22,7 @@ public record CreateServiceCommand : IRequest<ApiResponse<ServiceDto>>
     public TimeSpan? WorkingTime { get; init; }
     public CurrencyCode Currency { get; init; } = CurrencyCode.USD;
     public double Commission { get; init; } 
+    public CommissionType CommissionType { get; init; }
 }
 
 public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, ApiResponse<ServiceDto>>
@@ -48,7 +49,8 @@ public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand,
             Rating = request.Rating,
             WorkingTime = request.WorkingTime,
             Currency = request.Currency,
-            Commission = request.Commission
+            Commission = request.Commission,
+            CommissionType = request.CommissionType
         };
         if (request.Image != null)
         { 

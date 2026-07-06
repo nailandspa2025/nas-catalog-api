@@ -25,7 +25,7 @@ public record UpdateServiceCommand : IRequest<ApiResponse<ServiceDto>>
     public TimeSpan? WorkingTime { get; init; }
     public CurrencyCode Currency { get; init; }
     public double Commission { get; init; } 
-    
+    public CommissionType CommissionType { get; init; }
 }
 
 public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand, ApiResponse<ServiceDto>>
@@ -57,6 +57,7 @@ public class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand,
         entity.WorkingTime = request.WorkingTime;
         entity.Currency = request.Currency;
         entity.Commission = request.Commission;
+        entity.CommissionType = request.CommissionType;
         if (request.Image != null)
         {
             var url = await _storageService.SaveFileAsync(request.Image, cancellationToken);

@@ -23,6 +23,7 @@ public class Service : BaseAuditableEntity<int>
     public CurrencyCode Currency { get; set; }
     
     public double Commission { get; set; }
+    public CommissionType CommissionType { get; set; }
 
     public virtual ICollection<ServicePackage> ServicePackages { get; set; } = new List<ServicePackage>();
 

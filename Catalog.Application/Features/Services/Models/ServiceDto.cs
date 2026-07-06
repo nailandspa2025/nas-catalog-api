@@ -22,6 +22,7 @@ public class ServiceDto : BaseAuditableDto<int>
     public List<string> CategoryNames { get; set; }
     public List<long> StoreIds { get; set; } = new();  
     public double Commission { get; set; }
+    public CommissionType CommissionType {get; set;}
     private class Mapping : Profile
     {
         public Mapping()
