@@ -58,6 +58,9 @@ public class StoreDto: BaseAuditableDto
     public int Order { set; get; }
     public List<StoreWorkingDayDto> StoreWorkingDays { get; set; } = new List<StoreWorkingDayDto>();
     public List<PaymentProviderDto> PaymentProviders { get; set; }= new();
+    public bool IsCommission { get; set; }
+    public bool IsRevenue { get; set; }
+    public string? TimeZone { get; set; } 
     private class Mapping : Profile
     {
         public Mapping()

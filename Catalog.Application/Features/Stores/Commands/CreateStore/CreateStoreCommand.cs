@@ -60,6 +60,9 @@ public record CreateStoreCommand : IRequest<ApiResponse<StoreDto>>
     public int Order { get; init; }
     public List<CreatesSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<CreatesSoreWorkingDayModel>();
     public List<CreatePaymentProviderModel> PaymentProviders { get; init; } = new();
+    public bool IsCommission { get; init; }
+    public bool IsRevenue { get; init; }
+    public string TimeZone { get; init; } =  "Asia/Ho_Chi_Minh";
 }
 
 public record CreateSocialNetworkModel
@@ -132,7 +135,10 @@ public class CreateStoreCommandHandler : IRequestHandler<CreateStoreCommand, Api
             Description = request.Description,
             ServicePackageId = request.ServicePackageId,
             DeepLink = $"http://deeplink.nasshine.com/{code}",
-            Order = request.Order
+            Order = request.Order,
+            IsCommission = request.IsCommission,
+            IsRevenue = request.IsRevenue,
+            TimeZone = request.TimeZone
         };
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

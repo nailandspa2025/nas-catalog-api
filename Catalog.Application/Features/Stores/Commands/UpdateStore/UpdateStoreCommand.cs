@@ -66,6 +66,9 @@ public record UpdateStoreCommand : IRequest<ApiResponse<StoreDto>>
 
     public List<UpdateSoreWorkingDayModel> StoreWorkingDays { get; init; } = new List<UpdateSoreWorkingDayModel>();
     public List<UpdateaymentProviderModel> PaymentProviders { get; init; } = new();
+    public bool IsCommission { get; init; }
+    public bool IsRevenue { get; init; }
+    public string TimeZone { get; init; } =  "Asia/Ho_Chi_Minh";
 }
 public record UpdateSocialNetworkModel
 {
@@ -151,6 +154,9 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
         entity.DeepLink = request.DeepLink;
         entity.ServicePackageId = request.ServicePackageId;
         entity.Order = request.Order;
+        entity.IsCommission = request.IsCommission;
+        entity.IsRevenue = request.IsRevenue;
+        entity.TimeZone = request.TimeZone;
 
         if (request.Avatar != null && request.Avatar.Length > 0)
         {

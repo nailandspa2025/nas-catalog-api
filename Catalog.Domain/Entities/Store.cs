@@ -72,6 +72,9 @@ public class Store : BaseAuditableEntity<long>, ISoftDelete
 
     public StoreBio? StoreBio { get; set; }
     public ICollection<PaymentProvider> PaymentProviders { get; set; } = new List<PaymentProvider>();
+    public string TimeZone { get; set; } =  "Asia/Ho_Chi_Minh";
+    public bool IsCommission { get; set; }
+    public bool IsRevenue { get; set; }
     public void SetImageGallerys(List<StoreImageGallery> storeImageGalleries)
     {
         this.ImageGallerys.Clear();
