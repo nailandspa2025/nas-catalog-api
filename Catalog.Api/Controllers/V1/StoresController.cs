@@ -86,7 +86,7 @@ namespace Catalog.Api.Controllers.V1
             }
             return await Mediator.Send(command);
         }
-
+        [AllowAnonymous]
         [HttpGet("ids")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<StoreDto>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<IEnumerable<StoreDto>>>> GetByIdsAsync(string ids)
