@@ -38,7 +38,9 @@ public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServices
         var query = _context.Service.AsNoTracking();
         if (!paramSearchText.IsNullOrEmpty())
         {
-            query = query.Where(s => s.Name.ToUpper().Contains(paramSearchText));
+            query = query.Where(s =>
+                s.Name.ToUpper().Contains(paramSearchText)
+                || s.Code.ToUpper().Contains(paramSearchText));
         }
         if(request.CategoryId.HasValue)
         {
