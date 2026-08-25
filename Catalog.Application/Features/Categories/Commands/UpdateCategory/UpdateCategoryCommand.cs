@@ -87,10 +87,15 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
 
         if (request.Image != null && request.Image.Length > 0)
         {
+            var oldImage = entity.ImageUrl;
+
             var imageUrl = await _storageService.SaveFileAsync(request.Image, cancellationToken);
             if (!string.IsNullOrEmpty(entity.ImageUrl))
                 await _storageService.DeleteFileAsync(entity.ImageUrl, cancellationToken);
             entity.ImageUrl = imageUrl;
+            
+            if (!string.IsNullOrEmpty(oldImage))
+                await _storageService.DeleteFileAsync(oldImage, cancellationToken);
         }
         else if (request.IsImage)
         {

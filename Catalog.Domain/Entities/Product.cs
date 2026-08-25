@@ -21,6 +21,7 @@ public class Product : BaseAuditableEntity<long>, ISoftDelete
     public long? StoreId { get; set; }
 
     public virtual Store? Store { get; set; }
+    public string ImageUrl { get; set; } = null!;
 
     //public virtual List<Store> Stores { get; private set; } = new List<Store>();
 

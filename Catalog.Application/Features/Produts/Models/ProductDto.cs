@@ -17,7 +17,7 @@ public class ProductDto: BaseAuditableDto
     public long StoreId { get; set; }
 
     public string? StoreName { get; set; }
-
+    public string ImageUrl { get; set; } = null!;
     private class Mapping : Profile
     {
         public Mapping()

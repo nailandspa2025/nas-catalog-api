@@ -19,6 +19,13 @@ namespace Catalog.Api.Controllers.V1
             return await Mediator.Send(query);
         }
 
+        [HttpGet("mobile-pagingation")]
+        [ProducesResponseType(typeof(ApiResponse<PaginatedList<ProductDto>>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<ApiResponse<PaginatedList<ProductDto>>>> GetWithPaginationForMobileAsync([FromQuery] GetProductsWithPaginationQuery query)
+        {
+            return await Mediator.Send(query);
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ApiResponse<ProductDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<ProductDto>>> GetByIdAsync(long id)

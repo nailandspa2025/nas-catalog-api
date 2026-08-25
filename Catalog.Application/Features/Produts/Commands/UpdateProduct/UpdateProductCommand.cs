@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BuildingBlocks.Common.Exceptions;
+using BuildingBlocks.Common.FileStorage;
 using BuildingBlocks.Core.Response;
 using Catalog.Application.Common.Interfaces;
 using Catalog.Application.Features.Produts.Models;
 using Catalog.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Produts.Commands.UpdateProduct;
@@ -20,17 +22,22 @@ public record UpdateProductCommand : IRequest<ApiResponse<ProductDto>>
     public string? Description { get; init; }
 
     public long? StoreId { get; init; } 
+    public IFormFile? ImageUrl { get; init; } 
+    public bool IsImage { get; init; }
+
 }
 
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, ApiResponse<ProductDto>>
 {
     private readonly ICatalogDbContext _context;
     private readonly IMapper _mapper;
+    private readonly IStorageService _storageService;
 
-    public UpdateProductCommandHandler(ICatalogDbContext context, IMapper mapper)
+    public UpdateProductCommandHandler(ICatalogDbContext context, IMapper mapper, IStorageService storageService)
     {
         _context = context;
         _mapper = mapper;
+        _storageService = storageService;
     }
 
     public  async Task<ApiResponse<ProductDto>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -51,6 +58,24 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
         entity.Description = request.Description;
         entity.StoreId = request.StoreId;
 
+        if (request.ImageUrl is not null)
+        {
+            var oldImage = entity.ImageUrl;
+
+            entity.ImageUrl = await _storageService.SaveFileAsync(
+                request.ImageUrl,
+                cancellationToken
+            );
+
+            if (!string.IsNullOrEmpty(oldImage))
+                await _storageService.DeleteFileAsync(oldImage, cancellationToken);
+        }
+        else if (request.IsImage)
+        {
+            if (!string.IsNullOrEmpty(entity.ImageUrl))
+                await _storageService.DeleteFileAsync(entity.ImageUrl, cancellationToken);
+            entity.ImageUrl = string.Empty;
+        }
         await _context.SaveChangesAsync(cancellationToken);
 
         return ApiResponse<ProductDto>.Success(_mapper.Map<ProductDto>(entity));
