@@ -11,7 +11,6 @@ namespace Catalog.Application.Features.Calendars.Commands.DeleteCalendar;
 public record DeleteCalendarCommand : IRequest<ApiResponse>
 {
     public int Id { get; init; }
-
     public DateTime WorkDate { get; init; }
     public DeleteCalendarScope Scope { get; init; } = DeleteCalendarScope.Single;
 }
