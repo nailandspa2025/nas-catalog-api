@@ -50,12 +50,14 @@ public class CalendarDto: BaseAuditableDto
     public long TechnicianId { get; set; }
 
     public string? Color { get; set; }
+    public List<int> DaysOfWeek { get; set; }
 
     private class Mapping : Profile
     {
         public Mapping()
         {
             CreateMap<Calendar, CalendarDto>()
+                .ForMember(dest => dest.DaysOfWeek, opt => opt.MapFrom(src => src.DaysOfWeek.Select(x => x.DayOfWeek).ToList()))
                 .ForMember(dest => dest.OriginalId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.CalendarType.Color));

@@ -66,76 +66,7 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
         return ApiResponse<List<CalendarDto>>.Success(calendars);
     }
 
-    // private List<CalendarDto> ExpandRecurrence(Calendar calendar, DateTime startDate, DateTime endDate)
-    // {
-    //     var occurrences = new List<CalendarDto>();
-    //     //var overrides = calendar.CalendarOverrides?
-    //     //  .Where(o => !o.IsDeleted)
-    //     //  .ToDictionary(o => o.WorkDate.Date) ?? new Dictionary<DateTime, CalendarOverride>();
-    //     var overrides = calendar.CalendarOverrides?
-    //         .Where(o => !o.IsDeleted)
-    //         .GroupBy(o => o.WorkDate.Date)
-    //         .ToDictionary(g => g.Key, g => g.ToList())
-    //         ?? new Dictionary<DateTime, List<CalendarOverride>>();
-
-    //     if (calendar.Recurrence == null || calendar.Recurrence == RecurrenceType.None)
-    //     {
-    //         if (calendar.WorkDate >= startDate && calendar.WorkDate <= endDate)
-    //         {
-    //             occurrences.Add(ToDto(calendar, workDateOverride: calendar.WorkDate));
-    //         }
-    //         return occurrences;
-    //     }
-    //     var current = calendar.WorkDate;
-    //     var interval = calendar.RecurrenceInterval ?? 1;
-    //     var recurrenceEnd = calendar.RecurrenceEndDate ?? endDate;
-
-    //     while (current <= endDate)
-    //     {
-    //         if (current >= startDate)
-    //         {
-    //             //if (calendar.CalendarOverrides?.Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true)
-    //             //{
-    //             //    // Skip this occurrence (marked as deleted)
-    //             //}
-    //             //else if (overrides.TryGetValue(current.Date, out var overrideEntry))
-    //             //{
-    //             //    occurrences.Add(ToDto(calendar, overrideEntry));
-    //             //}
-    //             //else
-    //             //{
-    //             //    occurrences.Add(ToDto(calendar, workDateOverride: current));
-    //             //}
-    //             var isDeleted = calendar.CalendarOverrides?.Any(o => o.WorkDate.Date == current.Date && o.IsDeleted) == true;
-    //             if (!isDeleted)
-    //             {
-    //                 if (overrides.TryGetValue(current.Date, out var overrideEntries))
-    //                 {
-    //                     // Nếu có nhiều override cùng ngày thì add tất cả
-    //                     foreach (var overrideEntry in overrideEntries)
-    //                     {
-    //                         occurrences.Add(ToDto(calendar, overrideEntry));
-    //                     }
-    //                 }
-    //                 else
-    //                 {
-    //                     occurrences.Add(ToDto(calendar, workDateOverride: current));
-    //                 }
-    //             }
-    //         }
-
-    //         current = calendar.Recurrence switch
-    //         {
-    //             RecurrenceType.Daily => current.AddDays(interval),
-    //             RecurrenceType.Weekly => current.AddDays(7 * interval),
-    //             RecurrenceType.Monthly => current.AddMonths(interval),
-    //             RecurrenceType.Yearly => current.AddYears(interval),
-    //             _ => current
-    //         };
-    //     }
-
-    //     return occurrences;
-    // }
+    
     // ============================================================
     // Expand Calendar recurrence
     // ============================================================
