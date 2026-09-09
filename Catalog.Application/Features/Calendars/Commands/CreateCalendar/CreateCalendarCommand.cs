@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Catalog.Application.Features.Calendars.Commands.CreateCalendar;
 
-public record CreateCalendarCommand: IRequest<ApiResponse<CalendarDto>>
+public record CreateCalendarCommand : IRequest<ApiResponse<CalendarDto>>
 {
     public string Title { get; init; } = null!;
 
@@ -27,6 +27,10 @@ public record CreateCalendarCommand: IRequest<ApiResponse<CalendarDto>>
     public int CalendarTypeId { get; init; }
 
     public RecurrenceType? Recurrence { get; init; } = RecurrenceType.None;
+    public DateTime? RecurrenceEndDate { get; init; }
+    public List<DayOfWeek> DaysOfWeek { get; init; } = [];
+    public int? RecurrenceInterval { get; init; }
+
 }
 
 public class CreateCalendarCommandHandler : IRequestHandler<CreateCalendarCommand, ApiResponse<CalendarDto>>
@@ -52,9 +56,23 @@ public class CreateCalendarCommandHandler : IRequestHandler<CreateCalendarComman
             StoreId = request.StoreId,
             TechnicianId = request.TechnicianId,
             CalendarTypeId = request.CalendarTypeId,
-            Recurrence = request.Recurrence
+            Recurrence = request.Recurrence,
+            RecurrenceInterval = request.RecurrenceInterval,
         };
-
+        if (request.RecurrenceEndDate.HasValue)
+        {
+            entity.RecurrenceEndDate = request.RecurrenceEndDate.Value.Date;
+        }
+        if (request.Recurrence == RecurrenceType.DayOfWeek)
+        {
+            foreach (var dayOfWeek in request.DaysOfWeek.Distinct())
+            {
+                entity.DaysOfWeek.Add(new CalendarDayOfWeek
+                {
+                    DayOfWeek = dayOfWeek
+                });
+            }
+        }
         _context.Calendar.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 

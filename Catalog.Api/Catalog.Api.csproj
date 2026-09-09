@@ -34,5 +34,8 @@
     <ProjectReference Include="..\Catalog.Infrastructure\Catalog.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\BuildingBlocks\RateLimiting\RateLimiting.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

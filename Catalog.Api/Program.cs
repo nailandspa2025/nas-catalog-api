@@ -3,6 +3,7 @@ using Catalog.Application;
 using Catalog.Infrastructure;
 using Catalog.Infrastructure.Persistence;
 using BuildingBlocks.Common.Extensions;
+using BuildingBlocks.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,15 @@ builder.Services.AddAPIServices(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddBuildingBlocksRateLimiting(builder.Configuration);
+
 
 var app = builder.Build();
 
 app.UseServiceDefaults(builder);
 
 await app.InitialiseDatabaseAsync();
+app.UseRateLimiter();
 
 app.Run();
 

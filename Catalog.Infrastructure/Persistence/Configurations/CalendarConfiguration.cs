@@ -25,6 +25,11 @@ namespace Catalog.Infrastructure.Persistence.Configurations
                 .HasForeignKey(bg => bg.CalendarId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(false);
+                
+            builder.HasMany(x => x.DaysOfWeek)
+            .WithOne(x => x.Calendar)
+            .HasForeignKey(x => x.CalendarId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

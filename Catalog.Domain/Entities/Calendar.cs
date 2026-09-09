@@ -4,21 +4,21 @@ using Catalog.Domain.Enums;
 
 namespace Catalog.Domain.Entities;
 
-public class Calendar: BaseAuditableEntity<int>, ISoftDelete
+public class Calendar : BaseAuditableEntity<int>, ISoftDelete
 {
     public string Title { get; set; } = null!;
 
     public string? Description { get; set; }
 
-    public DateTime WorkDate { get; set; } 
+    public DateTime WorkDate { get; set; }
 
-    public TimeSpan WorkStartTime { get; set; } 
+    public TimeSpan WorkStartTime { get; set; }
 
-    public TimeSpan WorkEndTime { get; set; }   
+    public TimeSpan WorkEndTime { get; set; }
 
-    public TimeSpan? BreakStartTime { get; set; } 
+    public TimeSpan? BreakStartTime { get; set; }
 
-    public TimeSpan? BreakEndTime { get; set; } 
+    public TimeSpan? BreakEndTime { get; set; }
 
     public string? Location { get; set; }
 
@@ -49,5 +49,6 @@ public class Calendar: BaseAuditableEntity<int>, ISoftDelete
     public bool IsDeleted { get; set; }
 
     public virtual ICollection<CalendarOverride> CalendarOverrides { get; set; }
+    public virtual ICollection<CalendarDayOfWeek> DaysOfWeek { get; set; } = [];
 }
 

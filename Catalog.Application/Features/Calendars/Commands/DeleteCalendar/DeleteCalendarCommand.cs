@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Calendars.Commands.DeleteCalendar;
 
-public record DeleteCalendarCommand: IRequest<ApiResponse>
+public record DeleteCalendarCommand : IRequest<ApiResponse>
 {
     public int Id { get; init; }
 
     public DateTime WorkDate { get; init; }
+    public DeleteCalendarScope Scope { get; init; } = DeleteCalendarScope.Single;
 }
 
 public class DeleteCalendarTypeCommandHandler : IRequestHandler<DeleteCalendarCommand, ApiResponse>
@@ -28,45 +29,61 @@ public class DeleteCalendarTypeCommandHandler : IRequestHandler<DeleteCalendarCo
     {
         var entity = await _context.Calendar
             .Include(x => x.CalendarOverrides)
+            .Include(x => x.DaysOfWeek)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
             throw new NotFoundException(nameof(Calendar), request.Id);
         }
+        if (request.Scope == DeleteCalendarScope.All)
+        {
+            _context.Calendar.Remove(entity);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return ApiResponse.Success();
+        }
+
         if (entity.Recurrence == RecurrenceType.None || entity.Recurrence == null)
         {
             _context.Calendar.Remove(entity);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return ApiResponse.Success();
+        }
+        
+        var deleteDate = request.WorkDate.Date;
+        var existingOverride = entity.CalendarOverrides
+            .FirstOrDefault(x =>x.WorkDate.Date == deleteDate && !x.IsDeleted);
+        if (existingOverride != null)
+        {
+            // Đã có override => đánh dấu deleted
+            existingOverride.IsDeleted = true;
         }
         else
         {
-            var deleteDate = request.WorkDate;
-            var existingOverride = entity.CalendarOverrides
-           .FirstOrDefault(o => o.WorkDate.Date == deleteDate.Date && !o.IsDeleted);
+            // Chưa có override => tạo deleted override
+            var deletedOverride = new CalendarOverride
+            {
+                CalendarId = entity.Id,
+                Title = entity.Title,
+                Description = entity.Description,
+                WorkDate = deleteDate,
+                WorkStartTime = entity.WorkStartTime,
+                WorkEndTime = entity.WorkEndTime,
+                StoreId = entity.StoreId,
+                TechnicianId = entity.TechnicianId,
+                CalendarTypeId = entity.CalendarTypeId,
+                IsDeleted = true
+            };
 
-            if (existingOverride != null)
-            {
-                existingOverride.IsDeleted = true;
-            }
-            else
-            {
-                var deletedOverride = new CalendarOverride
-                {
-                    CalendarId = entity.Id,
-                    Title = entity.Title,
-                    Description = entity.Description,
-                    WorkDate = deleteDate,
-                    WorkStartTime = entity.WorkStartTime,
-                    WorkEndTime = entity.WorkEndTime,
-                    StoreId = entity.StoreId,
-                    TechnicianId = entity.TechnicianId,
-                    CalendarTypeId = entity.CalendarTypeId,
-                    IsDeleted = true
-                };
-                await _context.CalendarOverride.AddAsync(deletedOverride, cancellationToken);
-            }
+            await _context.CalendarOverride.AddAsync(
+                deletedOverride,
+                cancellationToken);
         }
-           
+
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse.Success();
     }

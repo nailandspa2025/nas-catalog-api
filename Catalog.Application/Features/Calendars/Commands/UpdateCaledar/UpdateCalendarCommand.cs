@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Application.Features.Calendars.Commands.UpdateCaledar;
 
-public record UpdateCalendarCommand: IRequest<ApiResponse<CalendarDto>>
+public record UpdateCalendarCommand : IRequest<ApiResponse<CalendarDto>>
 {
     public int Id { get; init; }
 
@@ -31,6 +31,9 @@ public record UpdateCalendarCommand: IRequest<ApiResponse<CalendarDto>>
     public int CalendarTypeId { get; init; }
 
     public RecurrenceType? Recurrence { get; init; } = RecurrenceType.None;
+    public DateTime? RecurrenceEndDate { get; init; }
+    public List<DayOfWeek> DaysOfWeek { get; init; } = [];
+    public int? RecurrenceInterval { get; init; }
 }
 
 public class UpdateCalendarCommandHandler : IRequestHandler<UpdateCalendarCommand, ApiResponse<CalendarDto>>
@@ -48,61 +51,91 @@ public class UpdateCalendarCommandHandler : IRequestHandler<UpdateCalendarComman
     {
         var entity = await _context.Calendar
             .Include(x => x.CalendarOverrides)
+            .Include(x => x.DaysOfWeek)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
 
         if (entity == null)
         {
             throw new NotFoundException(nameof(Calendar), request.Id);
         }
-        entity.Recurrence = request.Recurrence;
+        // 1. Common information
+        entity.Title = request.Title;
+        entity.Description = request.Description;
+        entity.WorkStartTime = request.WorkStartTime;
+        entity.WorkEndTime = request.WorkEndTime;
+        entity.StoreId = request.StoreId;
+        entity.TechnicianId = request.TechnicianId;
+        entity.CalendarTypeId = request.CalendarTypeId;
+
         if (request.Recurrence == RecurrenceType.None || request.Recurrence == null)
         {
-            entity.Title = request.Title;
-            entity.Description = request.Description;
+            // entity.Title = request.Title;
+            // entity.Description = request.Description;
+            // entity.WorkDate = request.WorkDate.Date;
+            // entity.WorkStartTime = request.WorkStartTime;
+            // entity.WorkEndTime = request.WorkEndTime;
+            // entity.StoreId = request.StoreId;
+            // entity.TechnicianId = request.TechnicianId;
+            // entity.CalendarTypeId = request.CalendarTypeId;
+            // entity.CalendarOverrides?.ToList().ForEach(x => x.IsDeleted = false);
             entity.WorkDate = request.WorkDate.Date;
-            entity.WorkStartTime = request.WorkStartTime;
-            entity.WorkEndTime = request.WorkEndTime;
-            entity.StoreId = request.StoreId;
-            entity.TechnicianId = request.TechnicianId;
-            entity.CalendarTypeId = request.CalendarTypeId;
-            entity.CalendarOverrides?.ToList().ForEach(x => x.IsDeleted = false);
+            entity.Recurrence = RecurrenceType.None;
+            entity.RecurrenceInterval = null;
+            entity.RecurrenceEndDate = null;
+            entity.DaysOfWeek.Clear();
         }
         else
         {
-            var overrideDate = request.WorkDate;
-            var existingOverride = entity.CalendarOverrides?
-    .           FirstOrDefault(x => x.WorkDate.Date == overrideDate.Date &&  x.CalendarId == entity.Id);
-            if (existingOverride != null)
+            entity.Recurrence = request.Recurrence;
+            entity.RecurrenceInterval = request.RecurrenceInterval ?? 1;
+            entity.WorkDate = request.WorkDate.Date;
+            entity.DaysOfWeek.Clear();
+            if (request.Recurrence == RecurrenceType.DayOfWeek)
             {
-                existingOverride.Title = request.Title;
-                existingOverride.Description = request.Description;
-                existingOverride.WorkStartTime = request.WorkStartTime;
-                existingOverride.WorkEndTime = request.WorkEndTime;
-                existingOverride.StoreId = request.StoreId;
-                existingOverride.TechnicianId = request.TechnicianId;
-                existingOverride.CalendarTypeId = request.CalendarTypeId;
-            }
-            else
-            {
-                var newOverride = new CalendarOverride
+                if (request.DaysOfWeek != null)
                 {
-                    CalendarId = entity.Id,
-                    Title = request.Title,
-                    Description = request.Description,
-                    WorkDate = overrideDate,
-                    WorkStartTime = request.WorkStartTime,
-                    WorkEndTime = request.WorkEndTime,
-                    StoreId = request.StoreId,
-                    TechnicianId = request.TechnicianId,
-                    CalendarTypeId = request.CalendarTypeId,
-                    IsDeleted = false
-                };
-
-                await _context.CalendarOverride.AddAsync(newOverride, cancellationToken);
+                    foreach (var dayOfWeek in request.DaysOfWeek.Distinct())
+                    {
+                        entity.DaysOfWeek.Add(new CalendarDayOfWeek
+                        {
+                            DayOfWeek = dayOfWeek
+                        });
+                    }
+                }
             }
+            // var overrideDate = request.WorkDate;
+            // var existingOverride = entity.CalendarOverrides?
+            //         .FirstOrDefault(x => x.WorkDate.Date == overrideDate.Date && x.CalendarId == entity.Id);
+            // if (existingOverride != null)
+            // {
+            //     existingOverride.Title = request.Title;
+            //     existingOverride.Description = request.Description;
+            //     existingOverride.WorkStartTime = request.WorkStartTime;
+            //     existingOverride.WorkEndTime = request.WorkEndTime;
+            //     existingOverride.StoreId = request.StoreId;
+            //     existingOverride.TechnicianId = request.TechnicianId;
+            //     existingOverride.CalendarTypeId = request.CalendarTypeId;
+            // }
+            // else
+            // {
+            //     var newOverride = new CalendarOverride
+            //     {
+            //         CalendarId = entity.Id,
+            //         Title = request.Title,
+            //         Description = request.Description,
+            //         WorkDate = overrideDate,
+            //         WorkStartTime = request.WorkStartTime,
+            //         WorkEndTime = request.WorkEndTime,
+            //         StoreId = request.StoreId,
+            //         TechnicianId = request.TechnicianId,
+            //         CalendarTypeId = request.CalendarTypeId,
+            //         IsDeleted = false
+            //     };
+
+            //     await _context.CalendarOverride.AddAsync(newOverride, cancellationToken);
+            // }
         }
         await _context.SaveChangesAsync(cancellationToken);
         return ApiResponse<CalendarDto>.Success(_mapper.Map<CalendarDto>(entity));
-
     }
 }

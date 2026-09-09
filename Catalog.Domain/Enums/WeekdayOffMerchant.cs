@@ -14,5 +14,5 @@ public enum WeekdayOffMerchant
 
     Saturday  = 6,
 
-    Sunday =  7
+    Sunday =  0
 }

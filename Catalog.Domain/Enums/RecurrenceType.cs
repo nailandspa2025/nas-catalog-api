@@ -10,5 +10,7 @@ public enum RecurrenceType
 
     Monthly = 4,
 
-    Yearly = 5
+    Yearly = 5,
+    
+    DayOfWeek = 6
 }
