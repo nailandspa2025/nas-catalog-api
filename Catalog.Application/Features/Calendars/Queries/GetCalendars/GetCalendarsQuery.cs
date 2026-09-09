@@ -140,300 +140,347 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
     // Expand Calendar recurrence
     // ============================================================
 
-    private List<CalendarDto> ExpandRecurrence(Calendar calendar, DateTime startDate, DateTime endDate)
+    private List<CalendarDto> ExpandRecurrence(
+    Calendar calendar,
+    DateTime startDate,
+    DateTime endDate)
+{
+    var occurrences = new List<CalendarDto>();
+
+    // ============================================================
+    // Normalize date
+    // ============================================================
+
+    var calendarStartDate = calendar.WorkDate.Date;
+    var queryStartDate = startDate.Date;
+    var queryEndDate = endDate.Date;
+
+    // ============================================================
+    // Calendar Overrides
+    // ============================================================
+
+    var deletedDates = calendar.CalendarOverrides?
+        .Where(x => x.IsDeleted)
+        .Select(x => x.WorkDate.Date)
+        .ToHashSet()
+        ?? new HashSet<DateTime>();
+
+    var overrides = calendar.CalendarOverrides?
+        .Where(x => !x.IsDeleted)
+        .GroupBy(x => x.WorkDate.Date)
+        .ToDictionary(
+            g => g.Key,
+            g => g.ToList())
+        ?? new Dictionary<DateTime, List<CalendarOverride>>();
+
+    // ============================================================
+    // No recurrence
+    // ============================================================
+
+    if (calendar.Recurrence is null ||
+        calendar.Recurrence == RecurrenceType.None)
     {
-        var occurrences = new List<CalendarDto>();
+        var date = calendarStartDate;
 
-        var overrides = calendar.CalendarOverrides?
-            .Where(o => !o.IsDeleted)
-            .GroupBy(o => o.WorkDate.Date)
-            .ToDictionary(
-                g => g.Key,
-                g => g.ToList())
-            ?? new Dictionary<
-                DateTime,
-                List<CalendarOverride>>();
-
-        // --------------------------------------------------------
-        // No recurrence
-        // --------------------------------------------------------
-
-        if (calendar.Recurrence == null ||
-            calendar.Recurrence == RecurrenceType.None)
-        {
-            if (calendar.WorkDate.Date >= startDate.Date &&
-                calendar.WorkDate.Date <= endDate.Date)
-            {
-                if (overrides.TryGetValue(
-                        calendar.WorkDate.Date,
-                        out var overrideEntries))
-                {
-                    foreach (var overrideEntry in overrideEntries)
-                    {
-                        occurrences.Add(
-                            ToDto(calendar, overrideEntry));
-                    }
-                }
-                else
-                {
-                    occurrences.Add(
-                        ToDto(
-                            calendar,
-                            workDateOverride: calendar.WorkDate));
-                }
-            }
-
-            return occurrences;
-        }
-
-
-        // --------------------------------------------------------
-        // Recurrence interval
-        //
-        // Dữ liệu cũ không có interval => 1
-        // --------------------------------------------------------
-
-        var interval = calendar.RecurrenceInterval ?? 1;
-
-        if (interval <= 0)
-        {
-            interval = 1;
-        }
-
-
-        // --------------------------------------------------------
-        // Recurrence end
-        // --------------------------------------------------------
-
-        var recurrenceEnd =
-            calendar.RecurrenceEndDate?.Date
-            ?? endDate.Date;
-
-        if (recurrenceEnd > endDate.Date)
-        {
-            recurrenceEnd = endDate.Date;
-        }
-
-        if (recurrenceEnd < startDate.Date)
+        if (date < queryStartDate || date > queryEndDate)
         {
             return occurrences;
         }
 
-
-        // ========================================================
-        // Daily
-        // ========================================================
-
-        if (calendar.Recurrence == RecurrenceType.Daily)
+        // Ngày đã bị delete
+        if (deletedDates.Contains(date))
         {
-            var current = calendar.WorkDate.Date;
-
-            while (current <= recurrenceEnd)
-            {
-                if (current >= startDate.Date)
-                {
-                    AddOccurrence(
-                        occurrences,
-                        calendar,
-                        overrides,
-                        current);
-                }
-
-                current = current.AddDays(interval);
-            }
-
             return occurrences;
         }
 
-
-        // ========================================================
-        // Weekly
-        //
-        // Weekly sử dụng DayOfWeek của WorkDate.
-        //
-        // Ví dụ:
-        // WorkDate = Wednesday
-        // Interval = 2
-        //
-        // => mỗi 2 tuần vào Wednesday
-        // ========================================================
-
-        if (calendar.Recurrence == RecurrenceType.Weekly)
-        {
-            var current = calendar.WorkDate.Date;
-
-            while (current <= recurrenceEnd)
-            {
-                if (current >= startDate.Date &&
-                    current.DayOfWeek ==
-                    calendar.WorkDate.DayOfWeek)
-                {
-                    AddOccurrence(
-                        occurrences,
-                        calendar,
-                        overrides,
-                        current);
-                }
-
-                current = current.AddDays(7 * interval);
-            }
-
-            return occurrences;
-        }
-        // ========================================================
-        // DayOfWeek / WorkingDays
-        //
-        // DaysOfWeek:
-        //
-        // Monday    = 1
-        // Tuesday   = 2
-        // Wednesday = 3
-        // Thursday  = 4
-        // Friday    = 5
-        // Saturday  = 6
-        // Sunday    = 0
-        //
-        // Interval = số tuần
-        // ========================================================
-
-        if (calendar.Recurrence == RecurrenceType.DayOfWeek)
-        {
-            var selectedDays = calendar.DaysOfWeek?
-                    .Select(x => (int)x.DayOfWeek)
-                    .Distinct()
-                    .ToHashSet()
-                    ?? new HashSet<int>();
-
-            if (!selectedDays.Any())
-            {
-                return occurrences;
-            }
-
-            var currentWeek =
-                StartOfWeek(
-                    calendar.WorkDate.Date,
-                    DayOfWeek.Monday);
-
-            while (currentWeek <= recurrenceEnd)
-            {
-                var weekDifference =
-                    (currentWeek -
-                     StartOfWeek(
-                         calendar.WorkDate.Date,
-                         DayOfWeek.Monday))
-                    .Days / 7;
-
-                if (weekDifference % interval == 0)
-                {
-                    for (var dayOffset = 0;
-                         dayOffset < 7;
-                         dayOffset++)
-                    {
-                        var current =
-                            currentWeek.AddDays(dayOffset);
-
-                        if (current < calendar.WorkDate.Date)
-                        {
-                            continue;
-                        }
-
-                        if (current > recurrenceEnd)
-                        {
-                            continue;
-                        }
-
-                        if (current < startDate.Date ||
-                            current > endDate.Date)
-                        {
-                            continue;
-                        }
-
-                        var dayOfWeek =
-                            ToDayOfWeekValue(
-                                current.DayOfWeek);
-
-                        if (!selectedDays.Contains(dayOfWeek))
-                        {
-                            continue;
-                        }
-
-                        AddOccurrence(
-                            occurrences,
-                            calendar,
-                            overrides,
-                            current);
-                    }
-                }
-
-                currentWeek =
-                    currentWeek.AddDays(7);
-            }
-
-            return occurrences;
-        }
-
-
-        // ========================================================
-        // Monthly
-        // ========================================================
-
-        if (calendar.Recurrence == RecurrenceType.Monthly)
-        {
-            var current = calendar.WorkDate.Date;
-
-            while (current <= recurrenceEnd)
-            {
-                if (current >= startDate.Date &&
-                    current.Day == calendar.WorkDate.Day)
-                {
-                    AddOccurrence(
-                        occurrences,
-                        calendar,
-                        overrides,
-                        current);
-                }
-
-                current = current.AddMonths(interval);
-            }
-
-            return occurrences;
-        }
-
-
-        // ========================================================
-        // Yearly
-        // ========================================================
-
-        if (calendar.Recurrence == RecurrenceType.Yearly)
-        {
-            var current = calendar.WorkDate.Date;
-
-            while (current <= recurrenceEnd)
-            {
-                if (current >= startDate.Date &&
-                    current.Day == calendar.WorkDate.Day &&
-                    current.Month == calendar.WorkDate.Month)
-                {
-                    AddOccurrence(
-                        occurrences,
-                        calendar,
-                        overrides,
-                        current);
-                }
-
-                current = current.AddYears(interval);
-            }
-
-            return occurrences;
-        }
-
+        AddOccurrence(
+            occurrences,
+            calendar,
+            overrides,
+            date);
 
         return occurrences;
     }
+
+    // ============================================================
+    // Recurrence interval
+    // ============================================================
+
+    var interval = calendar.RecurrenceInterval ?? 1;
+
+    if (interval <= 0)
+    {
+        interval = 1;
+    }
+
+    // ============================================================
+    // Recurrence end
+    // ============================================================
+
+    var recurrenceEnd = calendar.RecurrenceEndDate?.Date
+        ?? queryEndDate;
+
+    if (recurrenceEnd > queryEndDate)
+    {
+        recurrenceEnd = queryEndDate;
+    }
+
+    if (recurrenceEnd < queryStartDate)
+    {
+        return occurrences;
+    }
+
+    // ============================================================
+    // Daily
+    // ============================================================
+
+    if (calendar.Recurrence == RecurrenceType.Daily)
+    {
+        var current = calendarStartDate;
+
+        while (current <= recurrenceEnd)
+        {
+            if (current >= queryStartDate)
+            {
+                AddOccurrence(
+                    occurrences,
+                    calendar,
+                    overrides,
+                    deletedDates,
+                    current);
+            }
+
+            current = current.AddDays(interval);
+        }
+
+        return occurrences;
+    }
+
+    // ============================================================
+    // Weekly
+    //
+    // Weekly = lặp đúng thứ của WorkDate
+    //
+    // Ví dụ:
+    // WorkDate = Tuesday
+    // Interval = 2
+    //
+    // => mỗi 2 tuần vào Tuesday
+    // ============================================================
+
+    if (calendar.Recurrence == RecurrenceType.Weekly)
+    {
+        var current = calendarStartDate;
+
+        while (current <= recurrenceEnd)
+        {
+            if (current >= queryStartDate &&
+                current.DayOfWeek == calendarStartDate.DayOfWeek)
+            {
+                AddOccurrence(
+                    occurrences,
+                    calendar,
+                    overrides,
+                    deletedDates,
+                    current);
+            }
+
+            current = current.AddDays(7 * interval);
+        }
+
+        return occurrences;
+    }
+
+    // ============================================================
+    // Working Days / DayOfWeek
+    //
+    // DaysOfWeek:
+    //
+    // Monday    = 1
+    // Tuesday   = 2
+    // Wednesday = 3
+    // Thursday  = 4
+    // Friday    = 5
+    // Saturday  = 6
+    // Sunday    = 0
+    //
+    // interval = số tuần
+    // ============================================================
+
+    if (calendar.Recurrence == RecurrenceType.DayOfWeek)
+    {
+        var selectedDays = calendar.DaysOfWeek?
+            .Select(x => (int)x.DayOfWeek)
+            .Distinct()
+            .ToHashSet()
+            ?? new HashSet<int>();
+
+        if (!selectedDays.Any())
+        {
+            return occurrences;
+        }
+
+        var baseWeek = StartOfWeek(
+            calendarStartDate,
+            DayOfWeek.Monday);
+
+        var currentWeek = baseWeek;
+
+        while (currentWeek <= recurrenceEnd)
+        {
+            var weekDifference =
+                (currentWeek - baseWeek).Days / 7;
+
+            if (weekDifference % interval == 0)
+            {
+                for (var dayOffset = 0; dayOffset < 7; dayOffset++)
+                {
+                    var current = currentWeek.AddDays(dayOffset);
+
+                    if (current < calendarStartDate)
+                    {
+                        continue;
+                    }
+
+                    if (current > recurrenceEnd)
+                    {
+                        continue;
+                    }
+
+                    if (current < queryStartDate ||
+                        current > queryEndDate)
+                    {
+                        continue;
+                    }
+
+                    var dayOfWeek = (int)current.DayOfWeek;
+
+                    if (!selectedDays.Contains(dayOfWeek))
+                    {
+                        continue;
+                    }
+
+                    AddOccurrence(
+                        occurrences,
+                        calendar,
+                        overrides,
+                        deletedDates,
+                        current);
+                }
+            }
+
+            currentWeek = currentWeek.AddDays(7);
+        }
+
+        return occurrences;
+    }
+
+    // ============================================================
+    // Monthly
+    // ============================================================
+
+    if (calendar.Recurrence == RecurrenceType.Monthly)
+    {
+        var current = calendarStartDate;
+
+        while (current <= recurrenceEnd)
+        {
+            if (current >= queryStartDate &&
+                current.Day == calendarStartDate.Day)
+            {
+                AddOccurrence(
+                    occurrences,
+                    calendar,
+                    overrides,
+                    deletedDates,
+                    current);
+            }
+
+            current = current.AddMonths(interval);
+        }
+
+        return occurrences;
+    }
+
+    // ============================================================
+    // Yearly
+    // ============================================================
+
+    if (calendar.Recurrence == RecurrenceType.Yearly)
+    {
+        var current = calendarStartDate;
+
+        while (current <= recurrenceEnd)
+        {
+            if (current >= queryStartDate &&
+                current.Day == calendarStartDate.Day &&
+                current.Month == calendarStartDate.Month)
+            {
+                AddOccurrence(
+                    occurrences,
+                    calendar,
+                    overrides,
+                    deletedDates,
+                    current);
+            }
+
+            current = current.AddYears(interval);
+        }
+
+        return occurrences;
+    }
+
+    return occurrences;
+}
     // ============================================================
     // Add occurrence
     // ============================================================
+    private void AddOccurrence(
+    List<CalendarDto> occurrences,
+    Calendar calendar,
+    Dictionary<DateTime, List<CalendarOverride>> overrides,
+    HashSet<DateTime> deletedDates,
+    DateTime date)
+{
+    var workDate = date.Date;
 
+    // ============================================================
+    // Ngày này đã bị delete
+    // ============================================================
+
+    if (deletedDates.Contains(workDate))
+    {
+        return;
+    }
+
+    // ============================================================
+    // Có override
+    // ============================================================
+
+    if (overrides.TryGetValue(
+            workDate,
+            out var overrideEntries))
+    {
+        foreach (var overrideEntry in overrideEntries)
+        {
+            occurrences.Add(
+                ToDto(
+                    calendar,
+                    overrideEntry));
+        }
+
+        return;
+    }
+
+    // ============================================================
+    // Calendar gốc
+    // ============================================================
+
+    occurrences.Add(
+        ToDto(
+            calendar,
+            workDateOverride: workDate));
+}
     private void AddOccurrence(List<CalendarDto> occurrences, Calendar calendar,Dictionary<DateTime, List<CalendarOverride>> overrides, DateTime date)
     {
         // --------------------------------------------------------
@@ -507,22 +554,22 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
     // DayOfWeek mapping
     // ============================================================
 
-    private static int ToDayOfWeekValue(
-        DayOfWeek dayOfWeek)
-    {
-        return dayOfWeek switch
-        {
-            DayOfWeek.Sunday => 0,
-            DayOfWeek.Monday => 1,
-            DayOfWeek.Tuesday => 2,
-            DayOfWeek.Wednesday => 3,
-            DayOfWeek.Thursday => 4,
-            DayOfWeek.Friday => 5,
-            DayOfWeek.Saturday => 6,
+    // private static int ToDayOfWeekValue(
+    //     DayOfWeek dayOfWeek)
+    // {
+    //     return dayOfWeek switch
+    //     {
+    //         DayOfWeek.Sunday => 0,
+    //         DayOfWeek.Monday => 1,
+    //         DayOfWeek.Tuesday => 2,
+    //         DayOfWeek.Wednesday => 3,
+    //         DayOfWeek.Thursday => 4,
+    //         DayOfWeek.Friday => 5,
+    //         DayOfWeek.Saturday => 6,
 
-            _ => 0
-        };
-    }
+    //         _ => 0
+    //     };
+    // }
 
 
     // ============================================================

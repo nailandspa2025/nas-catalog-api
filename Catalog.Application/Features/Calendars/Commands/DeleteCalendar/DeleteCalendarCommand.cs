@@ -11,70 +11,102 @@ namespace Catalog.Application.Features.Calendars.Commands.DeleteCalendar;
 public record DeleteCalendarCommand : IRequest<ApiResponse>
 {
     public int Id { get; init; }
+
     public DateTime WorkDate { get; init; }
-    public DeleteCalendarScope Scope { get; init; } = DeleteCalendarScope.Single;
+
+    public DeleteCalendarScope Scope { get; init; }
+        = DeleteCalendarScope.Single;
 }
 
-public class DeleteCalendarTypeCommandHandler : IRequestHandler<DeleteCalendarCommand, ApiResponse>
+public class DeleteCalendarCommandHandler
+    : IRequestHandler<DeleteCalendarCommand, ApiResponse>
 {
     private readonly ICatalogDbContext _context;
 
-    public DeleteCalendarTypeCommandHandler(ICatalogDbContext context)
+    public DeleteCalendarCommandHandler(ICatalogDbContext context)
     {
         _context = context;
     }
 
-    public async Task<ApiResponse> Handle(DeleteCalendarCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse> Handle(
+        DeleteCalendarCommand request,
+        CancellationToken cancellationToken)
     {
-        var entity = await _context.Calendar
+        var calendar = await _context.Calendar
             .Include(x => x.CalendarOverrides)
             .Include(x => x.DaysOfWeek)
-            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(
+                x => x.Id == request.Id,
+                cancellationToken);
 
-        if (entity == null)
+        if (calendar == null)
         {
-            throw new NotFoundException(nameof(Calendar), request.Id);
+            throw new NotFoundException(
+                nameof(Calendar),
+                request.Id);
         }
+
+        // ============================================
+        // 1. Delete ALL
+        // ============================================
         if (request.Scope == DeleteCalendarScope.All)
         {
-            _context.Calendar.Remove(entity);
+            _context.Calendar.Remove(calendar);
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return ApiResponse.Success();
         }
 
-        if (entity.Recurrence == RecurrenceType.None || entity.Recurrence == null)
+        // ============================================
+        // 2. Calendar không recurrence
+        // ============================================
+        if (calendar.Recurrence is null ||
+            calendar.Recurrence == RecurrenceType.None)
         {
-            _context.Calendar.Remove(entity);
+            _context.Calendar.Remove(calendar);
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return ApiResponse.Success();
         }
-        
+
+        // ============================================
+        // 3. Delete SINGLE occurrence
+        // ============================================
         var deleteDate = request.WorkDate.Date;
-        var existingOverride = entity.CalendarOverrides
-            .FirstOrDefault(x =>x.WorkDate.Date == deleteDate && !x.IsDeleted);
+
+        deleteDate = DateTime.SpecifyKind(
+            deleteDate,
+            DateTimeKind.Utc);
+
+        var existingOverride = calendar.CalendarOverrides
+            .FirstOrDefault(x =>
+                x.WorkDate.Date == deleteDate &&
+                !x.IsDeleted);
+
         if (existingOverride != null)
         {
-            // Đã có override => đánh dấu deleted
             existingOverride.IsDeleted = true;
         }
         else
         {
-            // Chưa có override => tạo deleted override
             var deletedOverride = new CalendarOverride
             {
-                CalendarId = entity.Id,
-                Title = entity.Title,
-                Description = entity.Description,
+                CalendarId = calendar.Id,
+
+                Title = calendar.Title,
+                Description = calendar.Description,
+
                 WorkDate = deleteDate,
-                WorkStartTime = entity.WorkStartTime,
-                WorkEndTime = entity.WorkEndTime,
-                StoreId = entity.StoreId,
-                TechnicianId = entity.TechnicianId,
-                CalendarTypeId = entity.CalendarTypeId,
+
+                WorkStartTime = calendar.WorkStartTime,
+                WorkEndTime = calendar.WorkEndTime,
+
+                StoreId = calendar.StoreId,
+                TechnicianId = calendar.TechnicianId,
+                CalendarTypeId = calendar.CalendarTypeId,
+
                 IsDeleted = true
             };
 
@@ -84,6 +116,7 @@ public class DeleteCalendarTypeCommandHandler : IRequestHandler<DeleteCalendarCo
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+
         return ApiResponse.Success();
     }
 }
