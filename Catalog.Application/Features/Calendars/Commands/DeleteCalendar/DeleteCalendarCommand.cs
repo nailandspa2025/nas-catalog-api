@@ -14,8 +14,7 @@ public record DeleteCalendarCommand : IRequest<ApiResponse>
 
     public DateTime WorkDate { get; init; }
 
-    public DeleteCalendarScope Scope { get; init; }
-        = DeleteCalendarScope.Single;
+    public CalendarScope Scope { get; init; } = CalendarScope.Single;
 }
 
 public class DeleteCalendarCommandHandler
@@ -49,7 +48,7 @@ public class DeleteCalendarCommandHandler
         // ============================================
         // 1. Delete ALL
         // ============================================
-        if (request.Scope == DeleteCalendarScope.All)
+        if (request.Scope == CalendarScope.All)
         {
             _context.Calendar.Remove(calendar);
 

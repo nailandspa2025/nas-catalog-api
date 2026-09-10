@@ -1,6 +1,6 @@
 namespace Catalog.Domain.Enums;
 
-public enum DeleteCalendarScope
+public enum CalendarScope
 {
     Single = 1,
     All = 2
