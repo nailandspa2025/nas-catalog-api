@@ -11,4 +11,5 @@ public enum PaymentMethod
     VNPay = 7,
     Paypal = 8,
     Stripe = 9,
+    Poynt = 10,
 }
