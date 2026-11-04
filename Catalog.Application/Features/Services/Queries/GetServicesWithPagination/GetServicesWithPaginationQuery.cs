@@ -19,6 +19,9 @@ public record GetServicesWithPaginationQuery : IRequest<ApiResponse<PaginatedLis
     public string? SearchText { get; init; }
 
     public int ? CategoryId { get;  init;}
+
+    /// <summary>Chỉ lấy dịch vụ của store (qua gói dịch vụ của store), giống GetServiceByStoreIdQuery.</summary>
+    public long? StoreId { get; init; }
 }
 
 public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServicesWithPaginationQuery, ApiResponse<PaginatedList<ServiceDto>>>
@@ -41,6 +44,10 @@ public class GetServicesWithPaginationQueryHandler : IRequestHandler<GetServices
             query = query.Where(s =>
                 s.Name.ToUpper().Contains(paramSearchText)
                 || s.Code.ToUpper().Contains(paramSearchText));
+        }
+        if (request.StoreId.HasValue)
+        {
+            query = query.Where(x => x.ServicePackages.Any(sp => sp.Stores.Any(st => st.Id == request.StoreId.Value)));
         }
         if(request.CategoryId.HasValue)
         {
