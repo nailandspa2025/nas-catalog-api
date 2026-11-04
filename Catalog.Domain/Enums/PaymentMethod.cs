@@ -12,4 +12,6 @@ public enum PaymentMethod
     Paypal = 8,
     Stripe = 9,
     Poynt = 10,
+    // Thanh toán trên máy POS (Payment Bridge, qua nas-godaddy-connector-service)
+    PosPayment = 11,
 }
