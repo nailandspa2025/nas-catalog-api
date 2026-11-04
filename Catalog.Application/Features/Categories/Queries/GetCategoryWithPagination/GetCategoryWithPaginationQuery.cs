@@ -45,10 +45,13 @@ public class GetCategoryWithPaginationQueryHandler : IRequestHandler<GetCategory
         {
             query = query.Where(x => x.Services.Any(s => s.ServicePackages.Any(sp => sp.Stores.Any(st => st.Id == request.StoreId.Value))));
         }
+        // AsSplitQuery: the projection loads 4 collections (Children, Children.Services x2, Services x2).
+        // In a single query they are LEFT JOINed together and rows multiply (cartesian explosion).
+        // ThenBy(Id) keeps ordering deterministic, which split queries + paging require.
         var paginationResult = await query
-            .Include(x => x.Children)
-            .Include(x => x.Services)
             .OrderByDescending(x => x.OrderNo)
+            .ThenBy(x => x.Id)
+            .AsSplitQuery()
             .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.PageNumber, request.PageSize);
 
