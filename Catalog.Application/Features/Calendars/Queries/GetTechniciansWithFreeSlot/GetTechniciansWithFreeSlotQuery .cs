@@ -46,80 +46,85 @@ public class GetTechniciansWithFreeSlotQueryHandler : IRequestHandler<GetTechnic
         if (technicians == null || !technicians.Any())
             return ApiResponse<IEnumerable<TechnicianDto>>.Success(_mapper.Map<IEnumerable<TechnicianDto>>(new List<TechnicianDto>()));
 
-        var availableTechnicians = new List<TechnicianDto>();
+        var technicianIds = technicians.Select(t => t.Id).Distinct().ToList();
 
-        foreach (var tech in technicians)
+        // Cột WorkDate là timestamptz → tham số phải là UTC.
+        var dayStart = DateTime.SpecifyKind(request.Date.Date, DateTimeKind.Utc);
+        var dayEnd = dayStart.AddDays(1);
+
+        // 1. Lấy lịch của TẤT CẢ technician trong 1 query (trước đây: 1 query / technician).
+        //    Chỉ cần các calendar bắt đầu trước hết ngày đó, hoặc có override trong ngày đó,
+        //    và chỉ cần override của đúng ngày đó — CalculateWorkingTimes không dùng ngày khác.
+        var calendars = await _context.Calendar
+            .AsNoTracking()
+            .AsSplitQuery()
+            .Include(x => x.CalendarType)
+            .Include(x => x.CalendarOverrides.Where(o => o.WorkDate >= dayStart && o.WorkDate < dayEnd))
+                .ThenInclude(x => x.CalendarType)
+            .Where(c => technicianIds.Contains(c.TechnicianId) &&
+                        c.StoreId == request.StoreId &&
+                        !c.IsDeleted &&
+                        (c.WorkDate < dayEnd ||
+                         c.CalendarOverrides.Any(o => o.WorkDate >= dayStart && o.WorkDate < dayEnd)))
+            .ToListAsync(cancellationToken);
+
+        var calendarsByTechnician = calendars.ToLookup(c => c.TechnicianId);
+
+        // Technician đang làm việc tại thời điểm request.Time
+        var workingTechnicians = technicians
+            .Where(tech => CalculateWorkingTimes(calendarsByTechnician[tech.Id].ToList(), request.Date, tech.Id, request.StoreId)
+                .Any(wt => wt.WorkStartTime <= request.Time && wt.WorkEndTime > request.Time))
+            .ToList();
+
+        if (!workingTechnicians.Any())
+            return ApiResponse<IEnumerable<TechnicianDto>>.Success(_mapper.Map<IEnumerable<TechnicianDto>>(new List<TechnicianDto>()));
+
+        // 2. Lấy booking của các technician song song (trước đây: tuần tự từng người).
+        var bookedSlotsPerTechnician = await Task.WhenAll(workingTechnicians.Select(async tech =>
         {
-            // 1. Lấy lịch làm việc
-            var calendars = await _context.Calendar
-                .Include(x => x.CalendarType)
-                .Include(x => x.CalendarOverrides)
-                    .ThenInclude(x => x.CalendarType)
-                .Where(c => c.TechnicianId == tech.Id &&
-                            c.StoreId == request.StoreId &&
-                            !c.IsDeleted)
-                .ToListAsync(cancellationToken);
-
-            var workingTimes = CalculateWorkingTimes(calendars, request.Date, tech.Id, request.StoreId);
-
-            // Kiểm tra technician có làm việc vào thời điểm request.Time không
-            bool isWorking = workingTimes.Any(wt =>
-                wt.WorkStartTime <= request.Time &&
-                wt.WorkEndTime > request.Time
-            );
-
-            if (!isWorking) continue;
-
-            // 2. Lấy danh sách booking của technician trong ngày
             var bookedResponse = await _orderClient.GetBookedSlotsAsync(
                 request.StoreId,
                 tech.Id,
                 request.Date.Date,
-                cancellationToken
-            );
-            var bookedSlots = bookedResponse?.Data?.ToList() ?? new List<BookingTimeDto>();
+                cancellationToken);
 
-            // 3. Lấy WorkingTime cho tất cả ServiceId trong các booking
-            var allServiceIdsFromBookings = bookedSlots
-                .SelectMany(b => b.ServiceIds ?? new List<int>())
-                .Distinct()
-                .ToList();
+            return (Technician: tech, BookedSlots: bookedResponse?.Data?.ToList() ?? new List<BookingTimeDto>());
+        }));
 
-            var serviceDurationDict = new Dictionary<int, TimeSpan>();
-            if (allServiceIdsFromBookings.Any())
-            {
-                var servicesFromDb = await _context.Service
-                    .Where(s => allServiceIdsFromBookings.Contains(s.Id))
-                    .Select(s => new { s.Id, s.WorkingTime })
-                    .ToListAsync(cancellationToken);
+        // 3. Lấy WorkingTime cho tất cả ServiceId của mọi booking trong 1 query.
+        var allServiceIdsFromBookings = bookedSlotsPerTechnician
+            .SelectMany(x => x.BookedSlots)
+            .SelectMany(b => b.ServiceIds ?? new List<int>())
+            .Distinct()
+            .ToList();
 
-                serviceDurationDict = servicesFromDb.ToDictionary(
+        var serviceDurationDict = new Dictionary<int, TimeSpan>();
+        if (allServiceIdsFromBookings.Any())
+        {
+            serviceDurationDict = await _context.Service
+                .AsNoTracking()
+                .Where(s => allServiceIdsFromBookings.Contains(s.Id))
+                .Select(s => new { s.Id, s.WorkingTime })
+                .ToDictionaryAsync(
                     s => s.Id,
-                    s => s.WorkingTime ?? TimeSpan.FromMinutes(60)
-                );
-            }
-
-            // 4. Tính khoảng thời gian bị chiếm của từng booking
-            var bookedIntervals = bookedSlots
-                .Select(b =>
-                {
-                    var duration = b.ServiceIds?
-                        .Select(id => serviceDurationDict.GetValueOrDefault(id, TimeSpan.FromMinutes(60)))
-                        .Aggregate(TimeSpan.Zero, (acc, cur) => acc + cur)
-                        ?? TimeSpan.FromMinutes(60);
-                    return new { Start = b.BookingTime, Duration = duration };
-                })
-                .ToList();
-
-            // 5. Kiểm tra xem request.Time có nằm trong khoảng bị chiếm + Gap không
-            bool isBooked = bookedIntervals.Any(interval =>
-                request.Time >= interval.Start - Gap &&
-                request.Time < interval.Start + interval.Duration + Gap
-            );
-            // 6. Nếu không bị chiếm, thêm technician vào danh sách
-            if (!isBooked)
-                availableTechnicians.Add(tech);
+                    s => s.WorkingTime ?? TimeSpan.FromMinutes(60),
+                    cancellationToken);
         }
+
+        // 4–6. Technician rảnh nếu request.Time không nằm trong khoảng bị chiếm (+ Gap) của booking nào.
+        var availableTechnicians = bookedSlotsPerTechnician
+            .Where(x => !x.BookedSlots.Any(b =>
+            {
+                var duration = b.ServiceIds?
+                    .Select(id => serviceDurationDict.GetValueOrDefault(id, TimeSpan.FromMinutes(60)))
+                    .Aggregate(TimeSpan.Zero, (acc, cur) => acc + cur)
+                    ?? TimeSpan.FromMinutes(60);
+
+                return request.Time >= b.BookingTime - Gap &&
+                       request.Time < b.BookingTime + duration + Gap;
+            }))
+            .Select(x => x.Technician)
+            .ToList();
 
         return ApiResponse<IEnumerable<TechnicianDto>>.Success(_mapper.Map<IEnumerable<TechnicianDto>>(availableTechnicians));
     }

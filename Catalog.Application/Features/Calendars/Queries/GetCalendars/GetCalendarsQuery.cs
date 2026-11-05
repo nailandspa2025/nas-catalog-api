@@ -39,13 +39,26 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
     {
         var startDate = DateTime.SpecifyKind(request.StartDate, DateTimeKind.Utc);
         var endDate = DateTime.SpecifyKind(request.EndDate, DateTimeKind.Utc);
+
+        // Biên theo ngày, khớp với cách ExpandRecurrence so sánh (theo .Date)
+        var rangeStartDay = startDate.Date;
+        var rangeEndDayExclusive = endDate.Date.AddDays(1);
+
         var query = _context.Calendar
+            .AsNoTracking()
+            .AsSplitQuery()
             .Include(c => c.CalendarType)
-            .Include(c => c.Store)
-            .Include(c => c.CalendarOverrides)
+            // Chỉ override nằm trong khoảng ngày cần hiển thị mới được dùng khi expand
+            .Include(c => c.CalendarOverrides.Where(o => o.WorkDate >= rangeStartDay && o.WorkDate < rangeEndDayExclusive))
                 .ThenInclude(o => o.CalendarType)
             .Include(x => x.DaysOfWeek)
-            .Where(c => c.WorkDate <= endDate && !c.IsDeleted && c.CreatedBy == _currentUser.UserName);
+            .Where(c => c.WorkDate <= endDate && !c.IsDeleted && c.CreatedBy == _currentUser.UserName)
+            // Bỏ các calendar chắc chắn không sinh occurrence nào trong khoảng:
+            //  - lịch không lặp nằm trước khoảng
+            //  - lịch lặp đã kết thúc trước khoảng
+            .Where(c => (c.Recurrence == null || c.Recurrence == RecurrenceType.None)
+                ? c.WorkDate >= rangeStartDay
+                : (c.RecurrenceEndDate == null || c.RecurrenceEndDate >= rangeStartDay));
 
         if (request.StoreIds != null && request.StoreIds.Any())
         {
@@ -167,7 +180,7 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
 
     if (calendar.Recurrence == RecurrenceType.Daily)
     {
-        var current = calendarStartDate;
+        var current = FirstStepOnOrAfter(calendarStartDate, queryStartDate, interval);
 
         while (current <= recurrenceEnd)
         {
@@ -201,7 +214,7 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
 
     if (calendar.Recurrence == RecurrenceType.Weekly)
     {
-        var current = calendarStartDate;
+        var current = FirstStepOnOrAfter(calendarStartDate, queryStartDate, 7 * interval);
 
         while (current <= recurrenceEnd)
         {
@@ -255,7 +268,10 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
             calendarStartDate,
             DayOfWeek.Monday);
 
-        var currentWeek = baseWeek;
+        // Bắt đầu từ tuần chứa queryStartDate (các tuần trước đó không sinh occurrence nào).
+        // weekDifference vẫn tính từ baseWeek nên chu kỳ interval không đổi.
+        var queryStartWeek = StartOfWeek(queryStartDate, DayOfWeek.Monday);
+        var currentWeek = queryStartWeek > baseWeek ? queryStartWeek : baseWeek;
 
         while (currentWeek <= recurrenceEnd)
         {
@@ -506,6 +522,20 @@ public class GetCalendarsQueryHandler : IRequestHandler<GetCalendarsQuery, ApiRe
     // ============================================================
     // Start of week
     // ============================================================
+
+    // Ngày đầu tiên >= target trong dãy start, start + step, start + 2*step, ...
+    // (cùng các ngày mà vòng lặp cũ đi qua, chỉ bỏ qua phần trước target)
+    private static DateTime FirstStepOnOrAfter(DateTime start, DateTime target, int stepDays)
+    {
+        if (start >= target)
+        {
+            return start;
+        }
+
+        var steps = ((target - start).Days + stepDays - 1) / stepDays;
+
+        return start.AddDays((long)steps * stepDays);
+    }
 
     private static DateTime StartOfWeek(
         DateTime date,
