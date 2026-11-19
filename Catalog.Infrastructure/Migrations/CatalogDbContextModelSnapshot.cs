@@ -781,6 +781,12 @@ namespace Catalog.Infrastructure.Migrations
                     b.Property<long>("StoreId")
                         .HasColumnType("bigint");
 
+                    b.Property<decimal>("SurchargeFixedAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("SurchargePercent")
+                        .HasColumnType("numeric");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StoreId");
