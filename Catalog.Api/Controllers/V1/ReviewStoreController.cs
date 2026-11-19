@@ -6,6 +6,7 @@ using Catalog.Application.Features.ReviewStores.Models;
 using Catalog.Application.Features.ReviewStores.Queries.GetReviewStore;
 using Catalog.Application.Features.ReviewStores.Queries.GetReviewStores;
 using Catalog.Application.Features.ReviewStores.Queries.GetReviewStoresWithPagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Api.Controllers.V1;
@@ -20,6 +21,7 @@ public class ReviewStoreController: ApiControllerBase
         return await Mediator.Send(query);
     }
 
+    [AllowAnonymous]
     [HttpGet("mobile-pagingation")]
     [ProducesResponseType(typeof(ApiResponse<PaginatedList<ReviewStoreDto>>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<PaginatedList<ReviewStoreDto>>>> GetWithPaginationForMobileAsync([FromQuery] GetReviewStoresWithPaginationQuery query)
