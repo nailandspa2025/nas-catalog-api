@@ -11,6 +11,10 @@ public class PaymentProviderDto
 
     public bool IsActive { get; set; }
 
+    public decimal SurchargePercent { get; set; }
+
+    public decimal SurchargeFixedAmount { get; set; }
+
     public List<PaymentProviderSettingDto> Settings { get; set; }
         = new();
     public string PaymentMethodName { get; set; } = string.Empty;

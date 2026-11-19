@@ -96,6 +96,10 @@ public record UpdateaymentProviderModel
 
     public bool IsActive { get; init; } = true;
 
+    public decimal SurchargePercent { get; init; }
+
+    public decimal SurchargeFixedAmount { get; init; }
+
     public List<UpdatePaymentProviderSettingModel> Settings { get; init; }
         = new();
 }
@@ -269,6 +273,8 @@ public class UpdateStoreCommandHandler : IRequestHandler<UpdateStoreCommand, Api
                 StoreId = entity.Id,
                 PaymentMethod = provider.PaymentMethod,
                 IsActive = provider.IsActive,
+                SurchargePercent = provider.SurchargePercent,
+                SurchargeFixedAmount = provider.SurchargeFixedAmount,
 
                 Settings = provider.Settings
                     .Select(setting => new PaymentProviderSetting

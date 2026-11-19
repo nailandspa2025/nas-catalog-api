@@ -33,6 +33,11 @@ namespace Catalog.Application.Features.Stores.Commands.CreateStore
             //RuleFor(v => v.CloseTime)
             //    .NotEmpty();
 
+            RuleForEach(v => v.PaymentProviders).ChildRules(provider =>
+            {
+                provider.RuleFor(p => p.SurchargePercent).InclusiveBetween(0, 100);
+                provider.RuleFor(p => p.SurchargeFixedAmount).GreaterThanOrEqualTo(0);
+            });
         }
 	}
 }
